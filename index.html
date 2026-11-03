@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>満正寺式 九曜星占盤 ― 宿曜二十七宿・九曜星＆結婚・相性占い</title>
+  <style id="kuyosei-core-styles">
+:root {
+  --bg-deep: #100e14;
+  --bg-surface: #1b1722;
+  --bg-card: #231e2c;
+  --bg-elevated: #2d2638;
+  --gold-bright: #f5d472;
+  --gold-main: #d4af37;
+  --gold-dim: #8f7222;
+  --vermilion: #d13b2c;
+  --vermilion-soft: #e85d4e;
+  --jade: #2f9e6f;
+  --indigo: #3b6fd1;
+  --purple: #8452d1;
+  --text-main: #f7f3e9;
+  --text-muted: #bfb6a3;
+  --border-gold: rgba(212, 175, 55, 0.32);
+  --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.55);
+
+  /* 星札（黄札）カラー */
+  --kifuda-bg: #f6e299;
+  --kifuda-bg-grad: linear-gradient(165deg, #faecaf 0%, #f1d372 52%, #e6c255 100%);
+  --kifuda-ink: #24190e;
+  --kifuda-red: #b52418;
+  --kifuda-border: #8c6618;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "MS PMincho", "Noto Serif JP", serif;
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.14) 0%, transparent 55%),
+    radial-gradient(circle at 85% 20%, rgba(209, 59, 44, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 15% 80%, rgba(132, 82, 209, 0.1) 0%, transparent 45%);
+  color: var(--text-main);
+  line-height: 1.65;
+  min-height: 100dvh;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+/* ヘッダー */
+.site-header {
+  text-align: center;
+  padding: clamp(1.25rem, 3vw, 2.2rem) 1rem 1.2rem;
+  border-bottom: 1px solid var(--border-gold);
+  background: linear-gradient(180deg, rgba(27, 23, 34, 0.95), rgba(16, 14, 20, 0.85));
+  position: relative;
+}
+
+.kuyo-crest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 0.4rem;
+}
+
+.site-subtitle {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  color: var(--gold-bright);
+}
+
+.site-title {
+  margin: 0.25rem 0 0.4rem;
+  font-size: clamp(1.45rem, 4vw, 2.25rem);
+  letter-spacing: 0.1em;
+  color: var(--text-main);
+  text-shadow: 0 2px 12px rgba(212, 175, 55, 0.35);
+}
+
+.site-desc {
+  margin: 0 auto;
+  max-width: 660px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+}
+
+/* ナビゲーションタブ */
+.mode-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(16, 14, 20, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-gold);
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  appearance: none;
+  border: 1px solid var(--border-gold);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tab-btn:hover {
+  border-color: var(--gold-bright);
+  color: var(--text-main);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--vermilion) 0%, #9c2419 100%);
+  border-color: var(--gold-bright);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(209, 59, 44, 0.4);
+}
+
+/* メインコンテナ */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(1rem, 2.5vw, 1.8rem);
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* メンバー登録＆管理バー */
+.members-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 1.15rem 1.25rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 1.12rem;
+  color: var(--gold-bright);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.panel-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-secondary {
+  background: var(--bg-elevated);
+  color: var(--text-main);
+  border: 1px solid var(--border-gold);
+  padding: 0.38rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: sans-serif;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.18);
+  border-color: var(--gold-bright);
+}
+
+.add-member-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(212, 175, 55, 0.22);
+  font-family: sans-serif;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.field-group label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.field-input {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-gold);
+  color: var(--text-main);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.92rem;
+}
+
+.field-input:focus {
+  outline: 2px solid var(--gold-bright);
+  border-color: transparent;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold-main) 0%, #b0891e 100%);
+  color: #171209;
+  font-weight: 700;
+  border: none;
+  padding: 0.54rem 1.15rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  transition: transform 0.15s, filter 0.2s;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* 登録メンバーチップ一覧 */
+.member-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.member-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  padding: 0.45rem 0.75rem;
+  font-family: sans-serif;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.member-chip:hover {
+  border-color: var(--gold-bright);
+  transform: translateY(-1px);
+}
+
+.member-chip.selected-self {
+  border-color: var(--vermilion-soft);
+  background: rgba(209, 59, 44, 0.18);
+  box-shadow: 0 0 0 1px var(--vermilion-soft);
+}
+
+.member-chip.selected-partner {
+  border-color: var(--gold-bright);
+  background: rgba(212, 175, 55, 0.16);
+  box-shadow: 0 0 0 1px var(--gold-bright);
+}
+
+.chip-role-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.chip-role-badge.self {
+  background: var(--vermilion);
+}
+
+.chip-role-badge.partner {
+  background: #9c7a1c;
+}
+
+.chip-shuku {
+  font-family: serif;
+  font-weight: 700;
+  color: var(--gold-bright);
+  background: rgba(212, 175, 55, 0.14);
+  padding: 0.1rem 0.45rem;
+  border-radius: 5px;
+}
+
+.chip-delete {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0 0.2rem;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.chip-delete:hover {
+  color: var(--vermilion-soft);
+}
+
+/* セクション表示切り替え */
+.view-section {
+  display: none;
+}
+
+.view-section.active {
+  display: block;
+}
+
+/* 1. 九曜星占盤 ＆ 1対1相性 2カラムグリッド */
+.wheel-compatibility-grid {
+  display: grid;
+  grid-template-columns: minmax(310px, 520px) 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 920px) {
+  .wheel-compatibility-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 九曜星占盤カード */
+.wheel-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.pair-selector-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-family: sans-serif;
+}
+
+.pair-box {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.pair-box.self-box {
+  border-left: 4px solid var(--vermilion);
+}
+
+.pair-box.partner-box {
+  border-left: 4px solid var(--gold-main);
+}
+
+.pair-box label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.pair-box select {
+  width: 100%;
+  background: transparent;
+  color: var(--text-main);
+  border: none;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.pair-box select option {
+  background: var(--bg-surface);
+  color: var(--text-main);
+}
+
+.swap-btn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-gold);
+  color: var(--gold-bright);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  transition: transform 0.25s, background 0.2s;
+}
+
+.swap-btn:hover {
+  transform: rotate(180deg);
+  background: rgba(212, 175, 55, 0.2);
+}
+
+/* 巨大円盤 SVG コンテナ */
+.senban-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  user-select: none;
+  touch-action: none;
+}
+
+.senban-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.65));
+}
+
+/* 内盤の回転（CSS Individual Transform Property `rotate`） */
+#inner-sanku-wheel {
+  transform-origin: 250px 250px;
+  rotate: 0deg;
+  transition: rotate 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: grab;
+}
+
+#inner-sanku-wheel.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #inner-sanku-wheel {
+    transition: none;
+  }
+}
+
+.wheel-hint {
+  margin: 0.65rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: sans-serif;
+}
+
+.wheel-controls {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* 相性診断結果カード */
+.compat-result-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  box-shadow: var(--shadow-lg);
+}
+
+.compat-header-banner {
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.2rem;
+  background: linear-gradient(135deg, rgba(209, 59, 44, 0.22), rgba(212, 175, 55, 0.16));
+  border: 1px solid var(--gold-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.compat-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  background: var(--gold-main);
+  color: #161108;
+  font-family: sans-serif;
+  margin-bottom: 0.3rem;
+}
+
+.compat-main-title {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.6vw, 1.55rem);
+  color: var(--gold-bright);
+}
+
+.compat-score-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: var(--bg-deep);
+  border: 2px solid var(--gold-bright);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.25);
+}
+
+.compat-score-num {
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--gold-bright);
+}
+
+.compat-score-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-family: sans-serif;
+}
+
+/* 方向別の文字表示（自分→相手 / 相手→自分） */
+.direction-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
+}
+
+.dir-box {
+  background: var(--bg-card);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: sans-serif;
+}
+
+.dir-char-seal {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--vermilion);
+  color: #fff;
+  font-family: serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--gold-bright);
+  flex-shrink: 0;
+}
+
+.compat-details-grid {
+  display: grid;
+  gap: 0.85rem;
+  font-family: sans-serif;
+}
+
+.compat-detail-item {
+  background: var(--bg-card);
+  border-left: 3px solid var(--gold-main);
+  border-radius: 0 10px 10px 0;
+  padding: 0.85rem 1rem;
+}
+
+.compat-detail-item h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.92rem;
+  color: var(--gold-bright);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.compat-detail-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+/* 2. 満正寺の「星札（黄札）」＆ 九曜星（本命星・当年星）診断ビュー */
+.kifuda-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 430px) 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .kifuda-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 満正寺の黄札（星札）レプリカデザイン */
+.kifuda-talisman {
+  background: var(--kifuda-bg-grad);
+  color: var(--kifuda-ink);
+  border: 4px double var(--kifuda-border);
+  border-radius: 10px;
+  padding: 1.4rem 1.25rem;
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 2px rgba(181, 36, 24, 0.25);
+  position: relative;
+}
+
+.kifuda-top-stamp {
+  text-align: center;
+  border-bottom: 2px solid var(--kifuda-red);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.kifuda-temple-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.25em;
+  color: var(--kifuda-red);
+  font-weight: 700;
+}
+
+.kifuda-shuku-title {
+  margin: 0.2rem 0;
+  font-size: 2.3rem;
+  letter-spacing: 0.15em;
+  color: var(--kifuda-ink);
+  font-weight: 900;
+}
+
+.kifuda-shuku-reading {
+  font-size: 0.85rem;
+  color: #59411b;
+  letter-spacing: 0.1em;
+}
+
+.kifuda-meta-tags {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  font-family: sans-serif;
+}
+
+.kifuda-tag {
+  background: rgba(181, 36, 24, 0.12);
+  border: 1px solid var(--kifuda-red);
+  color: var(--kifuda-red);
+  padding: 0.12rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.kifuda-catchphrase {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--kifuda-red);
+  margin: 0.8rem 0 1rem;
+  padding: 0.45rem;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 6px;
+}
+
+.kifuda-section {
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(140, 102, 24, 0.3);
+}
+
+.kifuda-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.kifuda-section h4 {
+  margin: 0 0 0.3rem;
+  font-size: 0.92rem;
+  color: var(--kifuda-red);
+  letter-spacing: 0.06em;
+}
+
+.kifuda-section p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  font-family: sans-serif;
+}
+
+/* 九曜星（本命星・当年星）＆ 9年運気バイオリズムカード */
+.kuyosei-fortune-panel {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.kuyo-box-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.tonen-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  margin: 0.75rem 0 1rem;
+  flex-wrap: wrap;
+}
+
+.tonen-orb {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  border: 2px solid var(--gold-bright);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.cycle-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+.cycle-table th,
+.cycle-table td {
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+  text-align: left;
+}
+
+.cycle-table tr.current-year-row {
+  background: rgba(212, 175, 55, 0.18);
+  font-weight: 700;
+}
+
+/* 3. 友達グループ相性マトリクス＆ベストペアランキング */
+.matrix-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  padding: 1.3rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.table-scroll-container {
+  overflow-x: auto;
+  margin-top: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-gold);
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  font-size: 0.86rem;
+  min-width: 480px;
+}
+
+.matrix-table th,
+.matrix-table td {
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  padding: 0.6rem 0.5rem;
+  text-align: center;
+}
+
+.matrix-table th {
+  background: var(--bg-elevated);
+  color: var(--gold-bright);
+}
+
+.matrix-cell-btn {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid transparent;
+  color: var(--text-main);
+  border-radius: 6px;
+  padding: 0.4rem 0.3rem;
+  cursor: pointer;
+  transition: transform 0.12s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.matrix-cell-btn:hover {
+  border-color: var(--gold-bright);
+  transform: scale(1.04);
+}
+
+.ranking-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.ranking-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+  font-family: sans-serif;
+}
+
+.ranking-item:hover {
+  border-color: var(--gold-bright);
+  transform: translateY(-2px);
+}
+
+/* モーダルダイアログ (<dialog>) */
+dialog.app-dialog {
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: 2px solid var(--gold-main);
+  border-radius: 16px;
+  padding: 1.4rem;
+  max-width: 680px;
+  width: min(92vw, 680px);
+  max-height: 85dvh;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+}
+
+dialog.app-dialog::backdrop {
+  background: rgba(8, 6, 12, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.toast-banner {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  background: var(--gold-main);
+  color: #161108;
+  font-weight: 700;
+  font-family: sans-serif;
+  padding: 0.65rem 1.1rem;
+  border-radius: 999px;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.toast-banner.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* メンバー編集ボタン＆チップ操作 */
+.chip-edit {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0 0.25rem;
+  font-size: 0.88rem;
+  line-height: 1;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.chip-edit:hover {
+  color: var(--gold-bright);
+  transform: scale(1.15);
+}
+
+/* 選んだ人とメンバー全員の相性（1対Nフォーカス表示） */
+.focus-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding: 1rem 1.2rem;
+  background: linear-gradient(135deg, rgba(209, 59, 44, 0.16), rgba(212, 175, 55, 0.12));
+  border: 1px solid var(--gold-main);
+  border-radius: 14px;
+  margin-bottom: 1.4rem;
+  font-family: sans-serif;
+}
+
+.focus-mode-toggle {
+  display: inline-flex;
+  background: var(--bg-deep);
+  border: 1px solid var(--border-gold);
+  border-radius: 999px;
+  padding: 0.2rem;
+  gap: 0.2rem;
+}
+
+.mode-pill-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.mode-pill-btn.active {
+  background: var(--gold-main);
+  color: #171209;
+}
+
+.focus-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 1.1rem;
+  margin-top: 1rem;
+}
+
+.focus-compat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  font-family: sans-serif;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.focus-compat-card:hover {
+  border-color: var(--gold-bright);
+  transform: translateY(-2px);
+}
+
+.focus-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 0.65rem;
+}
+
+.focus-section-mini {
+  background: rgba(16, 14, 20, 0.55);
+  border-left: 3px solid var(--gold-main);
+  border-radius: 0 8px 8px 0;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.84rem;
+}
+
+.focus-section-mini strong {
+  color: var(--gold-bright);
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.8rem;
+}
+
+/* 結婚相性ベスト宿バッジ */
+.best-shuku-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+}
+
+.best-shuku-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid var(--gold-main);
+  color: var(--text-main);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.best-shuku-pill:hover {
+  background: rgba(212, 175, 55, 0.3);
+  transform: translateY(-1px);
+}
+
+.best-shuku-pill.has-friend {
+  background: rgba(209, 59, 44, 0.28);
+  border-color: var(--gold-bright);
+  font-weight: 700;
+}
+
+</style>
+  <link rel="stylesheet" href="styles.css">
+  <script src="astrology-data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="kuyo-crest" aria-hidden="true">
+      <svg viewBox="0 0 100 100" width="54" height="54">
+        <circle cx="50" cy="50" r="20" fill="#d4af37" />
+        <circle cx="50" cy="14" r="7.5" fill="#d4af37" />
+        <circle cx="75.5" cy="24.5" r="7.5" fill="#d4af37" />
+        <circle cx="86" cy="50" r="7.5" fill="#d4af37" />
+        <circle cx="75.5" cy="75.5" r="7.5" fill="#d4af37" />
+        <circle cx="50" cy="86" r="7.5" fill="#d4af37" />
+        <circle cx="24.5" cy="75.5" r="7.5" fill="#d4af37" />
+        <circle cx="14" cy="50" r="7.5" fill="#d4af37" />
+        <circle cx="24.5" cy="24.5" r="7.5" fill="#d4af37" />
+      </svg>
+    </div>
+    <p class="site-subtitle">鳥取・倉吉 満正寺の巨大星占盤 体験アプリ</p>
+    <h1 class="site-title">九曜星占盤 ＆ 宿星相性・結婚診断</h1>
+    <p class="site-desc">
+      生年月日から「宿星（全27宿）」と「九曜星（本命星・当年星）」を導き出し、
+      友達や気になる人との相性・結婚に合う相手像・効果的なアプローチ方法を占います。
+    </p>
+  </header>
+
+  <!-- モード切り替えナビゲーション -->
+  <nav class="mode-nav" aria-label="占いモード切替">
+    <button type="button" class="tab-btn active" data-target="tab-wheel">
+      ☸️ 九曜星占盤（2人の相性）
+    </button>
+    <button type="button" class="tab-btn" data-target="tab-kifuda">
+      💍 星札・結婚相手・アプローチ・運勢
+    </button>
+    <button type="button" class="tab-btn" data-target="tab-matrix">
+      👥 選んだ人とメンバーの相性・一覧
+    </button>
+    <button type="button" class="tab-btn" data-target="tab-shukuseicho">
+      📒 宿星帳（月×日 早見表）
+    </button>
+  </nav>
+
+  <main class="main-container">
+    <!-- メンバー（自分＋友達）登録・管理パネル -->
+    <section class="members-panel" aria-label="占うメンバーの登録と選択">
+      <div class="panel-header">
+        <h2 class="panel-title">👤 メンバー登録・選択（✏️ボタンで名前や生年月日を変更できます）</h2>
+        <div class="panel-actions">
+          <div style="display:inline-flex;align-items:center;gap:0.35rem;font-family:sans-serif;font-size:0.8rem;">
+            <label for="calc-mode-select" style="color:var(--gold-bright);font-weight:700;">算出方式：</label>
+            <select id="calc-mode-select" class="field-input" style="padding:0.3rem 0.55rem;font-size:0.8rem;">
+              <option value="manshoji_table">満正寺・宿星帳（月×日早見表）方式【推奨：12/6＝婁宿】</option>
+              <option value="lunar_jp">旧暦換算方式（日本標準時・旧暦月日）</option>
+            </select>
+          </div>
+          <button type="button" id="share-url-btn" class="btn-primary" style="padding:0.38rem 0.9rem;font-size:0.82rem;">
+            📤 友達に共有・結果を送る
+          </button>
+          <button type="button" id="import-code-open-btn" class="btn-secondary">
+            📥 共有コード読込
+          </button>
+          <button type="button" id="reset-sample-btn" class="btn-secondary">
+            🔄 サンプルに戻す
+          </button>
+        </div>
+      </div>
+
+      <form id="add-member-form" class="add-member-form">
+        <div class="field-group" style="flex: 1; min-width: 160px;">
+          <label for="member-name-input">お名前・ニックネーム</label>
+          <input
+            type="text"
+            id="member-name-input"
+            class="field-input"
+            placeholder="例：たろう / 自分の名前"
+            required
+          >
+        </div>
+
+        <div class="field-group">
+          <label for="member-birth-input">生年月日（西暦）</label>
+          <input
+            type="date"
+            id="member-birth-input"
+            class="field-input"
+            value="1995-12-06"
+            required
+          >
+        </div>
+
+        <div class="field-group">
+          <label for="member-shuku-override">宿星指定（手動で固定する場合のみ）</label>
+          <select id="member-shuku-override" class="field-input"></select>
+        </div>
+
+        <button type="submit" class="btn-primary">＋ メンバーに追加</button>
+      </form>
+
+      <div id="member-chips-container" class="member-chips"></div>
+      <p style="margin:0.55rem 0 0;font-size:0.78rem;color:var(--text-muted);font-family:sans-serif;">
+        💡 メンバーをクリックするとその人を選択します。名前の横の「✏️」で名前・生年月日の変更、「🎯」でその人とメンバー全員の相性のみを表示できます。
+      </p>
+    </section>
+
+    <!-- タブ1：巨大「九曜星占盤」＆ 1対1の相性占い -->
+    <section id="tab-wheel" class="view-section active" aria-label="九曜星占盤と1対1相性占い">
+      <div class="wheel-compatibility-grid">
+        <!-- 左カラム：インタラクティブ九曜星占盤 -->
+        <div class="wheel-card">
+          <div class="pair-selector-bar">
+            <div class="pair-box self-box">
+              <label for="self-member-select">🔴 自分の星（「命」を合わせる）</label>
+              <select id="self-member-select"></select>
+            </div>
+
+            <button
+              type="button"
+              id="swap-pair-btn"
+              class="swap-btn"
+              title="自分と相手の立場を入れ替える"
+              aria-label="自分と相手を入れ替え"
+            >
+              ⇄
+            </button>
+
+            <div class="pair-box partner-box">
+              <label for="partner-member-select">🟡 相性を占う相手</label>
+              <select id="partner-member-select"></select>
+            </div>
+          </div>
+
+          <div class="senban-wrapper">
+            <svg
+              id="senban-svg"
+              class="senban-svg"
+              viewBox="0 0 500 500"
+              role="img"
+              aria-label="満正寺式 九曜星占盤（外周27宿と内周の三九の秘法回転盤）"
+            >
+              <!-- 外枠装飾 -->
+              <circle cx="250" cy="250" r="246" fill="#120f18" stroke="#d4af37" stroke-width="3" />
+              <!-- 外周固定リング：27宿 -->
+              <g id="outer-shuku-ring"></g>
+              <!-- 内周回転リング：三九の秘法（命・栄・衰・安・危・成・壊・友・親・業・胎） -->
+              <g id="inner-sanku-wheel"></g>
+            </svg>
+          </div>
+
+          <p id="wheel-pair-status" class="wheel-hint"></p>
+
+          <div class="wheel-controls">
+            <button type="button" id="realign-wheel-btn" class="btn-secondary">
+              🎯 自分の宿星に「命」をピタッと合わせる
+            </button>
+            <button type="button" id="jump-focus-from-wheel-btn" class="btn-secondary">
+              👥 この人と他メンバー全員の相性を見る
+            </button>
+          </div>
+          <p class="wheel-hint">
+            ※内側の円盤はマウスや指でドラッグして自由に回すこともできます。外周の27宿をタップすると各星の解説が開きます。
+          </p>
+        </div>
+
+        <!-- 右カラム：相性判定の詳細解説 -->
+        <div id="compat-result-container" class="compat-result-card"></div>
+      </div>
+    </section>
+
+    <!-- タブ2：個人の「星札（黄札）」・結婚相手・アプローチ法 ＆ 九曜星診断 -->
+    <section id="tab-kifuda" class="view-section" aria-label="星札と結婚・本命星・当年星の個人診断">
+      <div style="margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;font-family:sans-serif;">
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+          <label for="single-member-select" style="font-weight:700;color:var(--gold-bright);">
+            📜 診断・結婚・アプローチを表示するメンバー：
+          </label>
+          <select id="single-member-select" class="field-input" style="min-width:260px;"></select>
+        </div>
+        <button type="button" id="edit-selected-member-btn" class="btn-secondary">
+          ✏️ このメンバーの名前・生年月日を変更
+        </button>
+      </div>
+
+      <div class="kifuda-layout">
+        <!-- 左：満正寺地蔵堂の星札（黄札）イメージ -->
+        <div id="kifuda-card-container"></div>
+
+        <!-- 右：結婚相手・アプローチ法 ＆ 九曜星（当年星・本命星） -->
+        <div id="kuyosei-detail-container" class="kuyosei-fortune-panel"></div>
+      </div>
+    </section>
+
+    <!-- タブ3：選んだ人とメンバーの相性のみ表示 ＆ グループ全体相性表 -->
+    <section id="tab-matrix" class="view-section" aria-label="選んだ人とメンバーの相性および全体一覧">
+      <!-- フィルター・表示切替バー -->
+      <div class="focus-filter-bar">
+        <div style="display:flex;align-items:center;gap:0.65rem;flex-wrap:wrap;">
+          <label for="focus-member-select" style="font-weight:700;color:var(--gold-bright);font-size:0.95rem;">
+            🎯 基準にするメンバー：
+          </label>
+          <select id="focus-member-select" class="field-input" style="min-width:240px;font-weight:700;"></select>
+        </div>
+
+        <div class="focus-mode-toggle" role="group" aria-label="表示範囲の切り替え">
+          <button type="button" id="mode-focus-only-btn" class="mode-pill-btn active">
+            🎯 選んだ人とメンバーの相性のみ
+          </button>
+          <button type="button" id="mode-all-pairs-btn" class="mode-pill-btn">
+            🏆 全員の総当たり表・ランキング
+          </button>
+        </div>
+      </div>
+
+      <!-- 1対N（選んだ人と他のメンバー全員の相性のみ表示）ビュー -->
+      <div id="focus-compat-section" class="matrix-card">
+        <div id="focus-compat-header"></div>
+        <div id="focus-compat-grid" class="focus-cards-grid"></div>
+      </div>
+
+      <!-- 全員総当たりビュー（切り替え時のみ表示） -->
+      <div id="all-pairs-section" style="display:none;">
+        <div class="matrix-card" style="margin-bottom:1.5rem;">
+          <h3 style="margin:0 0 0.35rem;color:var(--gold-bright);font-size:1.25rem;">
+            🏆 友達グループ ベストペア相性ランキング（全組み合わせ）
+          </h3>
+          <p style="margin:0;font-size:0.86rem;color:var(--text-muted);font-family:sans-serif;">
+            登録されているメンバー全員の組み合わせを相性スコア順にランキング！カードをクリックすると九曜星占盤で詳細を見られます。
+          </p>
+          <div id="group-ranking-container" class="ranking-grid"></div>
+        </div>
+
+        <div class="matrix-card">
+          <h3 style="margin:0 0 0.35rem;color:var(--gold-bright);font-size:1.25rem;">
+            📊 全員総当たり「三九の秘法」相性マトリクス表
+          </h3>
+          <p style="margin:0;font-size:0.86rem;color:var(--text-muted);font-family:sans-serif;">
+            縦軸の「自分」の星に「命」を合わせたとき、横軸の「相手」の星に出る文字（栄・親・友・衰・安・壊・危・成・命・業・胎）の一覧です。
+          </p>
+          <div id="group-matrix-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- タブ4：宿星帳（12ヶ月×31日 宿星早見表マトリクス） -->
+    <section id="tab-shukuseicho" class="view-section" aria-label="宿星帳（月×日 早見表）">
+      <div class="matrix-card">
+        <h3 style="margin:0 0 0.35rem;color:var(--gold-bright);font-size:1.25rem;">
+          📒 宿星帳（月宿傍通暦 12ヶ月×31日 早見表）
+        </h3>
+        <p style="margin:0;font-size:0.86rem;color:var(--text-muted);font-family:sans-serif;">
+          生まれた「月（横軸）」と「日（縦軸）」が交差するマスから宿星（全27宿）を調べる早見表です（例：<strong>12月 × 6日 ＝ 婁宿</strong>）。マスをクリックするとその宿星の解説が開きます。
+        </p>
+        <div id="shukuseicho-table-container"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 27宿クイック解説モーダル (<dialog>) -->
+  <dialog id="shuku-quick-dialog" class="app-dialog" closedby="any">
+    <div id="shuku-dialog-body"></div>
+    <div style="margin-top:1.2rem;text-align:right;">
+      <button type="button" id="close-dialog-btn" class="btn-primary">閉じる</button>
+    </div>
+  </dialog>
+
+  <!-- メンバー名前・生年月日編集モーダル (<dialog>) -->
+  <dialog id="edit-member-dialog" class="app-dialog" closedby="any">
+    <h3 style="margin:0 0 1rem;color:var(--gold-bright);">✏️ メンバー情報の変更</h3>
+    <form id="edit-member-form" style="display:grid;gap:0.9rem;font-family:sans-serif;">
+      <input type="hidden" id="edit-member-id">
+      <div class="field-group">
+        <label for="edit-member-name">お名前・ニックネーム</label>
+        <input type="text" id="edit-member-name" class="field-input" required>
+      </div>
+      <div class="field-group">
+        <label for="edit-member-birth">生年月日（西暦）</label>
+        <input type="date" id="edit-member-birth" class="field-input" required>
+      </div>
+      <div class="field-group">
+        <label for="edit-member-shuku">宿星指定（手動で固定する場合のみ）</label>
+        <select id="edit-member-shuku" class="field-input"></select>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:0.6rem;margin-top:0.4rem;">
+        <button type="button" id="cancel-edit-member-btn" class="btn-secondary">キャンセル</button>
+        <button type="submit" class="btn-primary">保存する</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- 友達への共有・結果テキスト送信・単一HTML書き出しモーダル (<dialog>) -->
+  <dialog id="share-dialog" class="app-dialog" closedby="any">
+    <h3 style="margin:0 0 0.6rem;color:var(--gold-bright);">📤 友達への共有・診断結果の送信メニュー</h3>
+    <div id="share-file-protocol-notice" style="display:none;background:rgba(209,59,44,0.18);border:1px solid var(--vermilion-soft);border-radius:10px;padding:0.75rem 0.9rem;margin-bottom:1rem;font-family:sans-serif;font-size:0.84rem;">
+      <strong>⚠️ 現在お使いのパソコン内のファイル（<code>file://</code>）として開いています</strong><br>
+      このままアドレスバーのURLをLINE等で送っても、他の人のスマホやPCからは開けません。<br>
+      以下の<strong>① 診断結果テキストをコピーして送る</strong>、または<strong>② メンバー入り1ファイルHTMLを保存して送る</strong>、または<strong>③ Webに無料公開してURL化する</strong>方法をご利用ください。
+    </div>
+
+    <div style="display:grid;gap:1rem;font-family:sans-serif;">
+      <!-- 方法1：LINEやチャットにそのまま貼れる診断結果テキスト -->
+      <div class="compat-detail-item" style="border-left-color:var(--gold-bright);">
+        <h4>① 📋 LINE・Discord等にそのまま貼れる「診断結果まとめテキスト」をコピー（一番手軽！）</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.5rem;">
+          選んだ人の「宿星・今年の九曜星・結婚観」と「メンバー全員との相性ランキング」をテキストとしてコピーします。URLが開けない相手にもそのままLINEやチャットで送れます！
+        </p>
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;flex-wrap:wrap;">
+          <label for="share-focus-member-select" style="font-size:0.8rem;color:var(--gold-bright);font-weight:700;">だれの結果テキストを作る：</label>
+          <select id="share-focus-member-select" class="field-input" style="padding:0.3rem 0.6rem;font-size:0.85rem;"></select>
+        </div>
+        <textarea id="share-summary-textarea" class="field-input" rows="7" style="width:100%;font-size:0.8rem;margin-bottom:0.5rem;line-height:1.5;" readonly></textarea>
+        <button type="button" id="copy-summary-text-btn" class="btn-primary" style="width:100%;">
+          📋 診断結果テキストをコピーする（LINE等にそのまま貼り付け可能）
+        </button>
+      </div>
+
+      <!-- 方法2：メンバーデータ埋め込み済みの1ファイルHTMLをダウンロード -->
+      <div class="compat-detail-item" style="border-left-color:var(--jade);">
+        <h4>② 📦 登録メンバー入り「単一HTMLファイル」をダウンロードして友達に送る</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.5rem;">
+          デザイン・星データ・現在登録したメンバー全員のデータを<strong>たった1個のHTMLファイル</strong>にまとめて保存します。このファイルをLINEやDiscordで送れば、友達が開くだけで同じメンバーで遊べます。
+        </p>
+        <button type="button" id="download-standalone-html-btn" class="btn-secondary" style="width:100%;font-weight:700;border-color:var(--gold-bright);color:var(--gold-bright);">
+          📥 メンバー入り単一HTMLファイル（.html）を保存する
+        </button>
+      </div>
+
+      <!-- 方法3：共有コードのコピー＆貼り付け読み込み -->
+      <div class="compat-detail-item" style="border-left-color:var(--indigo);">
+        <h4>③ 🔑 メンバー共有コード（コピー＆貼り付けでメンバー復元）</h4>
+        <div style="display:flex;gap:0.45rem;margin-bottom:0.55rem;">
+          <input type="text" id="share-code-output" class="field-input" style="flex:1;font-size:0.8rem;" readonly>
+          <button type="button" id="copy-share-code-btn" class="btn-secondary">コードコピー</button>
+        </div>
+        <div style="display:flex;gap:0.45rem;">
+          <input type="text" id="share-code-input" class="field-input" style="flex:1;font-size:0.8rem;" placeholder="友達から受け取った共有コード（またはURL）をここに貼り付け">
+          <button type="button" id="apply-share-code-btn" class="btn-primary">読み込む</button>
+        </div>
+      </div>
+
+      <!-- 方法4：Web公開URL（Webサーバー上で開いている場合） -->
+      <div class="compat-detail-item">
+        <h4>④ 🌐 Web公開用URL（Netlify DropやGitHub Pages等にアップした場合に有効）</h4>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.4rem;">
+          ※スマホへURLだけで送りたい場合は、<a href="https://app.netlify.com/drop" target="_blank" rel="noopener" style="color:var(--gold-bright);">Netlify Drop</a> 等にこの <code>kuyosei-app</code> フォルダをドラッグ＆ドロップすると無料の <code>https://...</code> URLが作れます。
+        </p>
+        <div style="display:flex;gap:0.45rem;">
+          <input type="text" id="share-url-output" class="field-input" style="flex:1;font-size:0.8rem;" readonly>
+          <button type="button" id="copy-web-url-btn" class="btn-secondary">URLコピー</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.1rem;text-align:right;">
+      <button type="button" id="close-share-dialog-btn" class="btn-secondary">閉じる</button>
+    </div>
+  </dialog>
+
+  <!-- トースト通知 -->
+  <div id="toast-banner" class="toast-banner" role="status" aria-live="polite"></div>
+</body>
+</html>

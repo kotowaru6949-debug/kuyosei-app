@@ -1,0 +1,4240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>満正寺式 九曜星占盤 ― 宿曜二十七宿・九曜星＆結婚・相性占い</title>
+  <style id="kuyosei-core-styles">
+:root {
+  --bg-deep: #100e14;
+  --bg-surface: #1b1722;
+  --bg-card: #231e2c;
+  --bg-elevated: #2d2638;
+  --gold-bright: #f5d472;
+  --gold-main: #d4af37;
+  --gold-dim: #8f7222;
+  --vermilion: #d13b2c;
+  --vermilion-soft: #e85d4e;
+  --jade: #2f9e6f;
+  --indigo: #3b6fd1;
+  --purple: #8452d1;
+  --text-main: #f7f3e9;
+  --text-muted: #bfb6a3;
+  --border-gold: rgba(212, 175, 55, 0.32);
+  --shadow-lg: 0 14px 36px rgba(0, 0, 0, 0.55);
+
+  /* 星札（黄札）カラー */
+  --kifuda-bg: #f6e299;
+  --kifuda-bg-grad: linear-gradient(165deg, #faecaf 0%, #f1d372 52%, #e6c255 100%);
+  --kifuda-ink: #24190e;
+  --kifuda-red: #b52418;
+  --kifuda-border: #8c6618;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "MS PMincho", "Noto Serif JP", serif;
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.14) 0%, transparent 55%),
+    radial-gradient(circle at 85% 20%, rgba(209, 59, 44, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 15% 80%, rgba(132, 82, 209, 0.1) 0%, transparent 45%);
+  color: var(--text-main);
+  line-height: 1.65;
+  min-height: 100dvh;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+/* ヘッダー */
+.site-header {
+  text-align: center;
+  padding: clamp(1.25rem, 3vw, 2.2rem) 1rem 1.2rem;
+  border-bottom: 1px solid var(--border-gold);
+  background: linear-gradient(180deg, rgba(27, 23, 34, 0.95), rgba(16, 14, 20, 0.85));
+  position: relative;
+}
+
+.kuyo-crest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 0.4rem;
+}
+
+.site-subtitle {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  color: var(--gold-bright);
+}
+
+.site-title {
+  margin: 0.25rem 0 0.4rem;
+  font-size: clamp(1.45rem, 4vw, 2.25rem);
+  letter-spacing: 0.1em;
+  color: var(--text-main);
+  text-shadow: 0 2px 12px rgba(212, 175, 55, 0.35);
+}
+
+.site-desc {
+  margin: 0 auto;
+  max-width: 660px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+}
+
+/* ナビゲーションタブ */
+.mode-nav {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(16, 14, 20, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-gold);
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  appearance: none;
+  border: 1px solid var(--border-gold);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tab-btn:hover {
+  border-color: var(--gold-bright);
+  color: var(--text-main);
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, var(--vermilion) 0%, #9c2419 100%);
+  border-color: var(--gold-bright);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(209, 59, 44, 0.4);
+}
+
+/* メインコンテナ */
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(1rem, 2.5vw, 1.8rem);
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* メンバー登録＆管理バー */
+.members-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 1.15rem 1.25rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 1.12rem;
+  color: var(--gold-bright);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.panel-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-secondary {
+  background: var(--bg-elevated);
+  color: var(--text-main);
+  border: 1px solid var(--border-gold);
+  padding: 0.38rem 0.8rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: sans-serif;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.18);
+  border-color: var(--gold-bright);
+}
+
+.add-member-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(212, 175, 55, 0.22);
+  font-family: sans-serif;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.field-group label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.field-input {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-gold);
+  color: var(--text-main);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.92rem;
+}
+
+.field-input:focus {
+  outline: 2px solid var(--gold-bright);
+  border-color: transparent;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold-main) 0%, #b0891e 100%);
+  color: #171209;
+  font-weight: 700;
+  border: none;
+  padding: 0.54rem 1.15rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  transition: transform 0.15s, filter 0.2s;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* 登録メンバーチップ一覧 */
+.member-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.member-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  padding: 0.45rem 0.75rem;
+  font-family: sans-serif;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.member-chip:hover {
+  border-color: var(--gold-bright);
+  transform: translateY(-1px);
+}
+
+.member-chip.selected-self {
+  border-color: var(--vermilion-soft);
+  background: rgba(209, 59, 44, 0.18);
+  box-shadow: 0 0 0 1px var(--vermilion-soft);
+}
+
+.member-chip.selected-partner {
+  border-color: var(--gold-bright);
+  background: rgba(212, 175, 55, 0.16);
+  box-shadow: 0 0 0 1px var(--gold-bright);
+}
+
+.chip-role-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.chip-role-badge.self {
+  background: var(--vermilion);
+}
+
+.chip-role-badge.partner {
+  background: #9c7a1c;
+}
+
+.chip-shuku {
+  font-family: serif;
+  font-weight: 700;
+  color: var(--gold-bright);
+  background: rgba(212, 175, 55, 0.14);
+  padding: 0.1rem 0.45rem;
+  border-radius: 5px;
+}
+
+.chip-delete {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0 0.2rem;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.chip-delete:hover {
+  color: var(--vermilion-soft);
+}
+
+/* セクション表示切り替え */
+.view-section {
+  display: none;
+}
+
+.view-section.active {
+  display: block;
+}
+
+/* 1. 九曜星占盤 ＆ 1対1相性 2カラムグリッド */
+.wheel-compatibility-grid {
+  display: grid;
+  grid-template-columns: minmax(310px, 520px) 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 920px) {
+  .wheel-compatibility-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 九曜星占盤カード */
+.wheel-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.pair-selector-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-family: sans-serif;
+}
+
+.pair-box {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.pair-box.self-box {
+  border-left: 4px solid var(--vermilion);
+}
+
+.pair-box.partner-box {
+  border-left: 4px solid var(--gold-main);
+}
+
+.pair-box label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
+}
+
+.pair-box select {
+  width: 100%;
+  background: transparent;
+  color: var(--text-main);
+  border: none;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.pair-box select option {
+  background: var(--bg-surface);
+  color: var(--text-main);
+}
+
+.swap-btn {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-gold);
+  color: var(--gold-bright);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  transition: transform 0.25s, background 0.2s;
+}
+
+.swap-btn:hover {
+  transform: rotate(180deg);
+  background: rgba(212, 175, 55, 0.2);
+}
+
+/* 巨大円盤 SVG コンテナ */
+.senban-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  user-select: none;
+  touch-action: none;
+}
+
+.senban-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.65));
+}
+
+/* 内盤の回転（CSS Individual Transform Property `rotate`） */
+#inner-sanku-wheel {
+  transform-origin: 250px 250px;
+  rotate: 0deg;
+  transition: rotate 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: grab;
+}
+
+#inner-sanku-wheel.dragging {
+  transition: none;
+  cursor: grabbing;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #inner-sanku-wheel {
+    transition: none;
+  }
+}
+
+.wheel-hint {
+  margin: 0.65rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: sans-serif;
+}
+
+.wheel-controls {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* 相性診断結果カード */
+.compat-result-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  box-shadow: var(--shadow-lg);
+}
+
+.compat-header-banner {
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.2rem;
+  background: linear-gradient(135deg, rgba(209, 59, 44, 0.22), rgba(212, 175, 55, 0.16));
+  border: 1px solid var(--gold-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.compat-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  background: var(--gold-main);
+  color: #161108;
+  font-family: sans-serif;
+  margin-bottom: 0.3rem;
+}
+
+.compat-main-title {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.6vw, 1.55rem);
+  color: var(--gold-bright);
+}
+
+.compat-score-circle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: var(--bg-deep);
+  border: 2px solid var(--gold-bright);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.25);
+}
+
+.compat-score-num {
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--gold-bright);
+}
+
+.compat-score-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  font-family: sans-serif;
+}
+
+/* 方向別の文字表示（自分→相手 / 相手→自分） */
+.direction-boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.2rem;
+}
+
+.dir-box {
+  background: var(--bg-card);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: sans-serif;
+}
+
+.dir-char-seal {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--vermilion);
+  color: #fff;
+  font-family: serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--gold-bright);
+  flex-shrink: 0;
+}
+
+.compat-details-grid {
+  display: grid;
+  gap: 0.85rem;
+  font-family: sans-serif;
+}
+
+.compat-detail-item {
+  background: var(--bg-card);
+  border-left: 3px solid var(--gold-main);
+  border-radius: 0 10px 10px 0;
+  padding: 0.85rem 1rem;
+}
+
+.compat-detail-item h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.92rem;
+  color: var(--gold-bright);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.compat-detail-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+/* 2. 満正寺の「星札（黄札）」＆ 九曜星（本命星・当年星）診断ビュー */
+.kifuda-layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 430px) 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .kifuda-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 満正寺の黄札（星札）レプリカデザイン */
+.kifuda-talisman {
+  background: var(--kifuda-bg-grad);
+  color: var(--kifuda-ink);
+  border: 4px double var(--kifuda-border);
+  border-radius: 10px;
+  padding: 1.4rem 1.25rem;
+  box-shadow:
+    0 14px 32px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 2px rgba(181, 36, 24, 0.25);
+  position: relative;
+}
+
+.kifuda-top-stamp {
+  text-align: center;
+  border-bottom: 2px solid var(--kifuda-red);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.kifuda-temple-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.25em;
+  color: var(--kifuda-red);
+  font-weight: 700;
+}
+
+.kifuda-shuku-title {
+  margin: 0.2rem 0;
+  font-size: 2.3rem;
+  letter-spacing: 0.15em;
+  color: var(--kifuda-ink);
+  font-weight: 900;
+}
+
+.kifuda-shuku-reading {
+  font-size: 0.85rem;
+  color: #59411b;
+  letter-spacing: 0.1em;
+}
+
+.kifuda-meta-tags {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+  font-family: sans-serif;
+}
+
+.kifuda-tag {
+  background: rgba(181, 36, 24, 0.12);
+  border: 1px solid var(--kifuda-red);
+  color: var(--kifuda-red);
+  padding: 0.12rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.kifuda-catchphrase {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--kifuda-red);
+  margin: 0.8rem 0 1rem;
+  padding: 0.45rem;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 6px;
+}
+
+.kifuda-section {
+  margin-bottom: 0.9rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(140, 102, 24, 0.3);
+}
+
+.kifuda-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.kifuda-section h4 {
+  margin: 0 0 0.3rem;
+  font-size: 0.92rem;
+  color: var(--kifuda-red);
+  letter-spacing: 0.06em;
+}
+
+.kifuda-section p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  font-family: sans-serif;
+}
+
+/* 九曜星（本命星・当年星）＆ 9年運気バイオリズムカード */
+.kuyosei-fortune-panel {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.kuyo-box-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.tonen-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  margin: 0.75rem 0 1rem;
+  flex-wrap: wrap;
+}
+
+.tonen-orb {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  border: 2px solid var(--gold-bright);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.cycle-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  font-size: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+.cycle-table th,
+.cycle-table td {
+  padding: 0.5rem 0.65rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+  text-align: left;
+}
+
+.cycle-table tr.current-year-row {
+  background: rgba(212, 175, 55, 0.18);
+  font-weight: 700;
+}
+
+/* 3. 友達グループ相性マトリクス＆ベストペアランキング */
+.matrix-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  padding: 1.3rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.table-scroll-container {
+  overflow-x: auto;
+  margin-top: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-gold);
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  font-size: 0.86rem;
+  min-width: 480px;
+}
+
+.matrix-table th,
+.matrix-table td {
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  padding: 0.6rem 0.5rem;
+  text-align: center;
+}
+
+.matrix-table th {
+  background: var(--bg-elevated);
+  color: var(--gold-bright);
+}
+
+.matrix-cell-btn {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid transparent;
+  color: var(--text-main);
+  border-radius: 6px;
+  padding: 0.4rem 0.3rem;
+  cursor: pointer;
+  transition: transform 0.12s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.matrix-cell-btn:hover {
+  border-color: var(--gold-bright);
+  transform: scale(1.04);
+}
+
+.ranking-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.ranking-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+  font-family: sans-serif;
+}
+
+.ranking-item:hover {
+  border-color: var(--gold-bright);
+  transform: translateY(-2px);
+}
+
+/* モーダルダイアログ (<dialog>) */
+dialog.app-dialog {
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: 2px solid var(--gold-main);
+  border-radius: 16px;
+  padding: 1.4rem;
+  max-width: 680px;
+  width: min(92vw, 680px);
+  max-height: 85dvh;
+  overflow-y: auto;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+}
+
+dialog.app-dialog::backdrop {
+  background: rgba(8, 6, 12, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+.toast-banner {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  background: var(--gold-main);
+  color: #161108;
+  font-weight: 700;
+  font-family: sans-serif;
+  padding: 0.65rem 1.1rem;
+  border-radius: 999px;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+.toast-banner.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* メンバー編集ボタン＆チップ操作 */
+.chip-edit {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0 0.25rem;
+  font-size: 0.88rem;
+  line-height: 1;
+  transition: color 0.15s, transform 0.15s;
+}
+
+.chip-edit:hover {
+  color: var(--gold-bright);
+  transform: scale(1.15);
+}
+
+/* 選んだ人とメンバー全員の相性（1対Nフォーカス表示） */
+.focus-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding: 1rem 1.2rem;
+  background: linear-gradient(135deg, rgba(209, 59, 44, 0.16), rgba(212, 175, 55, 0.12));
+  border: 1px solid var(--gold-main);
+  border-radius: 14px;
+  margin-bottom: 1.4rem;
+  font-family: sans-serif;
+}
+
+.focus-mode-toggle {
+  display: inline-flex;
+  background: var(--bg-deep);
+  border: 1px solid var(--border-gold);
+  border-radius: 999px;
+  padding: 0.2rem;
+  gap: 0.2rem;
+}
+
+.mode-pill-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.mode-pill-btn.active {
+  background: var(--gold-main);
+  color: #171209;
+}
+
+.focus-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: 1.1rem;
+  margin-top: 1rem;
+}
+
+.focus-compat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  font-family: sans-serif;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.focus-compat-card:hover {
+  border-color: var(--gold-bright);
+  transform: translateY(-2px);
+}
+
+.focus-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 0.65rem;
+}
+
+.focus-section-mini {
+  background: rgba(16, 14, 20, 0.55);
+  border-left: 3px solid var(--gold-main);
+  border-radius: 0 8px 8px 0;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.84rem;
+}
+
+.focus-section-mini strong {
+  color: var(--gold-bright);
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.8rem;
+}
+
+/* 結婚相性ベスト宿バッジ */
+.best-shuku-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+}
+
+.best-shuku-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid var(--gold-main);
+  color: var(--text-main);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.best-shuku-pill:hover {
+  background: rgba(212, 175, 55, 0.3);
+  transform: translateY(-1px);
+}
+
+.best-shuku-pill.has-friend {
+  background: rgba(209, 59, 44, 0.28);
+  border-color: var(--gold-bright);
+  font-weight: 700;
+}
+
+</style>
+
+</head>
+<body>
+  <!-- ヘッダー -->
+  <header class="site-header">
+    <div class="kuyo-crest" aria-hidden="true">
+      <svg viewBox="0 0 100 100" width="54" height="54">
+        <circle cx="50" cy="50" r="20" fill="#d4af37" />
+        <circle cx="50" cy="14" r="7.5" fill="#d4af37" />
+        <circle cx="75.5" cy="24.5" r="7.5" fill="#d4af37" />
+        <circle cx="86" cy="50" r="7.5" fill="#d4af37" />
+        <circle cx="75.5" cy="75.5" r="7.5" fill="#d4af37" />
+        <circle cx="50" cy="86" r="7.5" fill="#d4af37" />
+        <circle cx="24.5" cy="75.5" r="7.5" fill="#d4af37" />
+        <circle cx="14" cy="50" r="7.5" fill="#d4af37" />
+        <circle cx="24.5" cy="24.5" r="7.5" fill="#d4af37" />
+      </svg>
+    </div>
+    <p class="site-subtitle">鳥取・倉吉 満正寺の巨大星占盤 体験アプリ</p>
+    <h1 class="site-title">九曜星占盤 ＆ 宿星相性・結婚診断</h1>
+    <p class="site-desc">
+      生年月日から「宿星（全27宿）」と「九曜星（本命星・当年星）」を導き出し、
+      友達や気になる人との相性・結婚に合う相手像・効果的なアプローチ方法を占います。
+    </p>
+  </header>
+
+  <!-- モード切り替えナビゲーション -->
+  <nav class="mode-nav" aria-label="占いモード切替">
+    <button type="button" class="tab-btn active" data-target="tab-wheel">
+      ☸️ 九曜星占盤（2人の相性）
+    </button>
+    <button type="button" class="tab-btn" data-target="tab-kifuda">
+      💍 星札・結婚相手・アプローチ・運勢
+    </button>
+    <button type="button" class="tab-btn" data-target="tab-matrix">
+      👥 選んだ人とメンバーの相性・一覧
+    </button>
+    <button type="button" class="tab-btn" data-target="tab-shukuseicho">
+      📒 宿星帳（月×日 早見表）
+    </button>
+  </nav>
+
+  <main class="main-container">
+    <!-- メンバー（自分＋友達）登録・管理パネル -->
+    <section class="members-panel" aria-label="占うメンバーの登録と選択">
+      <div class="panel-header">
+        <h2 class="panel-title">👤 メンバー登録・選択（✏️ボタンで名前や生年月日を変更できます）</h2>
+        <div class="panel-actions">
+          <div style="display:inline-flex;align-items:center;gap:0.35rem;font-family:sans-serif;font-size:0.8rem;">
+            <label for="calc-mode-select" style="color:var(--gold-bright);font-weight:700;">算出方式：</label>
+            <select id="calc-mode-select" class="field-input" style="padding:0.3rem 0.55rem;font-size:0.8rem;">
+              <option value="manshoji_table">満正寺・宿星帳（月×日早見表）方式【推奨：12/6＝婁宿】</option>
+              <option value="lunar_jp">旧暦換算方式（日本標準時・旧暦月日）</option>
+            </select>
+          </div>
+          <button type="button" id="share-url-btn" class="btn-primary" style="padding:0.38rem 0.9rem;font-size:0.82rem;">
+            📤 友達に共有・結果を送る
+          </button>
+          <button type="button" id="import-code-open-btn" class="btn-secondary">
+            📥 共有コード読込
+          </button>
+          <button type="button" id="reset-sample-btn" class="btn-secondary">
+            🔄 サンプルに戻す
+          </button>
+        </div>
+      </div>
+
+      <form id="add-member-form" class="add-member-form">
+        <div class="field-group" style="flex: 1; min-width: 160px;">
+          <label for="member-name-input">お名前・ニックネーム</label>
+          <input
+            type="text"
+            id="member-name-input"
+            class="field-input"
+            placeholder="例：たろう / 自分の名前"
+            required
+          >
+        </div>
+
+        <div class="field-group">
+          <label for="member-birth-input">生年月日（西暦）</label>
+          <input
+            type="date"
+            id="member-birth-input"
+            class="field-input"
+            value="1995-12-06"
+            required
+          >
+        </div>
+
+        <div class="field-group">
+          <label for="member-shuku-override">宿星指定（手動で固定する場合のみ）</label>
+          <select id="member-shuku-override" class="field-input"></select>
+        </div>
+
+        <button type="submit" class="btn-primary">＋ メンバーに追加</button>
+      </form>
+
+      <div id="member-chips-container" class="member-chips"></div>
+      <p style="margin:0.55rem 0 0;font-size:0.78rem;color:var(--text-muted);font-family:sans-serif;">
+        💡 メンバーをクリックするとその人を選択します。名前の横の「✏️」で名前・生年月日の変更、「🎯」でその人とメンバー全員の相性のみを表示できます。
+      </p>
+    </section>
+
+    <!-- タブ1：巨大「九曜星占盤」＆ 1対1の相性占い -->
+    <section id="tab-wheel" class="view-section active" aria-label="九曜星占盤と1対1相性占い">
+      <div class="wheel-compatibility-grid">
+        <!-- 左カラム：インタラクティブ九曜星占盤 -->
+        <div class="wheel-card">
+          <div class="pair-selector-bar">
+            <div class="pair-box self-box">
+              <label for="self-member-select">🔴 自分の星（「命」を合わせる）</label>
+              <select id="self-member-select"></select>
+            </div>
+
+            <button
+              type="button"
+              id="swap-pair-btn"
+              class="swap-btn"
+              title="自分と相手の立場を入れ替える"
+              aria-label="自分と相手を入れ替え"
+            >
+              ⇄
+            </button>
+
+            <div class="pair-box partner-box">
+              <label for="partner-member-select">🟡 相性を占う相手</label>
+              <select id="partner-member-select"></select>
+            </div>
+          </div>
+
+          <div class="senban-wrapper">
+            <svg
+              id="senban-svg"
+              class="senban-svg"
+              viewBox="0 0 500 500"
+              role="img"
+              aria-label="満正寺式 九曜星占盤（外周27宿と内周の三九の秘法回転盤）"
+            >
+              <!-- 外枠装飾 -->
+              <circle cx="250" cy="250" r="246" fill="#120f18" stroke="#d4af37" stroke-width="3" />
+              <!-- 外周固定リング：27宿 -->
+              <g id="outer-shuku-ring"></g>
+              <!-- 内周回転リング：三九の秘法（命・栄・衰・安・危・成・壊・友・親・業・胎） -->
+              <g id="inner-sanku-wheel"></g>
+            </svg>
+          </div>
+
+          <p id="wheel-pair-status" class="wheel-hint"></p>
+
+          <div class="wheel-controls">
+            <button type="button" id="realign-wheel-btn" class="btn-secondary">
+              🎯 自分の宿星に「命」をピタッと合わせる
+            </button>
+            <button type="button" id="jump-focus-from-wheel-btn" class="btn-secondary">
+              👥 この人と他メンバー全員の相性を見る
+            </button>
+          </div>
+          <p class="wheel-hint">
+            ※内側の円盤はマウスや指でドラッグして自由に回すこともできます。外周の27宿をタップすると各星の解説が開きます。
+          </p>
+        </div>
+
+        <!-- 右カラム：相性判定の詳細解説 -->
+        <div id="compat-result-container" class="compat-result-card"></div>
+      </div>
+    </section>
+
+    <!-- タブ2：個人の「星札（黄札）」・結婚相手・アプローチ法 ＆ 九曜星診断 -->
+    <section id="tab-kifuda" class="view-section" aria-label="星札と結婚・本命星・当年星の個人診断">
+      <div style="margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;font-family:sans-serif;">
+        <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+          <label for="single-member-select" style="font-weight:700;color:var(--gold-bright);">
+            📜 診断・結婚・アプローチを表示するメンバー：
+          </label>
+          <select id="single-member-select" class="field-input" style="min-width:260px;"></select>
+        </div>
+        <button type="button" id="edit-selected-member-btn" class="btn-secondary">
+          ✏️ このメンバーの名前・生年月日を変更
+        </button>
+      </div>
+
+      <div class="kifuda-layout">
+        <!-- 左：満正寺地蔵堂の星札（黄札）イメージ -->
+        <div id="kifuda-card-container"></div>
+
+        <!-- 右：結婚相手・アプローチ法 ＆ 九曜星（当年星・本命星） -->
+        <div id="kuyosei-detail-container" class="kuyosei-fortune-panel"></div>
+      </div>
+    </section>
+
+    <!-- タブ3：選んだ人とメンバーの相性のみ表示 ＆ グループ全体相性表 -->
+    <section id="tab-matrix" class="view-section" aria-label="選んだ人とメンバーの相性および全体一覧">
+      <!-- フィルター・表示切替バー -->
+      <div class="focus-filter-bar">
+        <div style="display:flex;align-items:center;gap:0.65rem;flex-wrap:wrap;">
+          <label for="focus-member-select" style="font-weight:700;color:var(--gold-bright);font-size:0.95rem;">
+            🎯 基準にするメンバー：
+          </label>
+          <select id="focus-member-select" class="field-input" style="min-width:240px;font-weight:700;"></select>
+        </div>
+
+        <div class="focus-mode-toggle" role="group" aria-label="表示範囲の切り替え">
+          <button type="button" id="mode-focus-only-btn" class="mode-pill-btn active">
+            🎯 選んだ人とメンバーの相性のみ
+          </button>
+          <button type="button" id="mode-all-pairs-btn" class="mode-pill-btn">
+            🏆 全員の総当たり表・ランキング
+          </button>
+        </div>
+      </div>
+
+      <!-- 1対N（選んだ人と他のメンバー全員の相性のみ表示）ビュー -->
+      <div id="focus-compat-section" class="matrix-card">
+        <div id="focus-compat-header"></div>
+        <div id="focus-compat-grid" class="focus-cards-grid"></div>
+      </div>
+
+      <!-- 全員総当たりビュー（切り替え時のみ表示） -->
+      <div id="all-pairs-section" style="display:none;">
+        <div class="matrix-card" style="margin-bottom:1.5rem;">
+          <h3 style="margin:0 0 0.35rem;color:var(--gold-bright);font-size:1.25rem;">
+            🏆 友達グループ ベストペア相性ランキング（全組み合わせ）
+          </h3>
+          <p style="margin:0;font-size:0.86rem;color:var(--text-muted);font-family:sans-serif;">
+            登録されているメンバー全員の組み合わせを相性スコア順にランキング！カードをクリックすると九曜星占盤で詳細を見られます。
+          </p>
+          <div id="group-ranking-container" class="ranking-grid"></div>
+        </div>
+
+        <div class="matrix-card">
+          <h3 style="margin:0 0 0.35rem;color:var(--gold-bright);font-size:1.25rem;">
+            📊 全員総当たり「三九の秘法」相性マトリクス表
+          </h3>
+          <p style="margin:0;font-size:0.86rem;color:var(--text-muted);font-family:sans-serif;">
+            縦軸の「自分」の星に「命」を合わせたとき、横軸の「相手」の星に出る文字（栄・親・友・衰・安・壊・危・成・命・業・胎）の一覧です。
+          </p>
+          <div id="group-matrix-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- タブ4：宿星帳（12ヶ月×31日 宿星早見表マトリクス） -->
+    <section id="tab-shukuseicho" class="view-section" aria-label="宿星帳（月×日 早見表）">
+      <div class="matrix-card">
+        <h3 style="margin:0 0 0.35rem;color:var(--gold-bright);font-size:1.25rem;">
+          📒 宿星帳（月宿傍通暦 12ヶ月×31日 早見表）
+        </h3>
+        <p style="margin:0;font-size:0.86rem;color:var(--text-muted);font-family:sans-serif;">
+          生まれた「月（横軸）」と「日（縦軸）」が交差するマスから宿星（全27宿）を調べる早見表です（例：<strong>12月 × 6日 ＝ 婁宿</strong>）。マスをクリックするとその宿星の解説が開きます。
+        </p>
+        <div id="shukuseicho-table-container"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 27宿クイック解説モーダル (<dialog>) -->
+  <dialog id="shuku-quick-dialog" class="app-dialog" closedby="any">
+    <div id="shuku-dialog-body"></div>
+    <div style="margin-top:1.2rem;text-align:right;">
+      <button type="button" id="close-dialog-btn" class="btn-primary">閉じる</button>
+    </div>
+  </dialog>
+
+  <!-- メンバー名前・生年月日編集モーダル (<dialog>) -->
+  <dialog id="edit-member-dialog" class="app-dialog" closedby="any">
+    <h3 style="margin:0 0 1rem;color:var(--gold-bright);">✏️ メンバー情報の変更</h3>
+    <form id="edit-member-form" style="display:grid;gap:0.9rem;font-family:sans-serif;">
+      <input type="hidden" id="edit-member-id">
+      <div class="field-group">
+        <label for="edit-member-name">お名前・ニックネーム</label>
+        <input type="text" id="edit-member-name" class="field-input" required>
+      </div>
+      <div class="field-group">
+        <label for="edit-member-birth">生年月日（西暦）</label>
+        <input type="date" id="edit-member-birth" class="field-input" required>
+      </div>
+      <div class="field-group">
+        <label for="edit-member-shuku">宿星指定（手動で固定する場合のみ）</label>
+        <select id="edit-member-shuku" class="field-input"></select>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:0.6rem;margin-top:0.4rem;">
+        <button type="button" id="cancel-edit-member-btn" class="btn-secondary">キャンセル</button>
+        <button type="submit" class="btn-primary">保存する</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- 友達への共有・結果テキスト送信・単一HTML書き出しモーダル (<dialog>) -->
+  <dialog id="share-dialog" class="app-dialog" closedby="any">
+    <h3 style="margin:0 0 0.6rem;color:var(--gold-bright);">📤 友達への共有・診断結果の送信メニュー</h3>
+    <div id="share-file-protocol-notice" style="display:none;background:rgba(209,59,44,0.18);border:1px solid var(--vermilion-soft);border-radius:10px;padding:0.75rem 0.9rem;margin-bottom:1rem;font-family:sans-serif;font-size:0.84rem;">
+      <strong>⚠️ 現在お使いのパソコン内のファイル（<code>file://</code>）として開いています</strong><br>
+      このままアドレスバーのURLをLINE等で送っても、他の人のスマホやPCからは開けません。<br>
+      以下の<strong>① 診断結果テキストをコピーして送る</strong>、または<strong>② メンバー入り1ファイルHTMLを保存して送る</strong>、または<strong>③ Webに無料公開してURL化する</strong>方法をご利用ください。
+    </div>
+
+    <div style="display:grid;gap:1rem;font-family:sans-serif;">
+      <!-- 方法1：LINEやチャットにそのまま貼れる診断結果テキスト -->
+      <div class="compat-detail-item" style="border-left-color:var(--gold-bright);">
+        <h4>① 📋 LINE・Discord等にそのまま貼れる「診断結果まとめテキスト」をコピー（一番手軽！）</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.5rem;">
+          選んだ人の「宿星・今年の九曜星・結婚観」と「メンバー全員との相性ランキング」をテキストとしてコピーします。URLが開けない相手にもそのままLINEやチャットで送れます！
+        </p>
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;flex-wrap:wrap;">
+          <label for="share-focus-member-select" style="font-size:0.8rem;color:var(--gold-bright);font-weight:700;">だれの結果テキストを作る：</label>
+          <select id="share-focus-member-select" class="field-input" style="padding:0.3rem 0.6rem;font-size:0.85rem;"></select>
+        </div>
+        <textarea id="share-summary-textarea" class="field-input" rows="7" style="width:100%;font-size:0.8rem;margin-bottom:0.5rem;line-height:1.5;" readonly></textarea>
+        <button type="button" id="copy-summary-text-btn" class="btn-primary" style="width:100%;">
+          📋 診断結果テキストをコピーする（LINE等にそのまま貼り付け可能）
+        </button>
+      </div>
+
+      <!-- 方法2：メンバーデータ埋め込み済みの1ファイルHTMLをダウンロード -->
+      <div class="compat-detail-item" style="border-left-color:var(--jade);">
+        <h4>② 📦 登録メンバー入り「単一HTMLファイル」をダウンロードして友達に送る</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.5rem;">
+          デザイン・星データ・現在登録したメンバー全員のデータを<strong>たった1個のHTMLファイル</strong>にまとめて保存します。このファイルをLINEやDiscordで送れば、友達が開くだけで同じメンバーで遊べます。
+        </p>
+        <button type="button" id="download-standalone-html-btn" class="btn-secondary" style="width:100%;font-weight:700;border-color:var(--gold-bright);color:var(--gold-bright);">
+          📥 メンバー入り単一HTMLファイル（.html）を保存する
+        </button>
+      </div>
+
+      <!-- 方法3：共有コードのコピー＆貼り付け読み込み -->
+      <div class="compat-detail-item" style="border-left-color:var(--indigo);">
+        <h4>③ 🔑 メンバー共有コード（コピー＆貼り付けでメンバー復元）</h4>
+        <div style="display:flex;gap:0.45rem;margin-bottom:0.55rem;">
+          <input type="text" id="share-code-output" class="field-input" style="flex:1;font-size:0.8rem;" readonly>
+          <button type="button" id="copy-share-code-btn" class="btn-secondary">コードコピー</button>
+        </div>
+        <div style="display:flex;gap:0.45rem;">
+          <input type="text" id="share-code-input" class="field-input" style="flex:1;font-size:0.8rem;" placeholder="友達から受け取った共有コード（またはURL）をここに貼り付け">
+          <button type="button" id="apply-share-code-btn" class="btn-primary">読み込む</button>
+        </div>
+      </div>
+
+      <!-- 方法4：Web公開URL（Webサーバー上で開いている場合） -->
+      <div class="compat-detail-item">
+        <h4>④ 🌐 Web公開用URL（Netlify DropやGitHub Pages等にアップした場合に有効）</h4>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.4rem;">
+          ※スマホへURLだけで送りたい場合は、<a href="https://app.netlify.com/drop" target="_blank" rel="noopener" style="color:var(--gold-bright);">Netlify Drop</a> 等にこの <code>kuyosei-app</code> フォルダをドラッグ＆ドロップすると無料の <code>https://...</code> URLが作れます。
+        </p>
+        <div style="display:flex;gap:0.45rem;">
+          <input type="text" id="share-url-output" class="field-input" style="flex:1;font-size:0.8rem;" readonly>
+          <button type="button" id="copy-web-url-btn" class="btn-secondary">URLコピー</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.1rem;text-align:right;">
+      <button type="button" id="close-share-dialog-btn" class="btn-secondary">閉じる</button>
+    </div>
+  </dialog>
+
+  <!-- トースト通知 -->
+  <div id="toast-banner" class="toast-banner" role="status" aria-live="polite"></div>
+<script>
+// 満正寺 九曜星占盤 & 宿曜二十七宿・九曜星 データベース
+
+const SHUKU_START_BY_LUNAR_MONTH = {
+  1: 11,  // 1月1日: 室宿
+  2: 13,  // 2月1日: 奎宿
+  3: 15,  // 3月1日: 胃宿
+  4: 17,  // 4月1日: 畢宿
+  5: 19,  // 5月1日: 参宿
+  6: 21,  // 6月1日: 鬼宿
+  7: 24,  // 7月1日: 張宿
+  8: 0,   // 8月1日: 角宿
+  9: 2,   // 9月1日: 氐宿
+  10: 4,  // 10月1日: 心宿
+  11: 7,  // 11月1日: 斗宿
+  12: 9   // 12月1日: 虚宿
+};
+
+// 三九の秘法 内盤27マスの配列（index 0 = 命 を自分の宿星に合わせる）
+const SANKU_WHEEL_LABELS = [
+  { char: "命", reading: "めい", group: "命", distance: "同宿" },
+  { char: "栄", reading: "えい", group: "栄親", distance: "近距離" },
+  { char: "衰", reading: "すい", group: "友衰", distance: "近距離" },
+  { char: "安", reading: "あん", group: "安壊", distance: "近距離" },
+  { char: "危", reading: "き", group: "危成", distance: "近距離" },
+  { char: "成", reading: "せい", group: "危成", distance: "中距離" },
+  { char: "壊", reading: "かい", group: "安壊", distance: "中距離" },
+  { char: "友", reading: "ゆう", group: "友衰", distance: "中距離" },
+  { char: "親", reading: "しん", group: "栄親", distance: "中距離" },
+  { char: "業", reading: "ぎょう", group: "業胎", distance: "前世縁" },
+  { char: "栄", reading: "えい", group: "栄親", distance: "遠距離" },
+  { char: "衰", reading: "すい", group: "友衰", distance: "遠距離" },
+  { char: "安", reading: "あん", group: "安壊", distance: "遠距離" },
+  { char: "危", reading: "き", group: "危成", distance: "遠距離" },
+  { char: "成", reading: "せい", group: "危成", distance: "遠距離" },
+  { char: "壊", reading: "かい", group: "安壊", distance: "遠距離" },
+  { char: "友", reading: "ゆう", group: "友衰", distance: "遠距離" },
+  { char: "親", reading: "しん", group: "栄親", distance: "遠距離" },
+  { char: "胎", reading: "たい", group: "業胎", distance: "来世縁" },
+  { char: "栄", reading: "えい", group: "栄親", distance: "中距離" },
+  { char: "衰", reading: "すい", group: "友衰", distance: "中距離" },
+  { char: "安", reading: "あん", group: "安壊", distance: "中距離" },
+  { char: "危", reading: "き", group: "危成", distance: "中距離" },
+  { char: "成", reading: "せい", group: "危成", distance: "近距離" },
+  { char: "壊", reading: "かい", group: "安壊", distance: "近距離" },
+  { char: "友", reading: "ゆう", group: "友衰", distance: "近距離" },
+  { char: "親", reading: "しん", group: "栄親", distance: "近距離" }
+];
+
+// 二十七宿 詳細データ（基本の良きところは納得感のある元のテイスト＋「もし良きところを伸ばしたら(IF・歴史偉人例え)」＋「ダメなところの鋭い指摘」）
+const SHUKU_27_DATA = [
+  {
+    index: 0,
+    name: "角宿",
+    short: "角",
+    reading: "かくしゅく",
+    direction: "東方青龍",
+    element: "木曜",
+    nature: "和善宿",
+    catchphrase: "華やかさと社交性に恵まれた、永遠の若き開拓者",
+    personality: "礼儀正しく社交的で、周囲をパッと明るくする華やかな魅力の持ち主です。好奇心旺盛で楽しいことが大好き。表裏が少なく純粋な感性を持ち、いくつになっても若々しい精神を失いません。",
+    talent: "人脈を広げる交渉力、企画・プロデュース、デザインや芸能・接客など、人と関わり華を添える分野で抜群の才覚を発揮します。",
+    historicalFigures: "【藤原道長・源義経タイプ】華やかな社交性と天性の人懐っこさで周囲の引き立てを集め、時代の中心に華を咲かせた人物像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】持ち前の愛嬌と社交性に「地道な継続力」が加われば、あなたを中心に自然と人とチャンスが集まり、自分一人で頑張らなくても周囲に押し上げられる形で大きな成功をつかめます。",
+    admonition: "【ダメなところ・星札の戒め】好き嫌いが激しく、自分が興味のない話や人に対しては急に冷淡で上の空になりがちです。また、見栄っ張りで気分屋、飽きっぽくて面倒な実務から逃げる癖があります。「楽しいことだけつまみ食いする姿勢」を改め、地味な基礎や約束を継続することが最大の課題です。",
+    health: "肝臓・胆嚢の疲れ、自律神経の乱れ、眼精疲労に注意。緑の多い場所での休息が吉。",
+    luckyItem: "草木染めの小物・翡翠（ヒスイ）",
+    marriageView: "結婚後も恋人のようなときめきと会話を大切にし、友人を招く明るい家庭を築きます。束縛しすぎず、夫婦で共通の趣味や外出を楽しむと円満が長続きします。",
+    idealPartner: "あなたの無邪気な好奇心を温かく見守りつつ、生活面や金銭面でしっかり手綱を握ってくれる包容力と安定感のある人（精神的に大人で穏やかな人）が最高の結婚相手です。",
+    selfApproach: "持ち前の笑顔と聞き上手な社交性が最大の武器！駆け引きをするより、「あなたといると本当に楽しい」とストレートに好意と笑顔を見せることで相手の心を一気に掴めます。",
+    targetApproach: "【角宿の人を射止めるには】おしゃれなカフェや話題のスポットなど「ワクワクするデート」に誘うのが効果的！外見やセンスを褒められると弱いです。逆に説教くさい態度や強い束縛はNG。"
+  },
+  {
+    index: 1,
+    name: "亢宿",
+    short: "亢",
+    reading: "こうしゅく",
+    direction: "東方青龍",
+    element: "金曜",
+    nature: "柔順宿",
+    catchphrase: "誇り高く正義感を貫く、凛とした信念のリーダー",
+    personality: "曲がったことが大嫌いな正義漢。プライドが高く、自分の美学と信念に従って真っ直ぐに生きる人です。一見クールで近寄りがたく見えますが、内面は情に厚く、困っている人を見捨てられない誠実さがあります。",
+    talent: "組織の統率、法務・監査、専門技術、芸術・美的センスを活かした仕事など、高い基準と誠実さが求められる場で大成します。",
+    historicalFigures: "【上杉謙信・土方歳三タイプ】目先の損得や妥協を嫌い、自らの「義」と信念・美学を最後まで貫き通した孤高のリーダー像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】本来のブレない正義感に「他人の弱さを許す包容力」が備われば、ただ厳しいだけではない、誰もが心から信頼して背中を預けたくなる本物の統率者へと大成します。",
+    admonition: "【ダメなところ・星札の戒め】頑固で融通が利かず、「自分が正しい」と思うと正論で相手を追い詰めて逃げ場をなくしてしまう危うさがあります。またプライドが邪魔をして素直に謝ったり人に頼ったりできず、自分で自分の首を絞めて孤立しがちです。「白か黒か」だけでなくグレーゾーンを認める柔軟さを身につけましょう。",
+    health: "喉・気管支、首や肩のこり、ストレス性の胃腸炎に注意。深呼吸と声出しが吉。",
+    luckyItem: "シルバーアクセサリー・万年筆",
+    marriageView: "浮気や嘘を絶対に許さない誠実な結婚観を持ちます。晩婚傾向もありますが、一度結婚すると責任感を持って家族を守り抜く頼もしいパートナーになります。",
+    idealPartner: "礼儀やマナーがきちんとしていて、あなたの仕事や信念を心からリスペクトしてくれる人。また、あなたの張り詰めた心をユーモアと柔らかさでほぐしてくれる温和な人が合っています。",
+    selfApproach: "クールに見られがちなので、意中の相手には少しだけ「弱音」や「素の笑顔」を見せてギャップを演出しましょう。誠実で一貫した態度が相手に深い安心感を与えます。",
+    targetApproach: "【亢宿の人を射止めるには】チャラチャラしたノリや駆け引きは逆効果。約束や時間をきっちり守り、相手の美学や頑張りを真剣に認めて言葉で敬意を伝えると、一気に信頼されます。"
+  },
+  {
+    index: 2,
+    name: "氐宿",
+    short: "氐",
+    reading: "ていしゅく",
+    direction: "東方青龍",
+    element: "土曜",
+    nature: "剛柔宿",
+    catchphrase: "柔和な笑顔の裏に強靭な胆力を秘めた実力者",
+    personality: "当たりが柔らかく社交的ですが、腹の底にはテコでも動かない強い意志と計算高さを秘めています。欲しいものや目標が定まると、どんな障害も乗り越えて手に入れるたくましい生命力の持ち主です。",
+    talent: "経営・商才、不動産・金融、交渉ごと、粘り強さを要するプロジェクト推進で類まれな成果を上げます。",
+    historicalFigures: "【北条政子・豊臣秀長タイプ】表向きは穏やかな調整役として振る舞いながら、いざという場面では誰よりも腹が据わった決断力で組織や家を守り抜いた実力者に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】持ち前の交渉力と胆力を「自分や身内の損得」だけでなく周囲全体の利益のために使い始めたとき、人もお金も動かせる盤石な経営者・大黒柱として揺るぎない地位を築けます。",
+    admonition: "【ダメなところ・星札の戒め】独占欲や執着心が強く、一度裏切られたと感じると表面はニコニコしながらも心の中でいつまでも根に持つ傾向があります。また損得勘定で人を測ったり、親しい相手にだけ強気でワガママになりやすい点も要注意。見返りを求めない寛容さを意識しましょう。",
+    health: "腰痛、腎臓・泌尿器系、下半身の冷えに注意。温泉や足湯で温めると吉。",
+    luckyItem: "革製の財布・琥珀（アンバー）",
+    marriageView: "現実的で経済観念がしっかりしており、結婚後はマイホームや資産を着実に築き上げる頼もしい家庭人です。パートナーへの愛情が深いぶん、少しヤキモチ焼きな一面も。",
+    idealPartner: "裏表がなく誠実で、一途にあなただけを愛してくれる人。また、美味しい食事や居心地の良い空間を一緒に楽しめる、家庭的で落ち着いた金銭感覚を持つ人がベストです。",
+    selfApproach: "狙った獲物は逃さない情熱がありますが、最初から独占欲を見せると相手が引いてしまいます。まずは頼れる相談相手として相手の懐に入り、少しずつ特別感を出すのが必勝法です。",
+    targetApproach: "【氐宿の人を射止めるには】美味しいグルメや落ち着いた空間でのデートが◎。他の異性の影をチラつかせる駆け引きは絶対NG！「あなただけ」という一途な誠意を見せると深く愛されます。"
+  },
+  {
+    index: 3,
+    name: "房宿",
+    short: "房",
+    reading: "ぼうしゅく",
+    direction: "東方青龍",
+    element: "日曜",
+    nature: "和善宿",
+    catchphrase: "天性の財運とカリスマ性を帯びた太陽の申し子",
+    personality: "生まれながらにして人を惹きつける華やかなオーラと強運（特に財運）に恵まれた星です。洞察力が鋭く、物事の本質を一瞬で見抜きます。仲間や家族をとても大切にする親分肌・姉御肌な一面も。",
+    talent: "財務・資産運用、起業・独立、人を動かすマネジメント、クリエイティブな表現分野で天賦の才を発揮します。",
+    historicalFigures: "【武田信玄・徳川家光タイプ】生まれ持った求心力と豊かな財運で多くの人々を惹きつけ、身内や仲間を手厚く守りながら繁栄を築いたリーダー像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】天性の引き寄せ運と洞察力に「謙虚さとオープンな心」が加われば、自分だけでなく関わる人すべてを豊かにする本物のカリスマとして、晩年まで栄華と人望に恵まれ続けます。",
+    admonition: "【ダメなところ・星札の戒め】恵まれているがゆえに慢心しやすく、無意識のうちに「上から目線」や特別扱いを求める態度が出やすいのが弱点です。また、秘密主義で猜疑心が強く、身内以外の人間をなかなか信用しません。傲慢さや言葉のトゲを慎み、周囲への感謝を形にして還元しないと、せっかくの財運と人が離れていきます。",
+    health: "心臓・循環器系、血圧、目の疲れや頭痛に注意。朝日を浴びる習慣が吉。",
+    luckyItem: "ゴールドの金具・太陽モチーフ",
+    marriageView: "結婚によってさらに財運と社会的信用が上がる「福徳の星」です。家族にはワンランク上の豊かな暮らしを与えようと奮闘し、身内を全力で守り抜きます。",
+    idealPartner: "あなたのプライドとカリスマ性を立ててくれる品のある人。また、実は寂しがり屋で繊細なあなたの内面を理解し、大きな愛情で丸ごと包み込んでくれる大らかな人が理想的です。",
+    selfApproach: "華やかでモテる星ですが、警戒心が強く本音を見せないため「高嶺の花」と思われがち。自分から親しみやすい笑顔で話しかけ、相手の話を肯定的に聞くだけで恋が動き出します。",
+    targetApproach: "【房宿の人を射止めるには】特別扱いとリスペクトが鍵！「さすがだね」「頼りになる」と自尊心を満たしつつ、少し高級感のあるデートや心のこもったギフトでアプローチすると効果抜群です。"
+  },
+  {
+    index: 4,
+    name: "心宿",
+    short: "心",
+    reading: "しんしゅく",
+    direction: "東方青龍",
+    element: "月曜",
+    nature: "悪害宿",
+    catchphrase: "人の心を映し出し魅了する、神秘のエンターテイナー",
+    personality: "圧倒的な愛嬌と読心術のような洞察力を併せ持ち、どんな人の懐にもスッと入り込める不思議な魅力があります。サービス精神が旺盛で周囲を楽しませる一方、自分の本心は誰にも見せない孤独な一面も抱えています。",
+    talent: "心理・カウンセリング、俳優・表現者、営業、企画広報など、人の心をつかむあらゆる分野で無類の強さを誇ります。",
+    historicalFigures: "【豊臣秀吉・明智光秀タイプ】相手の心を瞬時に読み取って懐に入り込む抜群の愛嬌（人たらし）と、その裏で誰にも言えない繊細な孤独や警戒心を抱えた人物像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】人の痛や本音を誰よりも敏感に察知できる洞察力を、小手先の処世術ではなく「人を救い、喜ばせること」に真っ直ぐ使えたとき、多くの人から愛され慕われる唯一無二の表現者・指導者になれます。",
+    admonition: "【ダメなところ・星札の戒め】他人の心が見えすぎるせいで疑り深くなり、人間不信や被害妄想に陥ると極端な行動に出やすい危うさがあります。また、その場しのぎの嘘や八方美人で本音を隠して人をコントロールしようとする癖も要注意。打算を捨てて「本音で向き合える信頼関係」を築くことが最大の課題です。",
+    health: "精神的な疲労、不眠、胃痛、胸部の圧迫感に注意。水辺の散策や音楽鑑賞が吉。",
+    luckyItem: "パール（真珠）・鏡",
+    marriageView: "心のつながりと絶対的な信頼を最優先する結婚観です。本当に心を許したパートナーにはとことん尽くし、外での顔とは違う甘えん坊で可愛らしい素顔を見せます。",
+    idealPartner: "嘘やごまかしが一切ない、太陽のように裏表のない誠実な人。あなたの繊細な孤独感に気づき、どんな時も味方でい続けてくれる包容力のある相手と結婚すると最高の幸せを掴めます。",
+    selfApproach: "相手の欲しい言葉が分かるため恋愛上手ですが、本命の前では逆に臆病になりがち。サービス精神で盛り上げるだけでなく、「あなたにだけは本当の自分を知ってほしい」と素直な心を開示してみて。",
+    targetApproach: "【心宿の人を射止めるには】洞察力が鋭いのでお世辞や嘘は一瞬で見抜かれます。飾らない本音で接し、急かさずじっくり時間をかけて「絶対に裏切らない安心感」を示すのが最大の攻略法です。"
+  },
+  {
+    index: 5,
+    name: "尾宿",
+    short: "尾",
+    reading: "びしゅく",
+    direction: "東方青龍",
+    element: "火曜",
+    nature: "急速宿",
+    catchphrase: "一途な情熱で道を極める、不屈のスペシャリスト",
+    personality: "これと決めた道を脇目も振らずに突き進む、職人気質の情熱家です。冒険心と闘争本能を秘め、困難な状況ほど燃え上がります。礼節を重んじ、恩義には必ず報いる義理堅い性格です。",
+    talent: "研究開発、専門職・職人技、スポーツ、武道、独自のノウハウを突き詰めるプロフェッショナル領域で大成します。",
+    historicalFigures: "【宮本武蔵・本多忠勝タイプ】お世辞や妥協を嫌い、圧倒的な鍛錬と実力、そして揺るぎない忠義と一途さで道を極めた求道者・猛将の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】脇目も振らずに一つのことを突き詰める集中力と義理堅さをそのまま伸ばしていけば、誰も真似できない領域に到達し、「この分野ならこの人しかいない」と一目置かれる本物の名匠・第一人者になれます。",
+    admonition: "【ダメなところ・星札の戒め】一つのことに熱中するあまり視野が狭くなり、自分の厳しい基準を他人にも押し付けてしまいがちです。言葉がキツく不機嫌さが態度に出やすいため、周囲を萎縮させたり、一度怒ると長く執念深く根に持つのが欠点です。他人のミスを責め立てず、愛嬌と寛容さを忘れないようにしましょう。",
+    health: "痔疾、腸や消化器系の炎症、発熱やケガに注意。辛いものや刺激物の摂りすぎを控えて吉。",
+    luckyItem: "赤瑪瑙（レッドアゲート）・手帳",
+    marriageView: "不器用ですが一途で、結婚したら浮気とは無縁の超・家族思い。言葉で愛を語るよりも、一生懸命働いて家族の生活を守ることで深い愛情を表現します。",
+    idealPartner: "あなたが仕事や趣味に没頭している時間を理解し、温かくサポートしてくれる穏やかな人。また、感情的にならずニコニコと受け流してくれる朗らかな相手と相性抜群です。",
+    selfApproach: "好きになると一直線ですが、真剣すぎて表情が硬くなりがち。「いつもありがとう」と感謝の言葉をマメに伝え、相手のペースに合わせて優しくエスコートすることを意識すると吉。",
+    targetApproach: "【尾宿の人を射止めるには】彼らが打ち込んでいる仕事や専門分野へのリスペクトを示し、興味を持って話を聞くのが一番！義理堅いので、小さな親切や差し入れを続けると深く心に刺さります。"
+  },
+  {
+    index: 6,
+    name: "箕宿",
+    short: "箕",
+    reading: "きしゅく",
+    direction: "東方青龍",
+    element: "水曜",
+    nature: "猛悪宿",
+    catchphrase: "自由と爽快さを愛する、竹を割ったような風雲児",
+    personality: "さっぱりとした気性で、束縛を嫌い自由奔放に生きる行動派です。裏表が全くなく、思ったことをストレートに口にする気持ちの良い性格。度胸があり、どんな大舞台でも物怖じしない強さがあります。",
+    talent: "新規事業の開拓、営業、海外・旅行関連、フリーランス、スピード勝負の現場で圧倒的な突破力を発揮します。",
+    historicalFigures: "【坂本龍馬・前田慶次タイプ】古い常識やしがらみに縛られず、竹を割ったような爽快な気性と抜群の行動力で新しい風を吹き込んだ風雲児の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】裏表のない爽快な突破力に「細部への気配りと継続力」が加われば、誰もが尻込みする難局を笑いながら切り拓く開拓者として、多くの仲間から慕われるリーダーになれます。",
+    admonition: "【ダメなところ・星札の戒め】とにかく「口が災いの元」になりやすく、悪気のない一言やデリカシーのない冗談で人を傷つけて敵を作りがちです。また、計画性がなく大雑把で、勢いよく始めたものの細かい後始末を途中で投げ出す飽きっぽさも要注意。発言する前に一呼吸置くことと、最後までやり切る丁寧さを心がけましょう。",
+    health: "呼吸器系、風邪、スポーツや移動中の突発的なケガに注意。ストレッチが吉。",
+    luckyItem: "ターコイズ・スニーカー",
+    marriageView: "夫婦であってもお互いの自由と自立を尊重する、風通しの良い友達夫婦を目指します。一緒にアウトドアや旅行に出かけるなど、アクティブな家庭を築きます。",
+    idealPartner: "細かいことでネチネチ干渉せず、あなたの自由な行動力を笑って応援してくれる器の大きな人。同時に、あなたの大雑把な部分をさりげなくフォローしてくれるしっかり者が理想的です。",
+    selfApproach: "友達ノリから恋に発展しやすいタイプ。照れ隠しで雑な言葉遣いにならないよう注意し、二人きりの時に見せる「真剣な眼差し」とストレートな告白でギャップを見せると一撃です。",
+    targetApproach: "【箕宿の人を射止めるには】ジメジメした駆け引きや束縛は絶対NG！スポーツ、ドライブ、美味しいお肉やお酒など、スカッと楽しい体験を一緒に共有し、明るくサッパリと好意を伝えましょう。"
+  },
+  {
+    index: 7,
+    name: "斗宿",
+    short: "斗",
+    reading: "としゅく",
+    direction: "北方玄武",
+    element: "木曜",
+    nature: "安住宿",
+    catchphrase: "高潔な理想と精神性を掲げる、カリスマ的な先導者",
+    personality: "精神性が高く、名誉や社会貢献といった大きな理想に向かって努力し続ける星です。不思議と人が集まるカリスマ性があり、晩年に向けてどんどん運気が上昇していく大器晩成型の強運を持っています。",
+    talent: "教育・指導者、宗教・哲学・スピリチュアル、政治・経営、チームを導くリーダー職で高い尊敬を集めます。",
+    historicalFigures: "【徳川家康・聖徳太子タイプ】高い精神性と忍耐力を備え、若い頃の試練をすべて糧にして最終的に多くの人を導く頂点へと登り詰めた大器晩成の指導者像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】持ち前の高い理想と精神性に「素直に人を頼る柔軟さ」が加われば、年齢を重ねるほどに人望と強運が積み上がり、周囲から自然と担ぎ上げられる形で大きな目標を成し遂げられます。",
+    admonition: "【ダメなところ・星札の戒め】プライドと見栄が非常に高く、「分からない」「助けてほしい」と弱音を吐けずに一人で抱え込んで自滅しがちです。また、理想ばかりが高くて現実が追いつかない時に、周囲に説教くさくなったり急に全てを投げ出してしまう極端さがあります。格好つけるのをやめて素直に周囲を頼ることが開運の鍵です。",
+    health: "股関節・坐骨神経痛、肝機能、過労によるめまいに注意。森林浴が吉。",
+    luckyItem: "アメジスト・木製の御朱印帳",
+    marriageView: "精神的な絆と尊敬を何よりも重んじる結婚観です。お互いを高め合えるパートナーシップを求め、家族の精神的な支柱として安定した温かい家庭を作ります。",
+    idealPartner: "教養や品性があり、あなたの高い理想や夢を一緒に語り合える人。また、外で気を張っているあなたが家でだけは赤ちゃんのように甘えられる、母性・父性あふれる相手が最高です。",
+    selfApproach: "尊敬から恋が始まるタイプ。完璧な自分を見せようと背伸びしすぎず、「あなたといると心が休まる」と素直な弱さや可愛げを見せることで、相手との距離がグッと縮まります。",
+    targetApproach: "【斗宿の人を射止めるには】将来の夢や仕事への姿勢を真剣に聞いてリスペクトを伝えましょう。パワースポットや歴史ある場所、景色の綺麗な場所へのデートに誘うと心が大きく動きます。"
+  },
+  {
+    index: 8,
+    name: "女宿",
+    short: "女",
+    reading: "じょしゅく",
+    direction: "北方玄武",
+    element: "土曜",
+    nature: "急速宿",
+    catchphrase: "緻密な努力と強い信念で頂点を目指す実務の達人",
+    personality: "勤勉で礼儀正しく、どんなに地味な努力もコツコツと積み重ねて確実に結果を出していく実力派です。内面は非常に芯が強く、自分にも他人にも厳しいプロ意識を持っています。",
+    talent: "組織の中枢・管理部門、医療・福祉、教育、伝統芸能や資格を活かした専門職で揺るぎない地位を築きます。",
+    historicalFigures: "【春日局・石田三成タイプ】徹底した規律とたゆまぬ実務の積み重ねによって組織の中枢を掌握し、揺るぎない発言力と地位を築き上げた実務家に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】並外れた努力の継続力と緻密な実務能力を、他人のアラ探しではなく「人を育て支える方向」へ発揮できたとき、組織や家庭にとって絶対に替えの効かない中心人物として絶大な信頼を得られます。",
+    admonition: "【ダメなところ・星札の戒め】自分が我慢して努力しているぶん、要領よく立ち回る人やルーズな人を許せず、減点法で厳しく裁いてしまう怖さがあります。また嫉妬心や猜疑心が強く、一度人間関係がこじれると徹底的に相手を排除しようとしがちです。完璧主義を少し緩め、他人の失敗を水に流す心のゆとりを持ちましょう。",
+    health: "婦人科・泌尿器系、冷え性、ストレス性の胃潰瘍に注意。温かいお茶と腹巻が吉。",
+    luckyItem: "ラピスラズリ・シルクのスカーフ",
+    marriageView: "結婚を人生の重要な契約・基盤と捉え、家計管理から教育まで完璧にこなす良妻賢母・良夫賢父タイプ。一途で誠実な分、パートナーにも同じ誠実さを求めます。",
+    idealPartner: "仕事や生活基盤が安定していて、約束を違えない誠実な人。あなたの細やかな気配りや努力を「当たり前」と思わず、毎日言葉にして感謝してくれる穏やかな人が合っています。",
+    selfApproach: "慎重派なので相手を減点法で審査してしまいがち。相手の長所に目を向け、完璧な計画よりも「一緒にいて笑顔になれる時間」を増やすことで、本来の細やかな愛情深さが伝わります。",
+    targetApproach: "【女宿の人を射止めるには】誠実さと清潔感、礼儀正しさが必須条件。日頃の努力や気配りを具体的に褒め、将来のビジョンを含めた真面目なお付き合いを誠実に申し込むのが最も響きます。"
+  },
+  {
+    index: 9,
+    name: "虚宿",
+    short: "虚",
+    reading: "きょしゅく",
+    direction: "北方玄武",
+    element: "日曜",
+    nature: "悪害宿",
+    catchphrase: "宇宙のような想像力と独自の哲学を持つ孤高の賢者",
+    personality: "複雑な感受性とロマンチストな魂を併せ持つ、ミステリアスな人物です。常識にとらわれないスケールの大きな発想力を持ち、直感やひらめきに優れています。身内や仲間には深い愛情を注ぎます。",
+    talent: "学術研究、IT・先端技術、芸術・文筆、占術や哲学など、目に見えない概念や未来を形にする分野で輝く才能があります。",
+    historicalFigures: "【上杉景勝・菅原道真タイプ】世俗的な損得勘定から一歩離れた独自の精神世界と誇りを持ち、静かな佇まいの中に深い義理と洞察を秘めた人物像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】常人には思いつかない豊かな想像力と直感力を、頭の中の空想だけで終わらせず「具体的な形や作品・専門技術」に落とし込めたとき、時代を超える独創的な成果を残すことができます。",
+    admonition: "【ダメなところ・星札の戒め】気分の浮き沈みが激しく、一度ネガティブな虚無感にとらわれると「どうせ誰も理解してくれない」と自分の殻に閉じこもって現実逃避しやすい弱点があります。頭で考えすぎて目の前の連絡や生活のルーティンがおろそかになりがちなので、足元の小さな日常を丁寧に整える習慣をつけましょう。",
+    health: "循環器系、低血圧・貧血、睡眠障害、冷えに注意。規則正しい生活リズムが吉。",
+    luckyItem: "水晶（クリアクォーツ）・天体モチーフ",
+    marriageView: "世間の常識にとらわれない、二人だけのユニークで精神的な結びつきを大切にする結婚観です。一度「この人」と決めると、家族に対して深い慈愛を注ぎます。",
+    idealPartner: "あなたの独特な感性や一人の時間を否定せず、面白がってくれる包容力のある人。また、あなたが考えすぎて落ち込んだ時に、明るい現実感覚でパッと引き上げてくれる陽気な人がベストです。",
+    selfApproach: "ミステリアスで何を考えているか分かりにくいと思われがち。好意は頭の中で考えるだけでなく、小さなプレゼントやマメな連絡など「目に見える行動」で示すと恋が成就します。",
+    targetApproach: "【虚宿の人を射止めるには】プラネタリウム、美術館、夜景や静かなカフェなどロマンチックで知的な空間が◎。相手の趣味や世界観を否定せず、じっくり耳を傾けると特別な存在になれます。"
+  },
+  {
+    index: 10,
+    name: "危宿",
+    short: "危",
+    reading: "きしゅく",
+    direction: "北方玄武",
+    element: "月曜",
+    nature: "軽躁宿",
+    catchphrase: "時代の一歩先を軽やかに駆ける、トレンドの発明家",
+    personality: "好奇心の塊で、新しいもの・珍しいものに目がなく、独自のセンスで周囲をあっ言わせるアイデアマンです。ピュアで憎めない愛されキャラですが、繊細で傷つきやすいガラスのハートも持っています。",
+    talent: "クリエイター、IT・メディア、ファッション・美容、新商品開発など、変化の激しい最先端の業界で才能が開花します。",
+    historicalFigures: "【平賀源内・高杉晋作タイプ】既存の枠組みや常識に縛られず、時代の一歩先を行くユニークな着想と好奇心で周囲を驚かせた発明家・変革者の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】新しいものを嗅ぎ分ける抜群のセンスと発想力に、信頼できる「実務のパートナー（ブレーキ役）」が組み合わされば、時代をリードするヒットメーカーとして大きく飛躍できます。",
+    admonition: "【ダメなところ・星札の戒め】熱しやすく冷めやすい典型で、最初は夢中で飛びつくものの、少しでも飽きると途中で放り出してしまう気まぐれさが最大の欠点です。また、スリルや目先の刺激に弱く、衝動買いや危うい人間関係に流されやすいため、金銭管理と「一つのことを最後まで続ける忍耐」を意識する必要があります。",
+    health: "乗り物酔いや三半規管、アレルギー、神経過敏に注意。アロマや入浴でのリラックスが吉。",
+    luckyItem: "ムーンストーン・最新ガジェット",
+    marriageView: "所帯じみた空気を感じさせない、いつまでも新鮮でスタイリッシュな夫婦関係を好みます。お互いの個性や趣味を尊重できる自由度の高い結婚生活で輝きます。",
+    idealPartner: "あなたの自由な発想と気まぐれを温かく受け止めつつ、現実的なお金や生活のペースを穏やかに整えてくれる「包容力のあるしっかり者」と結婚すると大吉です。",
+    selfApproach: "一目惚れや直感で恋に落ちやすい星。ノリの良さだけでなく、「あなたと将来こんなことも一緒に楽しみたい」と継続的な誠実さを見せることで、本気度がしっかり伝わります。",
+    targetApproach: "【危宿の人を射止めるには】マンネリは大敵！トレンドのスポットやサプライズ感のある誘い方が効果的です。センスやアイデアを褒め、束縛せずに自由な空気感で接すると自然と懐いてきます。"
+  },
+  {
+    index: 11,
+    name: "室宿",
+    short: "室",
+    reading: "しつしゅく",
+    direction: "北方玄武",
+    element: "火曜",
+    nature: "猛悪宿",
+    catchphrase: "豪快なスケールと圧倒的行動力で天下を狙う大物",
+    personality: "自信に満ちあふれ、小さなことにはこだわらない豪放磊落な実力者です。目的のためならどれほど大きな壁にも正面からぶつかっていく突破力があり、自然と多くの人を巻き込んで大きな仕事を成し遂げます。",
+    talent: "起業家・経営者、大規模プロジェクトの統括、建築・都市開発、エンターテインメント業界などで大成功を収めます。",
+    historicalFigures: "【織田信長・平清盛タイプ】圧倒的なスケール感と突破力で古い壁を打ち破り、周囲を巻き込みながら巨大な事業や時代を動かした実力者の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】生まれ持った大物感と行動力に「周囲の意見に耳を傾ける謙虚さ」が加われば、多くの優秀な参謀があなたを支え、個人では到底届かないスケールの大きな事業や目標を達成できます。",
+    admonition: "【ダメなところ・星札の戒め】自己中心的で強引になりやすく、自分のペースで周囲を振り回して細かい配慮を置き去りにしがちです。また、目的のためなら手段を選ばない強引さや傲慢さが出ると、思わぬところで足元をすくわれます。裏方で支えてくれる人々への感謝とデリカシーを忘れないことが重要です。",
+    health: "高血圧、発熱、頭痛、暴飲暴食による生活習慣病に注意。適度な有酸素運動が吉。",
+    luckyItem: "ガーネット・上質な名刺入れ",
+    marriageView: "大黒柱として家族を力強く牽引し、物心両面でスケールの大きな家庭を築きます。身内に対する庇護欲が非常に強く、家族のためならどんな困難も跳ね返します。",
+    idealPartner: "あなたの大きな夢や多忙な日々を応援し、細かい実務や家庭の和を細やかにサポートしてくれる気配り上手な人（参謀タイプ・癒やし系）が最高の結婚相手です。",
+    selfApproach: "情熱的でストレートなアプローチが得意ですが、自分のペースで押し切りすぎないよう注意。相手の体調や小さな変化に気づいて気遣う優しさを見せると、ギャップで一気に惚れられます。",
+    targetApproach: "【室宿の人を射止めるには】頼りがいのあるリーダー気質なので、素直に頼って甘えるのが効果的！結果を出した時に誰よりも早く「すごい！」と称賛し、温かい手料理や癒やしを提供すると手放せなくなります。"
+  },
+  {
+    index: 12,
+    name: "壁宿",
+    short: "壁",
+    reading: "へきしゅく",
+    direction: "北方玄武",
+    element: "水曜",
+    nature: "安住宿",
+    catchphrase: "深き知性と慈愛で人々を支える、鉄壁の参謀",
+    personality: "温厚で誠実、誰に対しても穏やかに接する平和主義者です。知的好奇心が深く、豊富な知識と冷静な判断力で組織や家族を陰からしっかり支えます。困っている人を放っておけない慈悲深さも魅力です。",
+    talent: "参謀・アドバイザー、学術・教育、医療・福祉、経理・財務、執筆や編集など、信頼と正確さが活きる分野で重宝されます。",
+    historicalFigures: "【黒田官兵衛・竹中半兵衛タイプ】自らは一歩引いた参謀の立場に身を置きながら、深い知性と冷静な分析力でトップや組織の命運を実質的に支え抜いた名軍師の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】本来の深い知性と誠実なサポート力に「ここぞという場面で自分の意見を前に出す決断力」が加われば、誰からも頼りにされる名参謀・専門家として一生困らない信用と安定を築けます。",
+    admonition: "【ダメなところ・星札の戒め】慎重すぎて目の前のチャンスを逃したり、頼まれると嫌と言えずに都合よく利用されてしまいがちです。また、表面は穏やかでも心の中に不満を溜め込み、限界を超えると突然心のシャッターを下ろして人間関係を遮断する頑なさがあります。我慢しすぎる前に自分の意思をハッキリ伝える習慣を持ちましょう。",
+    health: "呼吸器・肺、むくみ、胃腸の冷えに注意。白湯を飲む習慣とウォーキングが吉。",
+    luckyItem: "アクアマリン・ブックカバー",
+    marriageView: "二十七宿の中でもトップクラスに家庭運が安定した星です。穏やかで争いごとを好まず、パートナーと子どもを深く愛し、堅実で温かいマイホームを築きます。",
+    idealPartner: "誠実で思いやりがあり、あなたの優しさに甘えすぎず対等に大切にしてくれる人。少し引っ込み思案なあなたを明るくリードしてくれる行動力のある人とも好相性です。",
+    selfApproach: "受け身で様子を見ているうちに恋のチャンスを逃しがち。相談に乗るなど得意のサポート力を活かしつつ、「あなたといると一番安心する」と自分の好意を言葉にして伝えましょう。",
+    targetApproach: "【壁宿の人を射止めるには】ガツガツ急接近するより、まずは信頼できる友人・相談相手として距離を縮めるのが吉。お礼や感謝を丁寧に伝え、穏やかな食事や読書・映画デートに誘いましょう。"
+  },
+  {
+    index: 13,
+    name: "奎宿",
+    short: "奎",
+    reading: "けいしゅく",
+    direction: "西方白虎",
+    element: "木曜",
+    nature: "和善宿",
+    catchphrase: "気品と教養をまとい理想を追求する、清廉な文化人",
+    personality: "礼儀正しく上品で、精神的な豊かさや美しいものを愛する教養人です。金銭欲や世俗的な野心よりも、「心の満足」や「正しい生き方」を重視します。誠実な人柄から周囲の厚い信頼を集めます。",
+    talent: "芸術・音楽・文学、教育・研究、ブライダルやホテルなど品格が求められるサービス、企画職で高い評価を得ます。",
+    historicalFigures: "【紫式部・菅原道真タイプ】高い教養と繊細な美意識を持ち、世俗の打算よりも精神的な品格と誠実さを重んじた文化人・学者の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】生まれ持った気品と豊かな教養に「現実社会の泥臭さをも受け入れるたくましさ」が加われば、周囲から深い尊敬を集めながら、自分の美意識を形にして長く愛される仕事を成し遂げられます。",
+    admonition: "【ダメなところ・星札の戒め】潔癖すぎて世間の泥臭さや他人の俗っぽさを許せず、心の中で人を見下したり自分の殻に閉じこもりがちです。また、理想論ばかりが先行して現実的なお金の交渉や泥臭い実務から逃げてしまう弱さがあります。綺麗事だけでなく現実の生活力もしっかり磨くことが課題です。",
+    health: "神経性の胃炎、足のケガ、目の疲れに注意。美術館巡りや自然散策が吉。",
+    luckyItem: "エメラルド・万年筆や上質なノート",
+    marriageView: "恋愛イコール結婚と考えるほど真面目で誠実な結婚観を持ちます。品が良く丁寧な暮らしを営み、家族の記念日や季節の行事を大切にする素敵な家庭を作ります。",
+    idealPartner: "言葉遣いや立ち居振る舞いに品があり、誠実で嘘をつかない人。また、あなたの理想や美意識を尊重しつつ、現実的な生活面をたくましく支えてくれる人と結ばれると安泰です。",
+    selfApproach: "理想が高く慎重になりすぎるところがあります。条件や完璧さばかりを求めず、一緒にいて「自然体で笑えるか」を基準にし、手紙やメッセージで丁寧に想いを伝えると心に響きます。",
+    targetApproach: "【奎宿の人を射止めるには】下品な冗談やガサツな振る舞いは厳禁！清潔感のある身だしなみと丁寧な言葉遣いを心がけ、美術館・コンサート・雰囲気の良いレストランに誘うのが王道です。"
+  },
+  {
+    index: 14,
+    name: "婁宿",
+    short: "婁",
+    reading: "ろうしゅく",
+    direction: "西方白虎",
+    element: "金曜",
+    nature: "急速宿",
+    catchphrase: "抜群の機転と器用さで人をつなぐ、マルチな調整役",
+    personality: "頭の回転が速く、どんなことも器用にこなす才人です。観察眼に優れ、場の空気を読んで的確に立ち回ることができます。気さくで面倒見が良いため、自然と多くの仲間や相談者が集まってきます。",
+    talent: "コーディネーター、人事・広報、医療・ケア、ペットや動植物に関わる仕事、細かい手作業や技術職で真価を発揮します。",
+    historicalFigures: "【勝海舟・直江兼続タイプ】抜群の頭の回転と対人バランス感覚を備え、異なる立場の人間同士の間を取り持って難局を丸く収めた名調整役・名宰相の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】持ち前の器用さと空気を読む調整力を「器用貧乏」で終わらせず、これと決めた一つの専門分野と掛け合わせたとき、誰にも真似できない唯一無二のキーパーソンとして大きな成功を収めます。",
+    admonition: "【ダメなところ・星札の戒め】自分が器用で要領が良いぶん、手際の悪い人を見るとイライラして皮肉やイヤミ、小言が口から出やすいのが最大の欠点です。また、何でもそつなくこなせるせいで「そこそこ出来る」段階で満足してしまい、大勝負から逃げて安全圏から斜に構えて批評しがちです。他人の粗探しを控え、一つの専門性を最後まで突き詰める姿勢が求められます。",
+    health: "肩こり・首の痛み、大腸・便秘、呼吸器系に注意。ハーブティーでの休息が吉。",
+    luckyItem: "ローズクォーツ・多機能ツール",
+    marriageView: "パートナーのサポートも家事も仕事もテキパキこなす有能な家庭人です。会話とチームワークを重視し、困った時は二人で知恵を出し合って乗り越える賢い夫婦になります。",
+    idealPartner: "あなたの細やかな気配りや頑張りにちゃんと気づいて「いつもありがとう」と労ってくれる器の大きな人。あなたが気疲れした時に、明るく大らかに包み込んでくれる相手がベストです。",
+    selfApproach: "気配り上手で異性からも頼られますが、「いい人・便利な人」で終わらないよう注意！時には自分が甘えたり頼ったりする隙を見せ、二人きりの特別なお出かけに誘うのが効果的です。",
+    targetApproach: "【婁宿の人を射止めるには】いつも周りに気を使って頑張っている人なので、「無理してない？」「〇〇さんがいてくれて本当に助かる」と具体的な気配りを褒めて労わると、心のガードが一気に解けます。"
+  },
+  {
+    index: 15,
+    name: "胃宿",
+    short: "胃",
+    reading: "いしゅく",
+    direction: "西方白虎",
+    element: "土曜",
+    nature: "急速宿",
+    catchphrase: "不屈の闘志とユーモアを兼ね備えた、自立のチャレンジャー",
+    personality: "エネルギッシュで生命力にあふれ、どんな逆境も自力で跳ね返すタフな星です。普段はユーモアたっぷりで人を笑わせるのが好きですが、いざ勝負となると驚くほどの集中力と闘争心を見せます。",
+    talent: "独立開業、飲食・フードビジネス、エンターテインメント、競争の激しい営業やスポーツの世界で頭角を現します。",
+    historicalFigures: "【真田幸村・西郷隆盛タイプ】逆境になればなるほど闘志が燃え上がる不屈のバイタリティと、普段の飾らない人間味・ユーモアで人々を惹きつけた人物像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】持ち前のタフな行動力と人を楽しませるユーモアに「感情のコントロールと協調性」が加われば、どんな逆境からでも自分の腕一本で道を切り拓く頼もしいリーダーとして大成します。",
+    admonition: "【ダメなところ・星札の戒め】短気で好き嫌いが激しく、人を「敵か味方か」で極端に分けすぎる傾向があります。思い通りにならないとカッとなって強い言葉をぶつけたり、誰にも頼らず強がって無理を重ね、暴飲暴食や衝動的な行動に走りがちです。感情的な衝突を避け、周囲と助け合う素直さを身につけることが課題です。",
+    health: "文字通り胃腸疾患、食べ過ぎ・飲み過ぎ、ストレス性の胃痛に注意。腹八分目が吉。",
+    luckyItem: "シトリン（黄水晶）・こだわりの食器",
+    marriageView: "美味しい食卓と笑顔があふれる、パワフルで賑やかな家庭を築きます。頼りがいがあり、家族をどんな困難からも守り抜く強い責任感を持っています。",
+    idealPartner: "裏表がなく朗らかで、美味しいものを一緒に「美味しいね！」と笑顔で食べられる人。あなたの強がりな性格を理解し、上手に立てながら手のひらで転がしてくれる包容力のある人が最高です。",
+    selfApproach: "好きな人の前でもつい強がったり照れ隠しで憎まれ口を叩きがち。美味しいお店に誘ってご馳走したり、素直に「あなたといると元気が出る」と伝えるだけで魅力が倍増します。",
+    targetApproach: "【胃宿の人を射止めるには】「胃袋をつかむ」のが文字通り最強の攻略法！美味しい食事や手料理を一緒に楽しみ、相手のユーモアでたくさん笑い、頼りにしていることを伝えるとコロッと落ちます。"
+  },
+  {
+    index: 16,
+    name: "昴宿",
+    short: "昴",
+    reading: "ぼうしゅく",
+    direction: "西方白虎",
+    element: "日曜",
+    nature: "剛柔宿",
+    catchphrase: "気高き美意識と知性で輝く、誇り高きスター星",
+    personality: "二十七宿の中でも特に芸術性と名誉運に恵まれた気品ある星です。美しいものや一流のものを愛し、知的で洗練された雰囲気をまとっています。普段は穏やかですが、自分の信念は決して曲げない芯の強さがあります。",
+    talent: "芸術・デザイン・美容、学術・文筆、ブランドビジネス、格式ある業界で周囲の憧れを集めながら成功します。",
+    historicalFigures: "【清少納言・足利義満タイプ】洗練された美意識と高い教養を備え、華やかな文化や名誉の中心でひときわ強い存在感を放った人物像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】生まれ持った美意識と知性を、外見や肩書きだけでなく「泥臭い基礎の積み重ね」で裏打ちできたとき、周囲が自然と憧れて引き立ててくれる一流の表現者・文化人として輝きます。",
+    admonition: "【ダメなところ・星札の戒め】プライドが高く選民意識を持ちやすいため、本人に悪気はなくても「お高くとまっている」「上から目線」と周囲から敬遠されがちです。また、泥臭い下積みを嫌がったり、お世辞や褒め言葉に弱く見栄でお金を使いすぎる面もあります。誰に対しても分け隔てなく謙虚に接することが開運の鍵です。",
+    health: "喉・扁桃腺、首筋の冷え、眼精疲労に注意。質の高い睡眠環境を整えると吉。",
+    luckyItem: "ルビー・シルクのハンカチ",
+    marriageView: "結婚後も品格と美意識を保ち、周囲から羨まれるような洗練された家庭を築きます。玉の輿やステータスのある結婚に縁が深く、パートナーの運気も引き上げます。",
+    idealPartner: "教養とセンスがあり、あなたのプライドや美意識を尊重してくれる人。また、穏やかで経済的・精神的にゆとりがあり、あなたをプリンセス・プリンスのように大切に扱ってくれる人が理想です。",
+    selfApproach: "憧れの的になりやすい反面、「近寄りがたい」と遠慮されがち。自分から柔和な笑顔で話しかけ、相手のセンスや良いところを褒めて親しみやすさを出すと一気にモテ運が開花します。",
+    targetApproach: "【昴宿の人を射止めるには】ムードと品格が命！ロマンチックな演出や話題のレストラン、美しい景色など「特別感のあるエスコート」に弱いです。外見やセンスを丁寧に褒めましょう。"
+  },
+  {
+    index: 17,
+    name: "畢宿",
+    short: "畢",
+    reading: "ひっしゅく",
+    direction: "西方白虎",
+    element: "月曜",
+    nature: "安住宿",
+    catchphrase: "揺るぎない信念で大願を成就させる、大器晩成の横綱",
+    personality: "おっとりして見えますが、一度決めたことは何年かかってもやり遂げる驚異的な粘り強さと信念の持ち主です。誠実でウソがつけず、着実に財と信用を築き上げていく安定感抜群の星です。",
+    talent: "金融・資産管理、農業・建築・不動産、研究職、長期プロジェクトの推進など、堅実さと継続力が活きる分野で無敵です。",
+    historicalFigures: "【大山巌・徳川秀忠タイプ】どれほど周囲が騒がしくても動じない大樹のような落ち着きを持ち、着実な歩みで組織や家の土台を盤石に固めた大人物の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】お世辞やごまかしのない誠実さと、何年でも続けられる継続力をそのまま積み重ねていけば、時間が経つほどに周囲の誰よりも厚い信用と大きな資産を築く大器晩成の成功者になれます。",
+    admonition: "【ダメなところ・星札の戒め】頑固一徹で変化への対応が遅く、自分のペースを乱されると無言で殻に閉じこもりテコでも動かなくなる面があります。また、自分が納得しない限り他人の意見を一切聞き入れない強情さや、お金や所有物への執着が強くなりすぎる傾向に注意。時代の変化や周囲の意見を取り入れる柔軟さを持ちましょう。",
+    health: "首・肩・背中、甲状腺、甘いものの摂りすぎによる体重増加に注意。適度な散歩が吉。",
+    luckyItem: "翡翠（ジェイド）・陶器の器",
+    marriageView: "恋愛のスピードはゆっくりですが、結婚運・家庭運は二十七宿屈指の大吉！一度結ばれると揺るぎない信頼と経済力で、平和で豊かな家庭を生涯守り続けます。",
+    idealPartner: "誠実で家庭的、あなたのマイペースな歩調を急かさずゆったり寄り添ってくれる人。自然や美味しい食事、穏やかな日常を一緒に味わえる価値観の人がぴったりです。",
+    selfApproach: "じっくり愛を育てるタイプなので、焦って結論を出そうとしなくて大丈夫。持ち前の聞き上手さと穏やかな笑顔で「一緒にいるとホッとする存在」になることが最強のアプローチです。",
+    targetApproach: "【畢宿の人を射止めるには】急かしたり強引に迫るのはNG！相手のペースを尊重し、落ち着いたカフェや自然豊かな場所でゆっくり時間を共有しながら、誠実で変わらない好意を伝え続けましょう。"
+  },
+  {
+    index: 18,
+    name: "觜宿",
+    short: "觜",
+    reading: "ししゅく",
+    direction: "西方白虎",
+    element: "火曜",
+    nature: "和善宿",
+    catchphrase: "博学多才な知性と弁舌で道を切り拓く理論派",
+    personality: "知的好奇心が非常に強く、豊富な知識と論理的な思考力を持つインテリ星です。礼儀正しく落ち着いた物腰ですが、議論や交渉の場では鋭い分析力と説得力のある言葉で相手を納得させます。",
+    talent: "コンサルタント、法曹・税務、教育・講師、ライター・批評、計画立案など、知識と言葉を武器にする仕事で輝きます。",
+    historicalFigures: "【諸葛孔明・福沢諭吉タイプ】圧倒的な知識量と理路整然とした論理・言葉の力を武器に、世の中の仕組みを解き明かして人々を導いた知性派の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】鋭い分析力と豊富な知識に「相手の感情を包み込む温かさ」と「自ら動く実行力」が伴えば、ただの物知りにとどまらず、多くの人が教えを請いに集まる最高の知恵袋・指導者になれます。",
+    admonition: "【ダメなところ・星札の戒め】理屈っぽく口が達者すぎるため、悪気なく正論で相手を論破したり、言葉尻を捉えて揚げ足を取ってしまう癖に要注意です。頭でっかちで行動が伴わない「口先だけの批評家」と見られたり、「議論に勝って人を失う」ことがないよう、正論よりも相手の気持ちへの共感を優先しましょう。",
+    health: "気管支・喘息、口内炎、脳の疲労や肩こりに注意。デジタルデトックスが吉。",
+    luckyItem: "サファイア・メガネや読書灯",
+    marriageView: "知的な会話と計画性を大切にする、落ち着いた大人の結婚生活を送ります。家計管理や将来設計も緻密で、安心感のある堅実な家庭を築きます。",
+    idealPartner: "知的な会話を楽しめて、あなたの知識や考え方に敬意を払ってくれる人。また、頭でっかちになりがちなあなたを温かい感情と笑顔で柔らかく包んでくれる素直な人が合っています。",
+    selfApproach: "好きな人に対してもつい理屈やアドバイスから入ってしまいがち。恋愛では正論よりも「共感」と「優しさ」を意識し、「あなたのそういうところが好き」と感情を素直に伝えると大成功します。",
+    targetApproach: "【觜宿の人を射止めるには】知的好奇心をくすぐる会話や、相手の得意分野について質問して教えてもらうスタンスが効果抜群！「物知りだね」「話していると勉強になる」と知性を褒めましょう。"
+  },
+  {
+    index: 19,
+    name: "参宿",
+    short: "参",
+    reading: "しんしゅく",
+    direction: "西方白虎",
+    element: "水曜",
+    nature: "猛悪宿",
+    catchphrase: "大胆不敵な改革精神で時代を動かすエネルギーの塊",
+    personality: "怖いもの知らずの冒険心と、古い枠組みを打ち破る改革のエネルギーに満ちた星です。明るく陽気で人を惹きつける華があり、新しい世界や未知の分野へ果敢に飛び込んで道を切り拓きます。",
+    talent: "ベンチャー起業、企画・マーケティング、メディア・芸能、変革期のリーダーとして時代を牽引する力があります。",
+    historicalFigures: "【伊達政宗・高杉晋作タイプ】既存の古いルールや退屈な常識に縛られず、大胆な発想とスピード感あふれる行動力で新しい時代を切り拓いた改革者の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】未知の分野へ飛び込む大胆な突破力に「最後までやり抜く粘り強さ」と「周囲への敬意」が加われば、停滞した現状を鮮やかに変革するパイオニアとして大きな功績を残せます。",
+    admonition: "【ダメなところ・星札の戒め】言葉がストレートすぎて毒舌や過激な発言になりやすく、既存のルールや目上の人と不必要な衝突を起こして波乱を招きがちです。また、新しいことを立ち上げるのは得意でも、飽きると後始末を投げ出して周囲を混乱させる傾向があります。「壊すこと」だけでなく「守り育てること」を学ぶ必要があります。",
+    health: "呼吸器系、怪我や火傷、過労による免疫低下に注意。湯船に浸かってしっかり休むのが吉。",
+    luckyItem: "ラブラドライト・旅グッズ",
+    marriageView: "型にはまらない自由でエネルギッシュな家庭を築きます。夫婦で新しいビジネスや趣味に挑戦するなど、刺激と笑いに満ちたパートナーシップになります。",
+    idealPartner: "あなたの奇想天外なアイデアや挑戦を面白がって応援してくれる器の大きな人。同時に、あなたが暴走しそうな時に明るくユーモアで手綱を引いてくれる落ち着きのある人が理想的です。",
+    selfApproach: "持ち前の明るさと行動力で一気に距離を縮められます！ただし言葉がストレートすぎることがあるので、相手の気持ちを丁寧に確認しながら情熱的にエスコートすると恋が実ります。",
+    targetApproach: "【参宿の人を射止めるには】退屈やルーティンを嫌うので、行ったことのない場所への旅行や新しい体験型デートに誘うのが◎！相手の挑戦を肯定し、一緒にワクワクを楽しむ姿勢を見せましょう。"
+  },
+  {
+    index: 20,
+    name: "井宿",
+    short: "井",
+    reading: "せいしゅく",
+    direction: "南方朱雀",
+    element: "木曜",
+    nature: "軽躁宿",
+    catchphrase: "クールな知性と緻密な計算で勝利をつかむ策士",
+    personality: "感情に流されず、常に冷静沈着に状況を分析できる理知的な人です。几帳面で合理性を重んじ、無駄を嫌います。一見クールですが、弱い立場の人を助ける義侠心や、家庭・仲間を大切にする温かさも秘めています。",
+    talent: "IT・エンジニア、経営企画、会計・法務、医療、緻密な戦略とマルチタスクが求められるあらゆる専門職で重宝されます。",
+    historicalFigures: "【大久保利通・竹中半兵衛タイプ】感情論に流されることなく、常に冷静な計算と緻密な実務能力で最も確実な解決策を導き出した実務家・軍師の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】冷静沈着な分析力と正確な実務処理能力に「人の感情や非合理な温かみを汲み取る包容力」が加われば、どんな危機的状況でも頼りにされる最高の戦略家・リーダーになれます。",
+    admonition: "【ダメなところ・星札の戒め】物事を損得や効率・理屈で割り切りすぎるため、周囲から「冷たい人」「計算高い人」と誤解されやすいのが欠点です。また、相手の痛いところを突く皮肉っぽい一言で反感を買ったり、感情的なケアを「無駄」と切り捨ててしまいがちです。理屈だけでなく「情」や温かい言葉掛けを大切にしましょう。",
+    health: "肺・気管支、手足の神経痛、眼精疲労に注意。深呼吸と軽いジョギングが吉。",
+    luckyItem: "ペリドット・腕時計",
+    marriageView: "実は非常に家庭思いで、結婚後は家族の生活と安全を緻密に守り抜く良きパートナーになります。無駄遣いをせず、計画的で快適な暮らしを実現します。",
+    idealPartner: "感情の起伏が穏やかで、自立した精神を持っている人。あなたのクールな言葉の裏にある「不器用な優しさ」をちゃんと理解し、温かい笑顔で家庭を明るくしてくれる人が最高です。",
+    selfApproach: "頭の中でシミュレーションしすぎて行動が遅れがち。合理的なサポートで相手を助けつつ、言葉で「あなたが大切だ」と少し照れながらでも直接伝えることで、クールさとのギャップが輝きます。",
+    targetApproach: "【井宿の人を射止めるには】感情論で振り回したり、時間をルーズにするのはNG。約束を守り、相手がしてくれた段取りや気遣いに気づいて感謝を伝えると、一気に心を開いてくれます。"
+  },
+  {
+    index: 21,
+    name: "鬼宿",
+    short: "鬼",
+    reading: "きしゅく",
+    direction: "南方朱雀",
+    element: "金曜",
+    nature: "急速宿",
+    catchphrase: "境界を越えて自由に羽ばたく、好奇心と博愛の旅人",
+    personality: "公明正大でオープンマインド、誰とでもすぐに打ち解けられる不思議な包容力を持った星です（仏陀の宿とも伝えられます）。常識や国境にとらわれない自由な感性を持ち、直感的に幸運をつかみ取ります。",
+    talent: "国際的なビジネス、クリエイティブ、観光・イベント、NPOや社会活動、自由度の高い環境で天性のひらめきが活きます。",
+    historicalFigures: "【空海・ジョン・レノンタイプ】身分や国境、既存の常識の壁を軽やかに飛び越え、誰に対してもフラットな博愛精神と自由な発想で人々を魅了した人物像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】固定観念にとらわれない自由な発想と誰をも受け入れる器の大きさに「足元の生活基盤を固める継続力」が加われば、多くの人に慕われながら唯一無二のライフスタイルを実現できます。",
+    admonition: "【ダメなところ・星札の戒め】移り気で放浪癖があり、興味が他へ移ると急に連絡が途絶えたり、現実的なお金や生活の手続きを放置してしまう無頓着さが弱点です。また、外の人には誰にでも優しい反面、一番身近な家族やパートナーを放ったらかしにして寂しい思いをさせがちです。足元の責任と連絡を怠らないようにしましょう。",
+    health: "胃腸の疲れ、水分代謝・むくみ、旅先での体調変化に注意。旬の食材を味わうと吉。",
+    luckyItem: "ムーンストーン・パスポートケース",
+    marriageView: "重苦しい束縛のない、オープンで爽やかな結婚生活を好みます。パートナーと一緒に旅をしたり、多くの友人が集まる賑やかで風通しの良い家庭を作ります。",
+    idealPartner: "あなたをカゴの中に閉じ込めようとせず、自由な感性を愛してくれる懐の深い人。そして現実的な家計や生活の錨（いかり）となって、帰る場所を温かく守ってくれる人がベストです。",
+    selfApproach: "誰にでも優しくフランクなため、「友達として好きなのか異性として好きなのか分からない」と思われがち。本命の人にはマメに連絡し、「あなたが一番特別」と言葉と態度で明確に示しましょう。",
+    targetApproach: "【鬼宿の人を射止めるには】束縛や嫉妬で縛り付けると風のように逃げてしまいます。一緒に旅行やイベントを楽しみ、「あなたといると自由で楽しい！」と思わせる心地よい空気感が最大の武器です。"
+  },
+  {
+    index: 22,
+    name: "柳宿",
+    short: "柳",
+    reading: "りゅうしゅく",
+    direction: "南方朱雀",
+    element: "土曜",
+    nature: "猛悪宿",
+    catchphrase: "柳の枝のようにしなやかで折れない、情熱と知略の星",
+    personality: "物腰は穏やかで人当たりが良いですが、内面には凄まじい情熱と「絶対に負けない」という強い執念を秘めています。自分が惚れ込んだ分野や人に対しては、徹底的に尽くし抜く一途さがあります。",
+    talent: "交渉・外交、研究・専門分野の追求、経営、スポーツや勝負の世界など、粘り強さと知略が試される場で圧倒的な強さを発揮します。",
+    historicalFigures: "【毛利元就・北条早雲タイプ】普段は柳の枝のように柔らかく穏やかに振る舞いながら、胸の内には誰にも負けない情熱と緻密な知略を秘め、最後に勝利をつかんだ智将の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】自分が惚れ込んだ対象への凄まじい集中力と粘り強さを、個人的な執着ではなく「専門分野の探求や人を守ること」へ昇華できたとき、誰にも掘り崩せない圧倒的な実績を打ち立てられます。",
+    admonition: "【ダメなところ・星札の戒め】思い込みや執着心が非常に強く、一度怒りや嫉妬に火がつくと誰の言葉も耳に入らなくなる激しさがあります。特に人間関係や恋愛で独占欲が暴走したり、裏切られたと感じた時にいつまでも許せない執念深さが顔を出します。柳のように風を受け流す「手放す余裕」を持つことが最大の課題です。",
+    health: "消化器系、頭痛、ストレスによる食いしばりや肩こりに注意。ゆったりした入浴が吉。",
+    luckyItem: "オニキス・和風の扇子や香り袋",
+    marriageView: "一度結婚するとパートナーと家族に深い愛情を注ぎ、何があっても味方であり続ける頼もしい存在になります。身内への愛が深いぶん、秘密のない誠実な関係を求めます。",
+    idealPartner: "裏表がなく一途にあなたを愛してくれる、穏やかで包容力のある人。あなたの情熱やこだわりを否定せず、「すごいね」と受け止めてくれる温厚なパートナーと結ばれると大吉です。",
+    selfApproach: "好きになると一途に尽くしますが、相手への要求も強くなりがち。相手をコントロールしようとせず、持ち前の聞き上手さと包容力で相手をリラックスさせることを意識すると恋が叶います。",
+    targetApproach: "【柳宿の人を射止めるには】隠し事や他の異性の影を見せる駆け引きは絶対禁物！真っ直ぐな好意と誠実さを貫き、相手が情熱を注いでいる話を熱心に聞いて共感すると深く愛されます。"
+  },
+  {
+    index: 23,
+    name: "星宿",
+    short: "星",
+    reading: "せいしゅく",
+    direction: "南方朱雀",
+    element: "日曜",
+    nature: "急速宿",
+    catchphrase: "独自の王国を築き上げる、誇り高き努力の覇者",
+    personality: "既存の枠に収まらず、自分だけの城（独自の世界観やビジネス）をゼロから築き上げるエネルギーに満ちた星です。責任感が強く、どれほど地味な下積みも厭わない努力家で、独特のカリスマ性があります。",
+    talent: "独立起業、クリエイティブディレクター、伝統と革新を融合させる仕事、政治・組織のトップとして独自の道を切り拓きます。",
+    historicalFigures: "【木戸孝允（桂小五郎）・本田宗一郎タイプ】既成のレールに乗ることを嫌い、泥臭い下積みと独自の工夫を積み重ねて「自分だけの城・オリジナルの世界」を築き上げた開拓者の姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】どんな地味な努力も厭わない粘り強さと独自の世界観に「周囲の意見を取り入れる素直さ」が加われば、他の誰にも真似できない一国一城の主として揺るぎない成功をつかめます。",
+    admonition: "【ダメなところ・星札の戒め】自我とこだわりが強すぎて頑固になり、自分のやり方やマイルールを周囲にも押し付けて孤立しやすい傾向があります。また、不器用で感謝や愛情を言葉にするのをサボるため、「ワンマンで可愛げがない」と誤解されて損をしがちです。他人の意見に耳を傾け、感謝を言葉に出す習慣を持ちましょう。",
+    health: "心臓・背中、過労による慢性疲労、目の充血に注意。太陽の光を浴びる散歩が吉。",
+    luckyItem: "タイガーアイ・オーダーメイドの品",
+    marriageView: "自分の家庭という「城」をとても大切にし、責任感を持って家族を養い守ります。お互いに自分の夢やこだわりを持ちながら支え合う、誇り高い夫婦関係を築きます。",
+    idealPartner: "あなたの独自のこだわりや仕事への情熱をリスペクトし、応援してくれる人。また、古風な礼節や思いやりを持ち、あなたの頑固さを柔らかな笑顔で溶かしてくれる人が理想的です。",
+    selfApproach: "不器用で自分のペースを崩すのが苦手なため、恋愛でも俺様・女王様風に見られがち。「あなたの意見も聞きたいな」と相手に歩み寄り、日頃の感謝を言葉にすると一気に距離が縮まります。",
+    targetApproach: "【星宿の人を射止めるには】相手のこだわりや夢、努力のプロセスを認めて褒めるのが一番の近道！頭ごなしに否定せず、「あなたのそういう独自の視点が素敵だね」と敬意を示すと心を掴めます。"
+  },
+  {
+    index: 24,
+    name: "張宿",
+    short: "張",
+    reading: "ちょうしゅく",
+    direction: "南方朱雀",
+    element: "月曜",
+    nature: "和善宿",
+    catchphrase: "華やかな存在感と面倒見の良さで愛されるドラマチック星",
+    personality: "どこにいても自然と目を引く華やかさと、面倒見の良い親分肌を兼ね備えています。ドラマチックな人生を好み、周囲を盛り上げるエンターテイナーですが、実はとても常識的で気配り上手な一面もあります。",
+    talent: "接客・サービス、芸能・音楽、広報・PR、チームのまとめ役など、人前に立ち周囲を魅了するポジションで大きく輝きます。",
+    historicalFigures: "【浅井長政・出雲阿国タイプ】周囲の視線を自然と惹きつける華やかなスター性と、仲間や後輩を気前よく盛り上げる親分肌・姉御肌の魅力を兼ね備えた人物像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】生まれ持った華やかさと面倒見の良さに「地道な実務の継続」と「身近な人への丁寧な感謝」が伴えば、表舞台で多くの人を魅了し続ける人気のリーダーとして長く輝けます。",
+    admonition: "【ダメなところ・星札の戒め】見栄っ張りで外面の良さに気を使いすぎる反面、家に帰ると家族や恋人など親しい相手にワガママや不機嫌さをぶつける「内弁慶」になりやすいのが欠点です。また、話が大きくなりがちで地道な作業を嫌う傾向があるため、「口先だけ」と言われないよう実行力を伴わせることが大切です。",
+    health: "呼吸器・喉、むくみ、ホルモンバランスの乱れに注意。質の良い睡眠と保湿が吉。",
+    luckyItem: "ピンクトルマリン・華やかなストール",
+    marriageView: "結婚後もいつまでも若々しく華やかで、記念日やイベントを全力で楽しむ明るい家庭を築きます。面倒見が良く、家族や親戚づきあいも上手にこなします。",
+    idealPartner: "あなたの華やかさを自慢に思い、たくさん褒めて愛してくれる人。また、外で気を使って疲れたあなたが家で少しくらいワガママを言っても、笑って受け止めてくれる包容力のある人が最高です。",
+    selfApproach: "華やかでモテますが、プライドが邪魔をして自分から素直に甘えられないことも。見栄を張らずに「あなたに一番頼りたい」と素顔を見せることで、本命の相手と深く結ばれます。",
+    targetApproach: "【張宿の人を射止めるには】ドラマチックな演出と褒め言葉に弱い星！外見やファッション、気配りを惜しみなく褒め、少し特別感のあるレストランや夜景デートでストレートに想いを伝えましょう。"
+  },
+  {
+    index: 25,
+    name: "翼宿",
+    short: "翼",
+    reading: "よくしゅく",
+    direction: "南方朱雀",
+    element: "火曜",
+    nature: "安住宿",
+    catchphrase: "高い理想と完璧主義で世界へ羽ばたく、孤高の紳士・淑女",
+    personality: "正義感が強く、不正や妥協を許さない真面目で高潔な性格です。自分の力でどこまで通用するか試したいという向上心があり、海外や遠い土地にも縁があります。じっくり時間をかけて大成する実力派です。",
+    talent: "海外事業、学術・専門職、教育、芸術・職人分野など、高いクオリティと粘り強さが求められる世界で名を成します。",
+    historicalFigures: "【吉田松陰・真田信之タイプ】私利私欲や妥協を排して自らの高い理想と責任感を貫き、誠実な努力の積み重ねによって周囲の厚い信頼を勝ち得た人物像に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】手を抜かない誠実な努力と高い志に「他人の不完全さを笑って許す柔軟さ」が加われば、国内外を問わず広い世界で信頼を集める一流の専門家・指導者として大成します。",
+    admonition: "【ダメなところ・星札の戒め】理想が高すぎて現実や他人に失望しやすく、真面目すぎるあまり融通の利かない頑固さや説教くささが顔を出します。自分にも他人にも100点満点を求めて減点法で見てしまうため、周囲を息苦しくさせがちです。「60点でも良しとする」寛容さとユーモアを持つことが最大の課題です。",
+    health: "肩甲骨・背中のこり、発熱、目の疲れや偏頭痛に注意。ストレッチやヨガが吉。",
+    luckyItem: "ラピスラズリ・羽根モチーフの小物",
+    marriageView: "浮ついたところが一切なく、結婚に対して非常に誠実で責任感が強い星です。お互いの人格を尊重し合い、知的で落ち着いた品格ある家庭を築き上げます。",
+    idealPartner: "誠実で嘘をつかず、あなたの高い理想や仕事を理解して支えてくれる人。また、真面目すぎるあなたの肩の力を抜いてくれる、明るくて大らかなユーモアのある人がベストパートナーです。",
+    selfApproach: "真面目すぎて恋愛でも固くなり、減点方式で相手を見てしまいがち。相手のちょっとした長所を見つけて褒め、完璧なデートプランよりも「一緒に笑うこと」を意識すると恋がスムーズに進みます。",
+    targetApproach: "【翼宿の人を射止めるには】軽薄なノリや駆け引きはNG。礼儀正しく誠実に接し、相手の仕事観や夢に深い敬意を表しましょう。落ち着いた雰囲気での知的な会話や旅の話題が心を近づけます。"
+  },
+  {
+    index: 26,
+    name: "軫宿",
+    short: "軫",
+    reading: "しんしゅく",
+    direction: "南方朱雀",
+    element: "水曜",
+    nature: "急速宿",
+    catchphrase: "繊細な感性とフットワークで人を癒やす、名サポーター",
+    personality: "控えめで物静かに見えますが、内面は非常にフットワークが軽く、かゆいところに手が届く気配りの達人です。観察力と直感力に優れ、社交場よりも少人数の深い人間関係の中で真の魅力を発揮します。",
+    talent: "秘書・サポート業務、癒やし・セラピー、IT・分析、執筆・デザイン、国際関連など、細やかな感性が活きる仕事で重宝されます。",
+    historicalFigures: "【高台院（ねね）・千利休タイプ】自らが表舞台で騒ぐよりも、細やかな観察眼と行き届いた気配りで場の空気を整え、主役や組織を陰から完璧に支えた名サポーターの姿に通じます。",
+    ifPotential: "【もしも良きところを伸ばし切ったら（IF）】他の人が気づかない微細な変化を察知する感性と軽快なフットワークを、取り越し苦労ではなく「自分の専門スキルや癒やしの仕事」に集中させたとき、誰からも感謝される名参謀・スペシャリストになれます。",
+    admonition: "【ダメなところ・星札の戒め】神経質で他人の顔色をうかがいすぎるあまり、勝手に気疲れや不満を溜め込み、限界が来ると前触れなく人間関係をすべてリセットして殻に閉じこもる癖があります。また、取り越し苦労や愚痴が多くなりやすい点にも注意。いい人を演じすぎず、自分の要望を言葉で伝える図太さを持ちましょう。",
+    health: "自律神経、手足の冷え、皮膚トラブル、胃腸の弱りに注意。半身浴とハーブが吉。",
+    luckyItem: "アメジスト・手触りの良いハンカチ",
+    marriageView: "パートナーを陰から細やかに支える献身的な結婚観を持ちます。穏やかで清潔感のある居心地の良い空間を作り、家族の心身の健康を優しく守ります。",
+    idealPartner: "デリカシーがあり、あなたの繊細な心と気遣いを大切に扱ってくれる優しい人。また、迷いがちなあなたを温かくリードし、安心感を与えてくれる頼もしい人と結婚すると幸せになれます。",
+    selfApproach: "相手の顔色を読みすぎて自分の好意を隠してしまいがち。得意の細やかな気遣いに加えて、「〇〇さんと一緒だとすごく楽しい」と小さな好意を言葉で積み重ねると確実に相手の心に届きます。",
+    targetApproach: "【軫宿の人を射止めるには】大人数の騒がしい場より、少人数や二人きりの静かで落ち着いた空間が◎。相手の細やかな優しさに気づいて「いつも気遣ってくれてありがとう」と伝えると深く信頼されます。"
+  }
+];
+
+// 九曜星（当年星・廻り星）数え年 % 9 による9つの星
+const KUYOSEI_TONEN_DATA = {
+  1: {
+    name: "羅睺星",
+    reading: "らごうせい",
+    fortune: "大凶（八方塞がり・潜龍の年）",
+    rank: "caution",
+    color: "#c93b2b",
+    summary: "九曜星の中で最も慎みが求められる「八方塞がり」の星回り。無理な前進や新規拡大を控え、内面を磨くことで災いを福へと転じる年です。",
+    advice: "見込み違いや人間関係の誤解、衝動的な出費や転職に注意。今年は「守り」と「学び」に徹し、神社仏閣への参拝や身の回りの整理整頓を心がけると厄除けになります。",
+    ages: "1, 10, 19, 28, 37, 46, 55, 64, 73, 82, 91歳"
+  },
+  2: {
+    name: "土曜星",
+    reading: "どようせい",
+    fortune: "半吉（運気の転換・足元固めの年）",
+    rank: "mixed",
+    color: "#8c6d3f",
+    summary: "大凶星を抜けて運気が少しずつ回復へ向かう変わり目の星回り。前半は慎重に足元を固め、後半から徐々に光が見えてきます。",
+    advice: "焦って結果を求めず、健康管理や生活基盤の見直しを優先しましょう。契約事や移動時のうっかりミスに気をつければ、後半に嬉しい実りがあります。",
+    ages: "2, 11, 20, 29, 38, 47, 56, 65, 74, 83, 92歳"
+  },
+  3: {
+    name: "水曜星",
+    reading: "すいようせい",
+    fortune: "小吉（引き立て・流動の年）",
+    rank: "good",
+    color: "#2b6cb0",
+    summary: "運気が流れ始め、目上の人からの引き立てや新しいご縁に恵まれやすい好調な星回りです。",
+    advice: "交際範囲が広がり楽しい出来事が増えますが、調子に乗って散財したり口を滑らせると凶に転じます。水辺のレジャーや身内の出費には余裕を持って対応を。",
+    ages: "3, 12, 21, 30, 39, 48, 57, 66, 75, 84, 93歳"
+  },
+  4: {
+    name: "金曜星",
+    reading: "きんようせい",
+    fortune: "半吉（輝く実り・謙虚の年）",
+    rank: "mixed",
+    color: "#d69e2e",
+    summary: "物事が快調に進み、才能や魅力が周囲に認められやすい華やかな星回りです。",
+    advice: "金運や対人運が活発になりますが、慢心や見栄・贅沢が過ぎると一転してトラブルを招きます。謙虚な姿勢と体調管理（特に喉や呼吸器）を心がければ安泰です。",
+    ages: "4, 13, 22, 31, 40, 49, 58, 67, 76, 85, 94歳"
+  },
+  5: {
+    name: "日曜星",
+    reading: "にちようせい",
+    fortune: "大吉（太陽盛運・発展の年）",
+    rank: "best",
+    color: "#dd6b20",
+    summary: "太陽が中天に輝くように、運気盛大で万事が順調に発展していく九曜随一の大吉星です。",
+    advice: "これまでの努力が報われ、新しい挑戦にも追い風が吹きます。ただし「日の光がすべてを照らす」ため、隠し事や手抜きは表に出やすい年。公明正大で感謝を忘れない行動が最大の開運です。",
+    ages: "5, 14, 23, 32, 41, 50, 59, 68, 77, 86, 95歳"
+  },
+  6: {
+    name: "火曜星",
+    reading: "かようせい",
+    fortune: "大凶（忍耐・火難用心の一年）",
+    rank: "caution",
+    color: "#b83227",
+    summary: "盛運の直後に巡る、強いエネルギーが摩擦を生みやすい要注意の星回りです。",
+    advice: "短気や感情的な口論、火の元・熱発・突発的なケガに十分注意してください。「怒りは敵と思え」を合言葉に、穏やかで控えめな行動を心がければ無事に乗り切れます。",
+    ages: "6, 15, 24, 33, 42, 51, 60, 69, 78, 87, 96歳"
+  },
+  7: {
+    name: "計都星",
+    reading: "けいとせい",
+    fortune: "大凶（気迷い・熟考の年）",
+    rank: "caution",
+    color: "#6b46c1",
+    summary: "心が揺れやすく、焦って動くと裏目に出やすい試練と内省の星回りです。",
+    advice: "早合点や軽率な転職・大きな投資・保証人などは避けるのが賢明です。信頼できる人の意見をよく聞き、現状維持と心身の休養を第一に過ごすことで来年の飛躍につながります。",
+    ages: "7, 16, 25, 34, 43, 52, 61, 70, 79, 88, 97歳"
+  },
+  8: {
+    name: "月曜星",
+    reading: "げつようせい",
+    fortune: "吉（開運上昇・和合の年）",
+    rank: "good",
+    color: "#319795",
+    summary: "暗闇を照らす満月のように、周囲の助けを得て物事がスムーズに好転していく吉星です。",
+    advice: "人間関係が円満になり、積極的な行動が幸運を引き寄せます。勢いがある時こそ勇み足や横柄さを控え、周囲との和を大切にするとさらに運気が伸びます。",
+    ages: "8, 17, 26, 35, 44, 53, 62, 71, 80, 89, 98歳"
+  },
+  0: {
+    name: "木曜星",
+    reading: "もくようせい",
+    fortune: "中吉・大吉（結実・繁栄の年）",
+    rank: "best",
+    color: "#2f855a",
+    summary: "大地に根を張る大樹のように、運気が安定し願い事が成就しやすい実り豊かな吉星です。",
+    advice: "これまでの積み重ねが形になり、信用や利益を得やすい幸運期です。慌てず堂々と自分のペースを守り、来年の周期（羅睺星）に備えて基盤を整えておくと完璧です。",
+    ages: "9, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99歳"
+  }
+};
+
+// 生まれ年の本命星（九星気学 × 北斗七星本命星）
+const HONMEI_NINE_STARS = {
+  1: { kyusei: "一白水星", hokuto: "貪狼星（とんろうせい）", buddha: "千手観音菩薩", trait: "柔軟な知性と深い包容力" },
+  2: { kyusei: "二黒土星", hokuto: "巨門星（こもんせい）", buddha: "虚空蔵菩薩", trait: "堅実な努力と慈愛の精神" },
+  3: { kyusei: "三碧木星", hokuto: "禄存星（ろくぞんせい）", buddha: "文殊菩薩", trait: "若々しい行動力とひらめき" },
+  4: { kyusei: "四緑木星", hokuto: "文曲星（もんごくせい）", buddha: "普賢菩薩", trait: "穏やかな社交性と厚い信用" },
+  5: { kyusei: "五黄土星", hokuto: "廉貞星（れんじょうせい）", buddha: "勢至菩薩", trait: "圧倒的な統率力と不屈の胆力" },
+  6: { kyusei: "六白金星", hokuto: "武曲星（むごくせい）", buddha: "大日如来", trait: "高潔な理想と強い責任感" },
+  7: { kyusei: "七赤金星", hokuto: "破軍星（はぐんせい）", buddha: "不動明王", trait: "華やかな愛嬌と豊かな感性" },
+  8: { kyusei: "八白土星", hokuto: "左輔星（さほせい・武曲星）", buddha: "阿弥陀如来", trait: "揺るぎない信念と改革の力" },
+  9: { kyusei: "九紫火星", hokuto: "右弼星（うひつせい・破軍星）", buddha: "釈迦如来", trait: "鋭い直感と華麗な情熱" }
+};
+
+// 三九の秘法 相性詳細データ（基本の良きところは落ち着いた元のテイスト＋「もし良きところを伸ばし合えたら(IF・歴史例え)」＋「ダメなところ・要注意点」）
+const COMPATIBILITY_GROUPS = {
+  "命": {
+    title: "「命」の相性（同宿・運命の鏡）",
+    badge: "宿命縁",
+    scoreBase: 88,
+    color: "#c93b2b",
+    summary: "27分の1の確率で巡り合う、同じ宿星を持って生まれた「もう一人の自分」と言える特別な縁です。言葉を交わさなくても考えていることや感覚が手に取るように分かります。",
+    historicalPair: "【歴史上の関係に例えると：武田信玄 × 上杉謙信】誰よりも相手の強さと孤独の本質が分かり合える、鏡合わせのような宿命の関係です。",
+    ifBestCase: "【もしも二人の良きところを伸ばし合えたら（IF）】お互いの長所と感覚が完全に一致するため、同じ目標に向かって協力すれば、言葉を尽くさなくても阿吽の呼吸で通常の2倍以上の力を発揮できる唯一無二の理解者になります。",
+    dangerCompat: "【ダメになりやすい要注意ポイント】自分の嫌な欠点（頑固さ・気まぐれ・プライドなど）もそのまま相手が持っているため、距離が近すぎると「同族嫌悪」や主導権争いが起きやすいのが弱点です。一度意地を張り合うとお互いに譲らないため、意識して一歩引く余裕が必要です。",
+    friendship: "出会った瞬間から意気投合するソウルメイト。ただし長所も短所もそっくりなため、距離が近すぎると同族嫌悪やライバル心が生まれることも。適度な距離感を保つと一生の親友になります。",
+    romance: "運命的なシンパシーを感じて強く惹かれ合います。価値観が同じで心地よい反面、一度ケンカになるとお互いに譲らず長引きやすいので、感謝を言葉にすることが大切です。",
+    marriage: "結婚すると価値観や生活リズムが驚くほど一致する夫婦になります。ただし同じ弱点（お金遣いや頑固さなど）も2倍になるため、家計やルールを最初に決めておくと生涯離れない強い絆になります。",
+    approachTip: "自分がされて嬉しいこと・嫌なことがそのまま相手にも当てはまります。「私たちすごく似ているね！」と共通点をきっかけに誘うと、一気に特別な意識が芽生えます。",
+    work: "阿吽の呼吸で連携できる最強のコンビ。同じ得意分野・弱点を持つため、役割分担を明確にすると2倍以上の成果を出せます。",
+    advice: "相手はあなたを映す「鏡」です。相手の気になる部分は自分の課題でもあると受け止め、リスペクトを忘れないことで最高の運命共同体になれます。"
+  },
+  "業胎": {
+    title: "「業・胎」の相性（前世と来世の宿縁）",
+    badge: "三世の縁",
+    scoreBase: 90,
+    color: "#6b46c1",
+    summary: "前世（業）から来世（胎）へと魂のバトンをつなぐ、スピリチュアルで深い宿縁で結ばれた2人です。「業」にあたる人が精神的にリードし、「胎」にあたる人が新しい風を吹き込みます。",
+    historicalPair: "【歴史上の関係に例えると：吉田松陰 × 高杉晋作・伊藤博文】「業」が精神的な指針や土台を示し、「胎」がそれを受け取って未来へ大きく広げていく師弟・継承の絆に通じます。",
+    ifBestCase: "【もしも二人の良きところを伸ばし合えたら（IF）】「業」の人が持つ経験や包容力と、「胎」の人が持つ瑞々しい感性が噛み合えば、損得勘定を超えて何十年も穏やかに支え合い、歳を重ねるほどに信頼が深まる生涯の伴侶・盟友になれます。",
+    dangerCompat: "【ダメになりやすい要注意ポイント】安心感が強いぶん、刺激やドラマチックな変化が少なく「空気のような存在」として扱いが雑になりやすい点に注意。また「業」側が親のように説教くさくなったり、「胎」側が甘えすぎて依存するとバランスが崩れます。",
+    friendship: "初対面でもどこか懐かしく、損得勘定なしで自然に寄り添える穏やかな関係です。何年ぶりに会っても昨日と同じように話せる不思議な安心感があります。",
+    romance: "激しいジェットコースターのような恋ではなく、静かで温かい信頼に満ちたご縁。結婚や長期的なパートナーシップに非常に向いており、別れにくい安定したカップルになります。",
+    marriage: "結婚相性として非常に優秀！空気のように自然な安心感があり、歳を重ねるほどに絆が深まる「添い遂げ相性」です。「業」側が包容力を持ち、「胎」側が甘えと感謝を表現すると最高の家庭になります。",
+    approachTip: "焦って駆け引きをする必要はありません。じっくり相談に乗ったり、穏やかな食事を重ねながら「一緒にいると不思議と落ち着く」と安心感を伝えるのが一番の近道です。",
+    work: "「業」の人が経験や指針を示し、「胎」の人が実務や新しい発想を広げることで、長期にわたって発展し続ける素晴らしい師弟・パートナー関係を築けます。",
+    advice: "「業」側は相手をコントロールしようとせず見守り、「胎」側は感謝と敬意を忘れないことで、どんな困難も一緒に乗り越えていけます。"
+  },
+  "栄親": {
+    title: "「栄・親」の相性（繁栄と慈愛・最高の大吉縁）",
+    badge: "最高大吉",
+    scoreBase: 96,
+    color: "#d69e2e",
+    summary: "宿曜占星術において最も幸福度が高いとされる「繁栄（栄）」と「親愛（親）」の黄金ペアです。一緒にいるだけでお互いの運気を引き上げ、福徳と笑顔が自然と広がっていきます。",
+    historicalPair: "【歴史上の関係に例えると：豊臣秀吉 × 黒田官兵衛 ／ 坂本龍馬 × おりょう】二人が組むことで互いの持ち味と運気が自然と引き上げられ、一人では届かなかった繁栄と幸福へ到達する黄金タッグに通じます。",
+    ifBestCase: "【もしも二人の良きところを伸ばし合えたら（IF）】お互いの長所を素直に褒め合い感謝を伝え続ければ、一緒にいるだけで仕事運・金運・家庭運まで相乗効果で伸びていく、周囲から見ても理想的な繁栄パートナーになれます。",
+    dangerCompat: "【ダメになりやすい要注意ポイント】相性が良く居心地が良すぎるがゆえに、相手が支えてくれることを「当たり前」と勘違いして感謝やデリカシーをサボりやすいのが唯一の落とし穴です。親しき仲にも礼儀を忘れると、せっかくの幸運期が停滞します。",
+    friendship: "気を使わずに心からリラックスでき、会うたびに元気をもらえる最高の友人関係。「栄」の人は相手から応援されて輝き、「親」の人は相手を世話し支えることに喜びを感じます。",
+    romance: "恋愛にも結婚にも文句なしのベストカップル！周囲から祝福され、家庭を持てば経済的にも精神的にも豊かに栄える相互開運の相性です。",
+    marriage: "結婚における最高ランクの大吉相性！結婚後に仕事運や金運まで一緒に上昇する「繁栄の夫婦」になれます。ケンカをしてもすぐに仲直りでき、笑いの絶えない温かい家庭を築けます。",
+    approachTip: "自然体で接するだけで好感度が上がる相性です。あなたが「栄」なら相手に少し甘えて頼ってみること、あなたが「親」なら相手を褒めてサポートしてあげることで、トントン拍子に恋が進展します。",
+    work: "お互いの強みが自然に噛み合い、一緒に組むと不思議とプロジェクトが成功したり売上が伸びたりするラッキーパートナーです。",
+    advice: "あまりにも居心地が良いため、空気のような存在になって感謝を忘れがちになる点だけ注意。「ありがとう」を伝え合うだけで一生モノの宝の縁になります。"
+  },
+  "友衰": {
+    title: "「友・衰」の相性（共感とロマン・親友の縁）",
+    badge: "好相性・友愛",
+    scoreBase: 85,
+    color: "#2b6cb0",
+    summary: "趣味や感性、ノリがピタリと一致する「楽しさナンバーワン」の相性です。損得抜きで語り合える、爽やかでロマンチックな関係性を築けます。",
+    historicalPair: "【歴史上の関係に例えると：源義経 × 武蔵坊弁慶 ／ 坂本龍馬 × 中岡慎太郎】損得や打算を抜きにして、同じ志やロマン・楽しさを共有して駆け抜けた盟友・同志の関係に通じます。",
+    ifBestCase: "【もしも二人の良きところを伸ばし合えたら（IF）】抜群の会話のテンポと共感力に「現実的な生活設計・ルール作り」をプラスできれば、何歳になっても恋人や親友のように楽しく笑い合える素敵なパートナーシップが築けます。",
+    dangerCompat: "【ダメになりやすい要注意ポイント】楽しい時は最高ですが、現実的なお金の問題や生活のトラブルに直面すると脆い一面があります。また「友」側が気楽に主導権を握ってワガママになり、「衰」側ばかりが尽くして気疲れ・自己犠牲を溜め込みやすいアンバランスさに注意が必要です。",
+    friendship: "趣味仲間・遊び仲間としてこれ以上ない最高の相性！何時間話していても飽きず、一緒にイベントや旅行に行くと一生忘れられない楽しい思い出が作れます。",
+    romance: "友達のような爽やかさから恋に落ちるロマンチックな相性。楽しい時は最高ですが、現実的なお金や生活のトラブルに直面すると脆い一面があるため、堅実な計画を共有すると長続きします。",
+    marriage: "結婚後も恋人のような会話と共通の趣味を楽しめる仲良し夫婦になります。「衰」側が尽くしすぎて疲れを溜めないよう、「友」側が家事や家計を積極的に分担すると円満が長く続きます。",
+    approachTip: "共通の趣味や好きな音楽・映画・グルメなど「楽しい体験の共有」から入るのが鉄則！友達ノリから二人きりのデートに誘い、「友達以上に特別に思っている」と真剣さをプラスしましょう。",
+    work: "企画出しやクリエイティブなブレインストーミングで抜群の相乗効果を発揮します。実務や経理など細かい詰めはチェック体制を作ると安心です。",
+    advice: "「友」にあたる人が主導権を握りやすく、「衰」にあたる人が相手に尽くして気疲れすることがあります。「友」側が「衰」側を労わる優しさを持つと完璧です。"
+  },
+  "危成": {
+    title: "「危・成」の相性（刺激と達成・切磋琢磨の縁）",
+    badge: "好敵手・成長",
+    scoreBase: 76,
+    color: "#2f855a",
+    summary: "性格や価値観が正反対だからこそ、自分にないものに惹かれ合い、お互いに新しい世界を見せ合える「成長とビジネス」の相性です。",
+    historicalPair: "【歴史上の関係に例えると：織田信長 × 徳川家康（清洲同盟）】性格も気質も正反対でありながら、お互いの強みと死角を補い合うことで長期にわたり大きな成果（成）を挙げた戦略的パートナーに通じます。",
+    ifBestCase: "【もしも二人の良きところを伸ばし合えたら（IF）】「自分とは違う考え方をする人だ」とリスペクトを持って役割分担できれば、一人では絶対に見えなかった死角を補い合い、仕事でも家庭でも大きな目標を達成できる最強の好敵手・相棒になれます。",
+    dangerCompat: "【ダメになりやすい要注意ポイント】根本の価値観や生活ペースが異なるため、「自分の常識ややり方」を相手に押し付けたり、100%の感情的共感を求めすぎると一気にストレスと反発が生まれます。ベタベタ干渉しすぎないことが鉄則です。",
+    friendship: "自分の狭い常識を広げてくれる良きライバルであり理解者。ベタベタしすぎない大人の距離感で、お互いの専門分野や個性をリスペクトし合える関係です。",
+    romance: "自分にない魅力にドキッとする刺激的な恋。価値観の違いを「面白さ」として楽しめるうちは最高ですが、相手を自分色に染めようとするとぶつかるため、お互いの自由を尊重するのが秘訣です。",
+    marriage: "お互いの自立と仕事・趣味の時間を尊重する「大人の自立型夫婦」としてうまくいきます。自分の価値観を押し付けず、違いを補い合うチームだと意識することで、社会的に大きく発展する夫婦になれます。",
+    approachTip: "「自分にはないあなたの〇〇なところを尊敬している」と、相手の個性や強みを具体的に褒めるのが効果的！干渉しすぎず、知的な刺激や新しい体験を共有するデートに誘いましょう。",
+    work: "ビジネスパートナーとしては大吉！発想も得意領域も異なるため、お互いの死角を完璧に補い合って大きな成果（成）を打ち立てることができます。",
+    advice: "「違いがあって当たり前」と最初から割り切ることで、ストレスなく相手から多くの学びとチャンスを受け取ることができます。"
+  },
+  "安壊": {
+    title: "「安・壊」の相性（強烈な引力と変革の宿縁）",
+    badge: "劇薬・宿縁",
+    scoreBase: 68,
+    color: "#b83227",
+    summary: "一目惚れや強烈な磁石のような引力で引き寄せ合う、最もドラマチックでスリリングな宿縁です。「安」は安心感を得る側、「壊」は相手の殻を打ち破る側となります。",
+    historicalPair: "【歴史上の関係に例えると：織田信長 × 明智光秀 ／ アントニウス × クレオパトラ】強烈な引力と熱量で惹きつけ合い、良くも悪くも互いの人生を大きく変えてしまう劇的な宿縁に通じます。",
+    ifBestCase: "【もしも二人の良きところを伸ばし合えたら（IF）】お互いの領分に踏み込みすぎない「適切な距離感と礼節」を守りながら関われば、自分の古い殻や限界を打ち破り、一皮むけた新しいステージへ引き上げてくれる人生最大の起爆剤・恩人になります。",
+    dangerCompat: "【ダメになりやすい要注意ポイント】距離が近づきすぎると、「安」側は相手に依存して振り回され、「壊」側は相手をコントロールしようとしてプライドや生活ペースを乱してしまいがちです。感情的な束縛やマウント合戦に入ると深く傷つけ合うため、自立した距離感が不可欠です。",
+    friendship: "普通の友達では得られない強烈な刺激と深い学びを与えてくれる関係。距離が近づきすぎると感情の摩擦が起きやすいため、礼節と一歩引いた距離感を守ると良い刺激を与え合えます。",
+    romance: "理屈を超えて燃え上がる情熱的な恋に落ちやすい相性。相手への執着や束縛が強くなると傷つけ合うことになるため、お互いに自立した世界を持つことが関係を長続きさせる鍵です。",
+    marriage: "劇的な恋愛から結婚へ進みやすいご縁ですが、結婚後は「近すぎない距離感（別々の趣味や時間を持つ・財布や役割を明確にする）」を保つことが最大の秘訣。礼節を忘れなければ強い絆で試練を突破できます。",
+    approachTip: "最初から強い引力があるため自然と意識し合いますが、感情的に詰め寄ったり試すような駆け引きはNG。落ち着きと礼儀を保ち、相手の世界を尊重する大人の余裕を見せると深く惹きつけられます。",
+    work: "師弟関係や、現状を打破したい時の起爆剤としては凄まじいパワーを発揮します。「安」側が「壊」側の意見に振り回されすぎないルール作りが有効です。",
+    advice: "決して「悪い相性」ではなく、「自分の殻を破って一皮むけさせてくれる相手」です。感情的にならず、適切な距離感とリスペクトを保つことで、人生を大きく変える恩人にもなります。"
+  }
+};
+
+// 距離（近距離・中距離・遠距離）ごとの補足解説
+const DISTANCE_COMMENTARY = {
+  "同宿": {
+    label: "同宿（距離 0）",
+    BonusScore: 2,
+    text: "円盤上でまったく同じ位置に重なる宿縁。出会う確率は低めですが、一度出会うと強烈な共鳴が起きます。"
+  },
+  "前世縁": {
+    label: "業（前世からの縁）",
+    BonusScore: 2,
+    text: "あなたが「業」、相手が「胎」の位置関係。前世であなたが相手を導いたご縁とされ、あなたが精神的な支えとなります。"
+  },
+  "来世縁": {
+    label: "胎（来世へ続く縁）",
+    BonusScore: 2,
+    text: "あなたが「胎」、相手が「業」の位置関係。相手から多くの気づきや守護を受け取り、未来へ発展させていくご縁です。"
+  },
+  "近距離": {
+    label: "近距離（星の間隔 1〜4）",
+    BonusScore: 4,
+    text: "円盤上で隣り合うほど近く、出会う確率もご縁の強さも最大の「近距離」。吉凶どちらの作用もダイレクトに強く働き、短期間で一気に距離が縮まります。"
+  },
+  "中距離": {
+    label: "中距離（星の間隔 5〜8）",
+    BonusScore: 5,
+    text: "近すぎず遠すぎない絶妙なバランスを保てる「中距離」。感情的に煮詰まることが少なく、友達・恋愛・結婚・仕事のすべてにおいて最も安定した良い関係を長く続けやすい距離感です。"
+  },
+  "遠距離": {
+    label: "遠距離（星の間隔 10〜13）",
+    BonusScore: 0,
+    text: "円盤上で向かい合う遠い位置にある「遠距離」。最初は接点ができるまで少し時間がかかりますが、共通の友人や目的を介してじわじわと穏やかな信頼関係が育ちます。"
+  }
+};
+
+// 満正寺 九曜星占盤 Webアプリケーション ロジック
+function __kuyoseiAppBootstrap() {
+
+const STORAGE_KEY = "manshoji_kuyosei_members_v2";
+const MODE_STORAGE_KEY = "manshoji_kuyosei_calcmode_v2";
+
+// アプリ状態
+const state = {
+  members: [],
+  selfId: null,
+  partnerId: null,
+  singleTargetId: null,
+  focusMemberId: null,
+  matrixViewMode: "focus", // "focus" (選んだ人とメンバーの相性のみ) | "all" (全員総当たり)
+  calcMode: "manshoji_table", // "manshoji_table" (月×日宿星帳早見表: 12/6=婁宿) | "lunar_jp" (旧暦換算)
+  targetYear: new Date().getFullYear(),
+  useSetsubunBoundary: true,
+  wheelRotationDeg: 0
+};
+
+/**
+ * 新暦(YYYY-MM-DD)から旧暦の月・日を算出する
+ */
+function gregorianToLunar(dateStr) {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const dateObj = new Date(y, m - 1, d, 12, 0, 0);
+
+  try {
+    const formatter = new Intl.DateTimeFormat("en-US-u-ca-chinese", {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric"
+    });
+    const parts = formatter.formatToParts(dateObj);
+    const monthPart = parts.find((p) => p.type === "month")?.value || "1";
+    const dayPart = parts.find((p) => p.type === "day")?.value || "1";
+
+    const lunarMonth = Math.max(1, Math.min(12, parseInt(monthPart, 10) || 1));
+    const lunarDay = Math.max(1, Math.min(30, parseInt(dayPart, 10) || 1));
+    const isLeapMonth = /bis|leap/i.test(monthPart) || isNaN(Number(monthPart));
+
+    return { lunarMonth, lunarDay, isLeapMonth };
+  } catch (err) {
+    const synodicMonth = 29.53058867;
+    const refNewMoon = new Date(2000, 0, 6, 18, 14, 0).getTime();
+    const diffDays = (dateObj.getTime() - refNewMoon) / 86400000;
+    const lunarCycle = ((diffDays % synodicMonth) + synodicMonth) % synodicMonth;
+    const lunarDay = Math.max(1, Math.min(30, Math.floor(lunarCycle) + 1));
+    const approxMonth = ((m - 2 + 12) % 12) + 1;
+    return { lunarMonth: approxMonth, lunarDay, isLeapMonth: false };
+  }
+}
+
+/**
+ * 生年月日（および任意の宿星上書き）から宿星・九曜星・本命星を一括計算
+ */
+function calculatePersonAstrology(member, targetYear = state.targetYear, useSetsubun = state.useSetsubunBoundary) {
+  const [birthY, birthM, birthD] = member.birthdate.split("-").map(Number);
+  const { lunarMonth, lunarDay, isLeapMonth } = gregorianToLunar(member.birthdate);
+
+  let shukuIndex;
+  let lookupLabel;
+
+  if (typeof member.overrideShukuIndex === "number" && member.overrideShukuIndex >= 0 && member.overrideShukuIndex < 27) {
+    shukuIndex = member.overrideShukuIndex;
+    lookupLabel = "手動指定";
+  } else if (state.calcMode === "manshoji_table") {
+    const startIdx = SHUKU_START_BY_LUNAR_MONTH[birthM] ?? 11;
+    shukuIndex = (startIdx + (birthD - 1)) % 27;
+    lookupLabel = `宿星帳 ${birthM}月×${birthD}日`;
+  } else {
+    const startIdx = SHUKU_START_BY_LUNAR_MONTH[lunarMonth] ?? 11;
+    shukuIndex = (startIdx + (lunarDay - 1)) % 27;
+    lookupLabel = `旧暦 ${isLeapMonth ? "閏" : ""}${lunarMonth}月${lunarDay}日`;
+  }
+
+  const shuku = SHUKU_27_DATA[shukuIndex];
+
+  const isBeforeSetsubun = useSetsubun && (birthM === 1 || (birthM === 2 && birthD <= 3));
+  const effectiveBirthYear = isBeforeSetsubun ? birthY - 1 : birthY;
+
+  const kazoeAge = Math.max(1, targetYear - effectiveBirthYear + 1);
+  const tonenMod = ((kazoeAge % 9) + 9) % 9;
+  const tonenStar = KUYOSEI_TONEN_DATA[tonenMod];
+
+  const kyuseiNum = ((11 - (effectiveBirthYear % 9)) % 9) || 9;
+  const honmeiStar = HONMEI_NINE_STARS[kyuseiNum];
+
+  return {
+    birthY,
+    birthM,
+    birthD,
+    shukuIndex,
+    shuku,
+    lookupLabel,
+    lunarMonth,
+    lunarDay,
+    isLeapMonth,
+    effectiveBirthYear,
+    kazoeAge,
+    tonenMod,
+    tonenStar,
+    kyuseiNum,
+    honmeiStar
+  };
+}
+
+/**
+ * 2人の宿星インデックスから三九の秘法による相性を計算
+ */
+function calculateCompatibility(selfShukuIdx, partnerShukuIdx) {
+  const forwardOffset = (partnerShukuIdx - selfShukuIdx + 27) % 27;
+  const reverseOffset = (selfShukuIdx - partnerShukuIdx + 27) % 27;
+
+  const selfToPartnerLabel = SANKU_WHEEL_LABELS[forwardOffset];
+  const partnerToSelfLabel = SANKU_WHEEL_LABELS[reverseOffset];
+
+  const shortestStep = Math.min(forwardOffset, reverseOffset);
+  const groupInfo = COMPATIBILITY_GROUPS[selfToPartnerLabel.group];
+  const distanceInfo = DISTANCE_COMMENTARY[selfToPartnerLabel.distance];
+
+  const score = Math.min(99, groupInfo.scoreBase + (distanceInfo?.BonusScore || 0));
+
+  return {
+    forwardOffset,
+    reverseOffset,
+    shortestStep,
+    selfToPartner: selfToPartnerLabel,
+    partnerToSelf: partnerToSelfLabel,
+    groupKey: selfToPartnerLabel.group,
+    distanceKey: selfToPartnerLabel.distance,
+    groupInfo,
+    distanceInfo,
+    score
+  };
+}
+
+/**
+ * 指定した宿星にとって結婚相性が最も良い宿星（栄親の中距離・近距離、業胎）を抽出
+ */
+function getBestMarriageShukuList(selfShukuIdx, excludeMemberId = null) {
+  // 他の登録メンバーの宿星マップ
+  const friendMap = new Map();
+  state.members.forEach((m) => {
+    if (m.id === excludeMemberId) return;
+    const a = calculatePersonAstrology(m);
+    if (!friendMap.has(a.shukuIndex)) friendMap.set(a.shukuIndex, []);
+    friendMap.get(a.shukuIndex).push(m.name);
+  });
+
+  // オフセット：8, 19 (栄親・中距離 100点級), 1, 26 (栄親・近距離), 9, 18 (業・胎)
+  const targetOffsets = [
+    { offset: 8, reason: "親（中距離・最高安定の結婚縁）" },
+    { offset: 19, reason: "栄（中距離・最高安定の結婚縁）" },
+    { offset: 1, reason: "栄（近距離・強く惹かれ合う大吉縁）" },
+    { offset: 26, reason: "親（近距離・強く惹かれ合う大吉縁）" },
+    { offset: 9, reason: "業（前世からの深い宿縁）" },
+    { offset: 18, reason: "胎（来世へ続く温かい宿縁）" }
+  ];
+
+  return targetOffsets.map((item) => {
+    const idx = (selfShukuIdx + item.offset) % 27;
+    const shuku = SHUKU_27_DATA[idx];
+    const matchedFriends = friendMap.get(idx) || [];
+    return {
+      shukuIndex: idx,
+      shuku,
+      reason: item.reason,
+      matchedFriends
+    };
+  });
+}
+
+/**
+ * 九曜星占盤（SVG）の描画
+ */
+function buildSenbanSVG() {
+  const outerGroup = document.getElementById("outer-shuku-ring");
+  const innerGroup = document.getElementById("inner-sanku-wheel");
+  if (!outerGroup || !innerGroup) return;
+
+  outerGroup.innerHTML = "";
+  innerGroup.innerHTML = "";
+
+  const cx = 250;
+  const cy = 250;
+  const stepDeg = 360 / 27;
+
+  const dirColorMap = {
+    "東方青龍": "#1b4353",
+    "北方玄武": "#23293a",
+    "西方白虎": "#4a3f28",
+    "南方朱雀": "#542323"
+  };
+
+  const polarToCartesian = (r, deg) => {
+    const rad = ((deg - 90) * Math.PI) / 180;
+    return {
+      x: cx + r * Math.cos(rad),
+      y: cy + r * Math.sin(rad)
+    };
+  };
+
+  const createSectorPath = (rOuter, rInner, startDeg, endDeg) => {
+    const p1 = polarToCartesian(rOuter, startDeg);
+    const p2 = polarToCartesian(rOuter, endDeg);
+    const p3 = polarToCartesian(rInner, endDeg);
+    const p4 = polarToCartesian(rInner, startDeg);
+    return [
+      `M ${p1.x.toFixed(2)} ${p1.y.toFixed(2)}`,
+      `A ${rOuter} ${rOuter} 0 0 1 ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`,
+      `L ${p3.x.toFixed(2)} ${p3.y.toFixed(2)}`,
+      `A ${rInner} ${rInner} 0 0 0 ${p4.x.toFixed(2)} ${p4.y.toFixed(2)}`,
+      "Z"
+    ].join(" ");
+  };
+
+  // 1. 外周リング（27宿：固定盤）
+  SHUKU_27_DATA.forEach((shuku, idx) => {
+    const centerDeg = idx * stepDeg;
+    const startDeg = centerDeg - stepDeg / 2;
+    const endDeg = centerDeg + stepDeg / 2;
+
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.setAttribute("class", "shuku-sector");
+    g.setAttribute("data-shuku-idx", String(idx));
+    g.style.cursor = "pointer";
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", createSectorPath(240, 168, startDeg, endDeg));
+    path.setAttribute("fill", dirColorMap[shuku.direction] || "#231e2c");
+    path.setAttribute("stroke", "#d4af37");
+    path.setAttribute("stroke-width", "1");
+    path.setAttribute("class", "shuku-sector-bg");
+    g.appendChild(path);
+
+    const textPos = polarToCartesian(207, centerDeg);
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.setAttribute("x", textPos.x.toFixed(2));
+    text.setAttribute("y", textPos.y.toFixed(2));
+    text.setAttribute("text-anchor", "middle");
+    text.setAttribute("dominant-baseline", "central");
+    text.setAttribute("fill", "#f7f3e9");
+    text.setAttribute("font-size", "15");
+    text.setAttribute("font-weight", "700");
+    text.setAttribute("transform", `rotate(${centerDeg}, ${textPos.x.toFixed(2)}, ${textPos.y.toFixed(2)})`);
+    text.textContent = shuku.short;
+    g.appendChild(text);
+
+    const subPos = polarToCartesian(182, centerDeg);
+    const subText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    subText.setAttribute("x", subPos.x.toFixed(2));
+    subText.setAttribute("y", subPos.y.toFixed(2));
+    subText.setAttribute("text-anchor", "middle");
+    subText.setAttribute("dominant-baseline", "central");
+    subText.setAttribute("fill", "#bfb6a3");
+    subText.setAttribute("font-size", "8.5");
+    subText.setAttribute("transform", `rotate(${centerDeg}, ${subPos.x.toFixed(2)}, ${subPos.y.toFixed(2)})`);
+    subText.textContent = shuku.element.charAt(0);
+    g.appendChild(subText);
+
+    g.addEventListener("click", () => {
+      openShukuQuickDialog(idx);
+    });
+
+    outerGroup.appendChild(g);
+  });
+
+  // 2. 内周リング（三九の秘法：回転する石盤）
+  SANKU_WHEEL_LABELS.forEach((item, idx) => {
+    const centerDeg = idx * stepDeg;
+    const startDeg = centerDeg - stepDeg / 2;
+    const endDeg = centerDeg + stepDeg / 2;
+
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.setAttribute("class", "sanku-sector");
+    g.setAttribute("data-offset-idx", String(idx));
+
+    const isMei = item.char === "命";
+    const isGyoTai = item.char === "業" || item.char === "胎";
+    const isEishin = item.group === "栄親";
+
+    let fillColor = "#1a1622";
+    if (isMei) fillColor = "#c93b2b";
+    else if (isGyoTai) fillColor = "#3d2963";
+    else if (isEishin) fillColor = "#3b3016";
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", createSectorPath(166, 96, startDeg, endDeg));
+    path.setAttribute("fill", fillColor);
+    path.setAttribute("stroke", "#d4af37");
+    path.setAttribute("stroke-width", "0.9");
+    g.appendChild(path);
+
+    const charPos = polarToCartesian(138, centerDeg);
+    const charText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    charText.setAttribute("x", charPos.x.toFixed(2));
+    charText.setAttribute("y", charPos.y.toFixed(2));
+    charText.setAttribute("text-anchor", "middle");
+    charText.setAttribute("dominant-baseline", "central");
+    charText.setAttribute("fill", isMei ? "#ffffff" : isEishin ? "#f5d472" : "#e8e0cf");
+    charText.setAttribute("font-size", isMei ? "16" : "13.5");
+    charText.setAttribute("font-weight", "700");
+    charText.setAttribute("transform", `rotate(${centerDeg}, ${charPos.x.toFixed(2)}, ${charPos.y.toFixed(2)})`);
+    charText.textContent = item.char;
+    g.appendChild(charText);
+
+    const distPos = polarToCartesian(112, centerDeg);
+    const distText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    distText.setAttribute("x", distPos.x.toFixed(2));
+    distText.setAttribute("y", distPos.y.toFixed(2));
+    distText.setAttribute("text-anchor", "middle");
+    distText.setAttribute("dominant-baseline", "central");
+    distText.setAttribute("fill", isMei ? "#ffe3de" : "#a89f8d");
+    distText.setAttribute("font-size", "8");
+    distText.setAttribute("transform", `rotate(${centerDeg}, ${distPos.x.toFixed(2)}, ${distPos.y.toFixed(2)})`);
+    distText.textContent = item.distance.charAt(0);
+    g.appendChild(distText);
+
+    innerGroup.appendChild(g);
+  });
+
+  // 中央の九曜紋（中心星＋周囲8星）
+  const centerDisk = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  centerDisk.setAttribute("cx", String(cx));
+  centerDisk.setAttribute("cy", String(cy));
+  centerDisk.setAttribute("r", "94");
+  centerDisk.setAttribute("fill", "#120f18");
+  centerDisk.setAttribute("stroke", "#d4af37");
+  centerDisk.setAttribute("stroke-width", "2");
+  innerGroup.appendChild(centerDisk);
+
+  const sunCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  sunCircle.setAttribute("cx", String(cx));
+  sunCircle.setAttribute("cy", String(cy));
+  sunCircle.setAttribute("r", "24");
+  sunCircle.setAttribute("fill", "#d4af37");
+  innerGroup.appendChild(sunCircle);
+
+  for (let i = 0; i < 8; i++) {
+    const angle = (i * 45 * Math.PI) / 180;
+    const sx = cx + 52 * Math.cos(angle);
+    const sy = cy + 52 * Math.sin(angle);
+    const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    dot.setAttribute("cx", sx.toFixed(2));
+    dot.setAttribute("cy", sy.toFixed(2));
+    dot.setAttribute("r", "10");
+    dot.setAttribute("fill", "#d4af37");
+    innerGroup.appendChild(dot);
+  }
+
+  const centerLabel = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  centerLabel.setAttribute("x", String(cx));
+  centerLabel.setAttribute("y", String(cy));
+  centerLabel.setAttribute("text-anchor", "middle");
+  centerLabel.setAttribute("dominant-baseline", "central");
+  centerLabel.setAttribute("fill", "#161108");
+  centerLabel.setAttribute("font-size", "11");
+  centerLabel.setAttribute("font-weight", "900");
+  centerLabel.textContent = "九曜";
+  innerGroup.appendChild(centerLabel);
+
+  setupWheelDragInteraction(innerGroup);
+}
+
+/**
+ * 内盤をマウスやタッチで直接クルクル回せるインタラクション
+ */
+function setupWheelDragInteraction(innerGroup) {
+  const svg = document.getElementById("senban-svg");
+  if (!svg) return;
+
+  let isDragging = false;
+  let startAngle = 0;
+  let initialWheelDeg = 0;
+
+  const getPointerAngle = (clientX, clientY) => {
+    const rect = svg.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    return (Math.atan2(clientY - centerY, clientX - centerX) * 180) / Math.PI;
+  };
+
+  innerGroup.addEventListener("pointerdown", (e) => {
+    isDragging = true;
+    innerGroup.classList.add("dragging");
+    innerGroup.setPointerCapture(e.pointerId);
+    startAngle = getPointerAngle(e.clientX, e.clientY);
+    initialWheelDeg = state.wheelRotationDeg;
+  });
+
+  innerGroup.addEventListener("pointermove", (e) => {
+    if (!isDragging) return;
+    const currentAngle = getPointerAngle(e.clientX, e.clientY);
+    const delta = currentAngle - startAngle;
+    const nextDeg = initialWheelDeg + delta;
+    state.wheelRotationDeg = nextDeg;
+    innerGroup.style.rotate = `${nextDeg.toFixed(2)}deg`;
+  });
+
+  const finishDrag = () => {
+    if (!isDragging) return;
+    isDragging = false;
+    innerGroup.classList.remove("dragging");
+    const stepDeg = 360 / 27;
+    const snappedSteps = Math.round(state.wheelRotationDeg / stepDeg);
+    state.wheelRotationDeg = snappedSteps * stepDeg;
+    innerGroup.style.rotate = `${state.wheelRotationDeg.toFixed(2)}deg`;
+  };
+
+  innerGroup.addEventListener("pointerup", finishDrag);
+  innerGroup.addEventListener("pointercancel", finishDrag);
+}
+
+/**
+ * 自分の宿星の位置に内盤の「命」を回転させて合わせ、2人の星をハイライトする
+ */
+function alignWheelToPair(selfShukuIdx, partnerShukuIdx) {
+  const innerGroup = document.getElementById("inner-sanku-wheel");
+  if (!innerGroup) return;
+
+  const stepDeg = 360 / 27;
+  const targetDeg = selfShukuIdx * stepDeg;
+
+  let diff = ((targetDeg - state.wheelRotationDeg) % 360 + 540) % 360 - 180;
+  state.wheelRotationDeg = state.wheelRotationDeg + diff;
+  innerGroup.style.rotate = `${state.wheelRotationDeg.toFixed(2)}deg`;
+
+  document.querySelectorAll(".shuku-sector").forEach((el) => {
+    const idx = Number(el.getAttribute("data-shuku-idx"));
+    const bg = el.querySelector(".shuku-sector-bg");
+    if (!bg) return;
+
+    if (idx === selfShukuIdx && idx === partnerShukuIdx) {
+      bg.setAttribute("fill", "#c93b2b");
+      bg.setAttribute("stroke", "#ffffff");
+      bg.setAttribute("stroke-width", "2.5");
+    } else if (idx === selfShukuIdx) {
+      bg.setAttribute("fill", "#b83227");
+      bg.setAttribute("stroke", "#ffd97d");
+      bg.setAttribute("stroke-width", "2.5");
+    } else if (idx === partnerShukuIdx) {
+      bg.setAttribute("fill", "#b5891b");
+      bg.setAttribute("stroke", "#ffffff");
+      bg.setAttribute("stroke-width", "2.5");
+    } else {
+      const shuku = SHUKU_27_DATA[idx];
+      const dirColorMap = {
+        "東方青龍": "#1b4353",
+        "北方玄武": "#23293a",
+        "西方白虎": "#4a3f28",
+        "南方朱雀": "#542323"
+      };
+      bg.setAttribute("fill", dirColorMap[shuku.direction]);
+      bg.setAttribute("stroke", "#d4af37");
+      bg.setAttribute("stroke-width", "1");
+    }
+  });
+}
+
+/**
+ * 画面全体の再描画
+ */
+function renderAll() {
+  saveMembersToStorage();
+  renderMemberChips();
+  renderSelectors();
+  renderCompatibilitySection();
+  renderKifudaSection();
+  renderFocusMemberCompatSection();
+  renderGroupMatrixSection();
+  renderShukuseichoTable();
+}
+
+/**
+ * 登録メンバーチップ一覧の描画（名前変更✏️・1対全員相性🎯・削除×ボタン付き）
+ */
+function renderMemberChips() {
+  const container = document.getElementById("member-chips-container");
+  if (!container) return;
+  container.innerHTML = "";
+
+  state.members.forEach((m) => {
+    const astro = calculatePersonAstrology(m);
+    const chip = document.createElement("div");
+    const isSelf = m.id === state.selfId;
+    const isPartner = m.id === state.partnerId;
+
+    chip.className = `member-chip ${isSelf ? "selected-self" : ""} ${isPartner ? "selected-partner" : ""}`;
+
+    let roleBadgeHtml = "";
+    if (isSelf && isPartner) {
+      roleBadgeHtml = `<span class="chip-role-badge self">自分・相手</span>`;
+    } else if (isSelf) {
+      roleBadgeHtml = `<span class="chip-role-badge self">自分(命)</span>`;
+    } else if (isPartner) {
+      roleBadgeHtml = `<span class="chip-role-badge partner">相手</span>`;
+    }
+
+    chip.innerHTML = `
+      ${roleBadgeHtml}
+      <strong>${escapeHtml(m.name)}</strong>
+      <span class="chip-shuku">${astro.shuku.name}</span>
+      <span style="font-size:0.75rem;color:var(--text-muted);">${astro.tonenStar.name}</span>
+      <button type="button" class="chip-edit btn-focus-person" title="${escapeHtml(m.name)}さんとメンバー全員の相性のみを表示" aria-label="${escapeHtml(m.name)}さんとメンバーの相性を表示">🎯</button>
+      <button type="button" class="chip-edit btn-edit-person" title="名前や生年月日を変更" aria-label="${escapeHtml(m.name)}さんの情報を変更">✏️</button>
+      <button type="button" class="chip-delete" title="削除" aria-label="${escapeHtml(m.name)}を削除">×</button>
+    `;
+
+    // チップ本体クリック：現在のモードに合わせて選択対象を切り替え
+    chip.addEventListener("click", (e) => {
+      if (e.target.closest("button")) return;
+      state.singleTargetId = m.id;
+      state.focusMemberId = m.id;
+      if (state.selfId !== m.id) {
+        state.partnerId = m.id;
+      }
+      renderAll();
+    });
+
+    // 🎯ボタン：その人とメンバー全員の相性のみ表示へ切り替え
+    chip.querySelector(".btn-focus-person").addEventListener("click", (e) => {
+      e.stopPropagation();
+      state.selfId = m.id;
+      state.singleTargetId = m.id;
+      state.focusMemberId = m.id;
+      state.matrixViewMode = "focus";
+      updateMatrixModeUI();
+      switchTab("tab-matrix");
+      renderAll();
+      showToast(`「${m.name}」さんとメンバー全員の相性を表示中`);
+    });
+
+    // ✏️ボタン：名前・生年月日の変更モーダルを開く
+    chip.querySelector(".btn-edit-person").addEventListener("click", (e) => {
+      e.stopPropagation();
+      openEditMemberDialog(m.id);
+    });
+
+    // ×ボタン：削除
+    chip.querySelector(".chip-delete").addEventListener("click", (e) => {
+      e.stopPropagation();
+      removeMember(m.id);
+    });
+
+    container.appendChild(chip);
+  });
+}
+
+/**
+ * セレクトボックス（自分・相手・個人診断対象・1対全員基準）の同期
+ */
+function renderSelectors() {
+  const selfSelect = document.getElementById("self-member-select");
+  const partnerSelect = document.getElementById("partner-member-select");
+  const singleSelect = document.getElementById("single-member-select");
+  const focusSelect = document.getElementById("focus-member-select");
+
+  const optionsHtml = state.members
+    .map((m) => {
+      const astro = calculatePersonAstrology(m);
+      return `<option value="${m.id}">${escapeHtml(m.name)}（${astro.shuku.name} / ${m.birthdate}）</option>`;
+    })
+    .join("");
+
+  if (selfSelect) {
+    selfSelect.innerHTML = optionsHtml;
+    if (state.selfId) selfSelect.value = state.selfId;
+  }
+  if (partnerSelect) {
+    partnerSelect.innerHTML = optionsHtml;
+    if (state.partnerId) partnerSelect.value = state.partnerId;
+  }
+  if (singleSelect) {
+    singleSelect.innerHTML = optionsHtml;
+    if (state.singleTargetId) singleSelect.value = state.singleTargetId;
+  }
+  if (focusSelect) {
+    focusSelect.innerHTML = optionsHtml;
+    if (!state.focusMemberId) state.focusMemberId = state.selfId || state.members[0]?.id || null;
+    if (state.focusMemberId) focusSelect.value = state.focusMemberId;
+  }
+}
+
+/**
+ * 1対1の九曜星占盤＆相性診断結果の描画（結婚相性・アプローチ法付き）
+ */
+function renderCompatibilitySection() {
+  const resultBox = document.getElementById("compat-result-container");
+  if (!resultBox) return;
+
+  const selfMember = state.members.find((m) => m.id === state.selfId) || state.members[0];
+  const partnerMember = state.members.find((m) => m.id === state.partnerId) || state.members[1] || state.members[0];
+
+  if (!selfMember || !partnerMember) {
+    resultBox.innerHTML = `<p>上に自分と友達の名前・生年月日を登録すると、九曜星占盤で相性を占えます。</p>`;
+    return;
+  }
+
+  const selfAstro = calculatePersonAstrology(selfMember);
+  const partnerAstro = calculatePersonAstrology(partnerMember);
+  const compat = calculateCompatibility(selfAstro.shukuIndex, partnerAstro.shukuIndex);
+
+  alignWheelToPair(selfAstro.shukuIndex, partnerAstro.shukuIndex);
+
+  const wheelStatus = document.getElementById("wheel-pair-status");
+  if (wheelStatus) {
+    wheelStatus.innerHTML = `
+      <strong>${escapeHtml(selfMember.name)}</strong>の宿星【<strong>${selfAstro.shuku.name}</strong>】に赤字の「<strong>命</strong>」を合わせると、<br>
+      <strong>${escapeHtml(partnerMember.name)}</strong>の宿星【<strong>${partnerAstro.shuku.name}</strong>】の位置には「<strong style="color:var(--gold-bright);font-size:1.1rem;">${compat.selfToPartner.char}（${compat.distanceKey}）</strong>」が現れます。
+    `;
+  }
+
+  resultBox.innerHTML = `
+    <div class="compat-header-banner">
+      <div>
+        <span class="compat-badge">${compat.groupInfo.badge} ・ ${compat.distanceInfo.label}</span>
+        <h3 class="compat-main-title">${compat.groupInfo.title}</h3>
+      </div>
+      <div class="compat-score-circle" title="相性指数">
+        <span class="compat-score-num">${compat.score}</span>
+        <span class="compat-score-label">相性点</span>
+      </div>
+    </div>
+
+    <div class="direction-boxes">
+      <div class="dir-box">
+        <div>
+          <div style="font-size:0.76rem;color:var(--text-muted);">${escapeHtml(selfMember.name)}（${selfAstro.shuku.name}）から見た相手</div>
+          <div style="font-weight:700;font-size:1rem;margin-top:0.15rem;">
+            「${compat.selfToPartner.char}（${compat.selfToPartner.reading}）」の相手
+          </div>
+          <div style="font-size:0.74rem;color:var(--gold-bright);margin-top:0.2rem;">
+            🏯 ${(selfAstro.shuku.historicalFigures || "").split("】")[0]}】
+          </div>
+        </div>
+        <div class="dir-char-seal">${compat.selfToPartner.char}</div>
+      </div>
+
+      <div class="dir-box">
+        <div>
+          <div style="font-size:0.76rem;color:var(--text-muted);">${escapeHtml(partnerMember.name)}（${partnerAstro.shuku.name}）から見たあなた</div>
+          <div style="font-weight:700;font-size:1rem;margin-top:0.15rem;">
+            「${compat.partnerToSelf.char}（${compat.partnerToSelf.reading}）」の相手
+          </div>
+          <div style="font-size:0.74rem;color:var(--gold-bright);margin-top:0.2rem;">
+            🏯 ${(partnerAstro.shuku.historicalFigures || "").split("】")[0]}】
+          </div>
+        </div>
+        <div class="dir-char-seal" style="background:#8f6b18;">${compat.partnerToSelf.char}</div>
+      </div>
+    </div>
+
+    <div class="compat-details-grid">
+      <div class="compat-detail-item">
+        <h4>🔮 二人の宿縁・基本相性</h4>
+        <p>${compat.groupInfo.summary}</p>
+        <p style="margin-top:0.45rem;font-size:0.84rem;color:var(--text-muted);">
+          <strong>【距離感：${compat.distanceInfo.label}】</strong> ${compat.distanceInfo.text}
+        </p>
+      </div>
+
+      <div class="compat-detail-item">
+        <h4>🤝 友達・遊び仲間としての相性</h4>
+        <p>${compat.groupInfo.friendship}</p>
+      </div>
+
+      <div class="compat-detail-item">
+        <h4>❤️ 恋愛・交際での相性</h4>
+        <p>${compat.groupInfo.romance}</p>
+      </div>
+
+      <div class="compat-detail-item" style="border-left-color:#e6a8d7;">
+        <h4>💍 結婚・夫婦としての相性</h4>
+        <p>${compat.groupInfo.marriage}</p>
+      </div>
+
+      <div class="compat-detail-item" style="border-left-color:var(--jade);background:rgba(47, 158, 111, 0.1);">
+        <h4>🌱 【IF】もしも二人の良きところを伸ばし合えたら（歴史上の関係例え）</h4>
+        <p style="margin-bottom:0.4rem;">${compat.groupInfo.ifBestCase || ""}</p>
+        <p style="font-size:0.85rem;color:var(--gold-bright);">🏯 ${compat.groupInfo.historicalPair || ""}</p>
+      </div>
+
+      <div class="compat-detail-item" style="border-left-color:var(--vermilion);background:rgba(209, 59, 44, 0.13);">
+        <h4>⚠️ ここがダメになると崩れる（二人の要注意ポイント）</h4>
+        <p>${compat.groupInfo.dangerCompat || ""}</p>
+      </div>
+
+      <div class="compat-detail-item" style="border-left-color:var(--gold-bright);background:rgba(212, 175, 55, 0.08);">
+        <h4>💌 ${escapeHtml(partnerMember.name)}さん（${partnerAstro.shuku.name}）への効果的なアプローチ方法</h4>
+        <p style="margin-bottom:0.4rem;"><strong>【二人の関係性からのアプローチ】</strong><br>${compat.groupInfo.approachTip}</p>
+        <p><strong>【${partnerAstro.shuku.name}の心を掴む攻略法】</strong><br>${partnerAstro.shuku.targetApproach}</p>
+      </div>
+
+      <div class="compat-detail-item">
+        <h4>💼 仕事・チームでの相性</h4>
+        <p>${compat.groupInfo.work}</p>
+      </div>
+
+      <div class="compat-detail-item" style="border-left-color:var(--vermilion-soft);background:rgba(209, 59, 44, 0.1);">
+        <h4>⛩️ 満正寺流・二人の開運アドバイス</h4>
+        <p>${compat.groupInfo.advice}</p>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * 個人の「星札（黄札）」・結婚相手・アプローチ法 ＆ 九曜星診断セクションの描画
+ */
+function renderKifudaSection() {
+  const kifudaBox = document.getElementById("kifuda-card-container");
+  const kuyoBox = document.getElementById("kuyosei-detail-container");
+  if (!kifudaBox || !kuyoBox) return;
+
+  const targetMember =
+    state.members.find((m) => m.id === state.singleTargetId) ||
+    state.members.find((m) => m.id === state.selfId) ||
+    state.members[0];
+
+  if (!targetMember) {
+    kifudaBox.innerHTML = `<p>メンバーを登録してください。</p>`;
+    kuyoBox.innerHTML = "";
+    return;
+  }
+
+  const astro = calculatePersonAstrology(targetMember);
+  const { shuku, tonenStar, honmeiStar } = astro;
+  const bestMarriageList = getBestMarriageShukuList(astro.shukuIndex, targetMember.id);
+
+  const bestShukuBadgesHtml = bestMarriageList
+    .map((item) => {
+      const hasFriend = item.matchedFriends.length > 0;
+      const friendNote = hasFriend ? `（★${escapeHtml(item.matchedFriends.join("・"))}）` : "";
+      return `
+        <button
+          type="button"
+          class="best-shuku-pill ${hasFriend ? "has-friend" : ""}"
+          data-shuku-idx="${item.shukuIndex}"
+          title="${item.reason} ― クリックで${item.shuku.name}の詳細を見る"
+        >
+          <span>${item.shuku.name}</span>
+          <span style="font-size:0.72rem;opacity:0.85;">[${item.reason.split("（")[0]}]${friendNote}</span>
+        </button>
+      `;
+    })
+    .join("");
+
+  kifudaBox.innerHTML = `
+    <div class="kifuda-talisman">
+      <div class="kifuda-top-stamp">
+        <div class="kifuda-temple-label">九曜星占盤 宿星開運札</div>
+        <h3 class="kifuda-shuku-title">${shuku.name}</h3>
+        <div class="kifuda-shuku-reading">（${shuku.reading}）</div>
+        <div class="kifuda-meta-tags">
+          <span class="kifuda-tag">${shuku.direction}</span>
+          <span class="kifuda-tag">七曜：${shuku.element}</span>
+          <span class="kifuda-tag">性質：${shuku.nature}</span>
+        </div>
+        <div style="margin-top:0.55rem;font-size:0.8rem;font-family:sans-serif;color:#4a3510;">
+          <strong>${escapeHtml(targetMember.name)}</strong> 様（${targetMember.birthdate} 生 ／ ${astro.lookupLabel}）
+        </div>
+      </div>
+
+      <div class="kifuda-catchphrase">
+        「${shuku.catchphrase}」
+      </div>
+
+      <div class="kifuda-section">
+        <h4>【本 質 ・ 性 格（良きところ）】</h4>
+        <p>${shuku.personality}</p>
+      </div>
+
+      <div class="kifuda-section">
+        <h4>【才 能 ・ 適 職】</h4>
+        <p>${shuku.talent}</p>
+      </div>
+
+      <div class="kifuda-section" style="background:rgba(47, 158, 111, 0.12);padding:0.65rem;border-radius:6px;">
+        <h4>🌱 【もしも良きところを伸ばし切ったら（IF・歴史上の人物例え）】</h4>
+        <p style="margin-bottom:0.35rem;">${shuku.ifPotential || ""}</p>
+        <p style="font-size:0.84rem;color:#4a3510;"><strong>🏯 ${shuku.historicalFigures || ""}</strong></p>
+      </div>
+
+      <div class="kifuda-section" style="background:rgba(181, 36, 24, 0.12);padding:0.7rem;border:1px solid #b52418;border-radius:6px;">
+        <h4>⚡ 【開運の戒め（ダメなところ・陥りやすい弱点）】</h4>
+        <p style="font-weight:700;color:#4a100a;">${shuku.admonition}</p>
+      </div>
+
+      <div class="kifuda-section">
+        <h4>【健 康 ・ 養 生】</h4>
+        <p>${shuku.health}</p>
+      </div>
+
+      <div class="kifuda-section">
+        <h4>【守 護 開 運 物】</h4>
+        <p>${shuku.luckyItem}</p>
+      </div>
+    </div>
+  `;
+
+  const cycleRowsHtml = [];
+  for (let offset = -1; offset <= 7; offset++) {
+    const y = state.targetYear + offset;
+    const age = Math.max(1, y - astro.effectiveBirthYear + 1);
+    const mod = ((age % 9) + 9) % 9;
+    const star = KUYOSEI_TONEN_DATA[mod];
+    const isCurrent = offset === 0;
+    cycleRowsHtml.push(`
+      <tr class="${isCurrent ? "current-year-row" : ""}">
+        <td>${y}年${isCurrent ? "（今年）" : ""}</td>
+        <td>数え ${age}歳</td>
+        <td><strong style="color:${star.color === "#c93b2b" ? "#ff8a7a" : "var(--gold-bright)"};">${star.name}</strong></td>
+        <td>${star.fortune}</td>
+      </tr>
+    `);
+  }
+
+  kuyoBox.innerHTML = `
+    <!-- 結婚観・理想の結婚相手・アプローチ法カード -->
+    <div class="kuyo-box-card" style="border-color:var(--gold-bright);">
+      <h3 style="margin:0 0 0.85rem;color:var(--gold-bright);font-size:1.18rem;">
+        💍 ${escapeHtml(targetMember.name)}さん（${shuku.name}）の結婚診断 ＆ 恋のアプローチ法
+      </h3>
+
+      <div class="compat-details-grid">
+        <div class="compat-detail-item" style="border-left-color:#e6a8d7;">
+          <h4>🏡 結婚観・結婚後の家庭運</h4>
+          <p>${shuku.marriageView}</p>
+        </div>
+
+        <div class="compat-detail-item" style="border-left-color:var(--gold-bright);">
+          <h4>💑 どういう人が結婚に合っているか（理想の相手像）</h4>
+          <p>${shuku.idealPartner}</p>
+          <div style="margin-top:0.65rem;font-size:0.82rem;color:var(--text-muted);">
+            <strong>✨ 宿曜で結婚相性が最高な宿星（栄・親／業・胎）：</strong>
+            <div class="best-shuku-badges">${bestShukuBadgesHtml}</div>
+          </div>
+        </div>
+
+        <div class="compat-detail-item" style="border-left-color:var(--jade);">
+          <h4>💌 ${escapeHtml(targetMember.name)}さんが好きな人へアプローチする時の秘訣</h4>
+          <p>${shuku.selfApproach}</p>
+        </div>
+
+        <div class="compat-detail-item" style="border-left-color:var(--vermilion-soft);background:rgba(209, 59, 44, 0.1);">
+          <h4>💘 ${escapeHtml(targetMember.name)}さん（${shuku.name}）を振り向かせたい時の攻略法</h4>
+          <p>${shuku.targetApproach}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 九曜星（当年星・本命星）カード -->
+    <div class="kuyo-box-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+        <h3 style="margin:0;color:var(--gold-bright);font-size:1.15rem;">
+          🌟 ${escapeHtml(targetMember.name)}さんの九曜星（当年星・本命星）
+        </h3>
+        <div style="font-family:sans-serif;font-size:0.82rem;color:var(--text-muted);">
+          ${state.targetYear}年（数え年 ${astro.kazoeAge}歳）
+        </div>
+      </div>
+
+      <div class="tonen-hero">
+        <div class="tonen-orb" style="background:${tonenStar.color};">
+          <span style="font-size:1.15rem;">${tonenStar.name}</span>
+          <span style="font-size:0.65rem;opacity:0.9;">当年星</span>
+        </div>
+        <div style="flex:1;min-width:220px;font-family:sans-serif;">
+          <div style="font-size:0.8rem;color:var(--gold-bright);font-weight:700;">
+            ${state.targetYear}年の廻り星（当年星）：${tonenStar.name}（${tonenStar.reading}）
+          </div>
+          <div style="font-size:1.05rem;font-weight:700;margin:0.15rem 0 0.35rem;">
+            運勢判定：${tonenStar.fortune}
+          </div>
+          <p style="margin:0;font-size:0.88rem;color:var(--text-main);">${tonenStar.summary}</p>
+        </div>
+      </div>
+
+      <div class="compat-detail-item" style="font-family:sans-serif;margin-bottom:1rem;">
+        <h4>🙏 今年の過ごし方・厄除け開運指針</h4>
+        <p>${tonenStar.advice}</p>
+      </div>
+
+      <div class="compat-detail-item" style="font-family:sans-serif;border-left-color:var(--indigo);">
+        <h4>🧭 生まれ年の本命星（北斗七星 × 九星）</h4>
+        <p>
+          <strong>本命星：${honmeiStar.hokuto} ／ ${honmeiStar.kyusei}</strong><br>
+          <strong>本地仏（守り本尊）：</strong>${honmeiStar.buddha}<br>
+          <strong>生まれ持った徳性：</strong>${honmeiStar.trait}
+        </p>
+      </div>
+    </div>
+
+    <div class="kuyo-box-card">
+      <h4 style="margin:0 0 0.4rem;color:var(--gold-bright);">📅 九曜星 9年周期バイオリズム（当年星の巡り）</h4>
+      <p style="margin:0;font-size:0.82rem;color:var(--text-muted);font-family:sans-serif;">
+        九曜星は数え年に応じて9年周期で巡ります。大凶星（羅睺星・火曜星・計都星）の年は無理を避けて充電し、吉星（日曜星・月曜星・木曜星）の年に大きく飛躍しましょう。
+      </p>
+      <div class="table-scroll-container">
+        <table class="cycle-table">
+          <thead>
+            <tr>
+              <th>西暦</th>
+              <th>数え年</th>
+              <th>巡る九曜星（当年星）</th>
+              <th>吉凶・運勢の傾向</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cycleRowsHtml.join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+
+  kuyoBox.querySelectorAll(".best-shuku-pill").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      openShukuQuickDialog(Number(btn.getAttribute("data-shuku-idx")));
+    });
+  });
+}
+
+/**
+ * 選んだ1人と他メンバー全員の相性のみを表示するセクション（1対Nフォーカス表示）
+ */
+function renderFocusMemberCompatSection() {
+  const headerEl = document.getElementById("focus-compat-header");
+  const gridEl = document.getElementById("focus-compat-grid");
+  if (!headerEl || !gridEl) return;
+
+  const focusMember =
+    state.members.find((m) => m.id === state.focusMemberId) ||
+    state.members.find((m) => m.id === state.selfId) ||
+    state.members[0];
+
+  if (!focusMember || state.members.length < 2) {
+    headerEl.innerHTML = `<p>2人以上のメンバーを登録すると、選んだ人と他メンバー全員の相性一覧が表示されます。</p>`;
+    gridEl.innerHTML = "";
+    return;
+  }
+
+  const focusAstro = calculatePersonAstrology(focusMember);
+  const otherMembers = state.members.filter((m) => m.id !== focusMember.id);
+
+  // 相性スコア順にソート
+  const comparisons = otherMembers
+    .map((other) => {
+      const otherAstro = calculatePersonAstrology(other);
+      const compat = calculateCompatibility(focusAstro.shukuIndex, otherAstro.shukuIndex);
+      return { other, otherAstro, compat };
+    })
+    .sort((a, b) => b.compat.score - a.compat.score);
+
+  headerEl.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.65rem;">
+      <div>
+        <h3 style="margin:0;color:var(--gold-bright);font-size:1.25rem;">
+          🎯 【${escapeHtml(focusMember.name)}（${focusAstro.shuku.name}）】とメンバー全員の相性一覧（${comparisons.length}名）
+        </h3>
+        <p style="margin:0.25rem 0 0;font-size:0.85rem;color:var(--text-muted);font-family:sans-serif;">
+          ${escapeHtml(focusMember.name)}さんの宿星「${focusAstro.shuku.name}」に「命」を合わせたときの、各メンバーとの相性・結婚観・アプローチ法です（相性スコア順）。
+        </p>
+      </div>
+      <button type="button" id="focus-person-kifuda-btn" class="btn-secondary">
+        💍 ${escapeHtml(focusMember.name)}さんの結婚観・星札を見る
+      </button>
+    </div>
+  `;
+
+  document.getElementById("focus-person-kifuda-btn")?.addEventListener("click", () => {
+    state.singleTargetId = focusMember.id;
+    switchTab("tab-kifuda");
+    renderAll();
+  });
+
+  gridEl.innerHTML = comparisons
+    .map(({ other, otherAstro, compat }, idx) => {
+      const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `${idx + 1}.`;
+      return `
+        <div class="focus-compat-card">
+          <div class="focus-card-header">
+            <div>
+              <div style="font-size:1.05rem;font-weight:700;color:var(--text-main);">
+                ${medal} 対 ${escapeHtml(other.name)} <span style="font-size:0.84rem;color:var(--gold-bright);">（${otherAstro.shuku.name}）</span>
+              </div>
+              <div style="font-size:0.74rem;color:var(--text-muted);margin-top:0.1rem;">
+                🏯 ${(otherAstro.shuku.historicalFigures || "").split("】")[0]}】
+              </div>
+              <div style="font-size:0.8rem;color:var(--gold-bright);margin-top:0.15rem;">
+                ${compat.groupInfo.badge} ・ 【${compat.groupKey}（${compat.distanceKey}）】
+                ${escapeHtml(focusMember.name)}から見て「<strong>${compat.selfToPartner.char}</strong>」／ 相手から見て「<strong>${compat.partnerToSelf.char}</strong>」
+              </div>
+            </div>
+            <div class="compat-score-circle" style="min-width:58px;height:58px;">
+              <span class="compat-score-num" style="font-size:1.25rem;">${compat.score}</span>
+              <span class="compat-score-label">点</span>
+            </div>
+          </div>
+
+          <div class="focus-section-mini">
+            <strong>🤝 友達としての相性</strong>
+            ${compat.groupInfo.friendship}
+          </div>
+
+          <div class="focus-section-mini" style="border-left-color:var(--jade);">
+            <strong>🌱 【IF】良きところを伸ばし合えたら（歴史例え）</strong>
+            ${compat.groupInfo.ifBestCase || ""}<br>
+            <span style="font-size:0.78rem;color:var(--gold-bright);">${compat.groupInfo.historicalPair || ""}</span>
+          </div>
+
+          <div class="focus-section-mini" style="border-left-color:var(--vermilion);">
+            <strong>⚠️ ダメになりやすい要注意ポイント</strong>
+            ${compat.groupInfo.dangerCompat || ""}
+          </div>
+
+          <div class="focus-section-mini" style="border-left-color:#e6a8d7;">
+            <strong>💍 結婚・恋愛としての相性</strong>
+            ${compat.groupInfo.marriage}
+          </div>
+
+          <div class="focus-section-mini" style="border-left-color:var(--vermilion-soft);">
+            <strong>💌 ${escapeHtml(other.name)}さん（${otherAstro.shuku.name}）へのアプローチ法</strong>
+            ${compat.groupInfo.approachTip}
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:0.5rem;margin-top:auto;padding-top:0.3rem;">
+            <button
+              type="button"
+              class="btn-secondary btn-view-on-wheel"
+              data-self-id="${focusMember.id}"
+              data-partner-id="${other.id}"
+            >
+              ☸️ 九曜星占盤でこの2人を見る →
+            </button>
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+
+  gridEl.querySelectorAll(".btn-view-on-wheel").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.selfId = btn.getAttribute("data-self-id");
+      state.partnerId = btn.getAttribute("data-partner-id");
+      switchTab("tab-wheel");
+      renderAll();
+    });
+  });
+}
+
+/**
+ * 友達グループ全員の総当たり相性表（マトリクス）＆ベストペアランキングの描画
+ */
+function renderGroupMatrixSection() {
+  const matrixContainer = document.getElementById("group-matrix-container");
+  const rankingContainer = document.getElementById("group-ranking-container");
+  if (!matrixContainer || !rankingContainer) return;
+
+  if (state.members.length < 2) {
+    matrixContainer.innerHTML = `<p>2人以上の友達を登録すると、グループ全員の総当たり相性表とベストペアランキングが表示されます。</p>`;
+    rankingContainer.innerHTML = "";
+    return;
+  }
+
+  const memberAstros = state.members.map((m) => ({
+    member: m,
+    astro: calculatePersonAstrology(m)
+  }));
+
+  const headerCells = memberAstros
+    .map(
+      ({ member, astro }) =>
+        `<th scope="col">${escapeHtml(member.name)}<br><span style="font-size:0.75rem;font-weight:400;">(${astro.shuku.name})</span></th>`
+    )
+    .join("");
+
+  const bodyRows = memberAstros
+    .map(({ member: rowMember, astro: rowAstro }) => {
+      const cells = memberAstros
+        .map(({ member: colMember, astro: colAstro }) => {
+          if (rowMember.id === colMember.id) {
+            return `<td style="color:var(--text-muted);background:rgba(0,0,0,0.2);">―</td>`;
+          }
+          const compat = calculateCompatibility(rowAstro.shukuIndex, colAstro.shukuIndex);
+          return `
+            <td>
+              <button
+                type="button"
+                class="matrix-cell-btn"
+                data-self-id="${rowMember.id}"
+                data-partner-id="${colMember.id}"
+                title="クリックして2人の詳細相性を円盤で見る"
+              >
+                <strong style="font-size:1rem;color:${compat.groupInfo.color === "#d69e2e" ? "var(--gold-bright)" : "#fff"};">
+                  ${compat.selfToPartner.char}
+                </strong>
+                <span style="font-size:0.7rem;color:var(--text-muted);">${compat.groupKey}(${compat.distanceKey.charAt(0)})</span>
+                <span style="font-size:0.72rem;color:var(--gold-bright);font-weight:700;">${compat.score}点</span>
+              </button>
+            </td>
+          `;
+        })
+        .join("");
+
+      return `
+        <tr>
+          <th scope="row" style="text-align:left;white-space:nowrap;">
+            ${escapeHtml(rowMember.name)} <span style="font-size:0.75rem;font-weight:400;">(${rowAstro.shuku.name})</span>
+          </th>
+          ${cells}
+        </tr>
+      `;
+    })
+    .join("");
+
+  matrixContainer.innerHTML = `
+    <div class="table-scroll-container">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th>自分 ＼ 相手</th>
+            ${headerCells}
+          </tr>
+        </thead>
+        <tbody>
+          ${bodyRows}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  matrixContainer.querySelectorAll(".matrix-cell-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      state.selfId = btn.getAttribute("data-self-id");
+      state.partnerId = btn.getAttribute("data-partner-id");
+      switchTab("tab-wheel");
+      renderAll();
+    });
+  });
+
+  const pairs = [];
+  for (let i = 0; i < memberAstros.length; i++) {
+    for (let j = i + 1; j < memberAstros.length; j++) {
+      const a = memberAstros[i];
+      const b = memberAstros[j];
+      const compat = calculateCompatibility(a.astro.shukuIndex, b.astro.shukuIndex);
+      pairs.push({ a, b, compat });
+    }
+  }
+  pairs.sort((p1, p2) => p2.compat.score - p1.compat.score);
+
+  rankingContainer.innerHTML = pairs
+    .map((pair, idx) => {
+      const { a, b, compat } = pair;
+      const medal = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `${idx + 1}.`;
+      return `
+        <div class="ranking-item" data-self-id="${a.member.id}" data-partner-id="${b.member.id}">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
+            <span style="font-weight:700;font-size:0.95rem;">
+              ${medal} ${escapeHtml(a.member.name)} × ${escapeHtml(b.member.name)}
+            </span>
+            <span style="font-weight:700;color:var(--gold-bright);font-size:1rem;">${compat.score}点</span>
+          </div>
+          <div style="font-size:0.8rem;color:var(--gold-bright);margin-bottom:0.25rem;">
+            【${compat.groupKey}・${compat.distanceKey}】 ${a.astro.shuku.name}(${compat.selfToPartner.char}) ⇔ ${b.astro.shuku.name}(${compat.partnerToSelf.char})
+          </div>
+          <div style="font-size:0.8rem;color:var(--text-muted);">
+            ${compat.groupInfo.badge}：クリックして九曜星占盤で詳しく見る →
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+
+  rankingContainer.querySelectorAll(".ranking-item").forEach((card) => {
+    card.addEventListener("click", () => {
+      state.selfId = card.getAttribute("data-self-id");
+      state.partnerId = card.getAttribute("data-partner-id");
+      switchTab("tab-wheel");
+      renderAll();
+    });
+  });
+}
+
+/**
+ * 宿星帳（12ヶ月×31日 早見表マトリクス）の描画
+ */
+function renderShukuseichoTable() {
+  const container = document.getElementById("shukuseicho-table-container");
+  if (!container) return;
+
+  const memberDateMap = new Map();
+  state.members.forEach((m) => {
+    const [, bm, bd] = m.birthdate.split("-").map(Number);
+    const key = `${bm}-${bd}`;
+    if (!memberDateMap.has(key)) memberDateMap.set(key, []);
+    memberDateMap.get(key).push(m.name);
+  });
+
+  const monthHeaders = Array.from({ length: 12 }, (_, i) => `<th scope="col">${i + 1}月</th>`).join("");
+
+  const dayRows = Array.from({ length: 31 }, (_, dIdx) => {
+    const day = dIdx + 1;
+    const cells = Array.from({ length: 12 }, (_, mIdx) => {
+      const month = mIdx + 1;
+      const startIdx = SHUKU_START_BY_LUNAR_MONTH[month];
+      const shukuIdx = (startIdx + (day - 1)) % 27;
+      const shuku = SHUKU_27_DATA[shukuIdx];
+      const matchedNames = memberDateMap.get(`${month}-${day}`);
+      const isHighlighted = Boolean(matchedNames);
+
+      return `
+        <td style="${isHighlighted ? "background:rgba(209,59,44,0.38);border:2px solid var(--gold-bright);" : ""}">
+          <button
+            type="button"
+            class="matrix-cell-btn"
+            data-shuku-idx="${shukuIdx}"
+            style="padding:0.25rem 0.15rem;background:transparent;"
+            title="${month}月${day}日：${shuku.name}（${shuku.reading}）${isHighlighted ? " ★" + matchedNames.join(", ") : ""}"
+          >
+            <strong style="color:${isHighlighted ? "var(--gold-bright)" : "var(--text-main)"};font-size:0.86rem;">
+              ${shuku.short}
+            </strong>
+            ${isHighlighted ? `<span style="font-size:0.65rem;color:#ffd97d;">★${escapeHtml(matchedNames[0])}</span>` : ""}
+          </button>
+        </td>
+      `;
+    }).join("");
+
+    return `
+      <tr>
+        <th scope="row" style="white-space:nowrap;">${day}日</th>
+        ${cells}
+      </tr>
+    `;
+  }).join("");
+
+  container.innerHTML = `
+    <div class="table-scroll-container" style="max-height:540px;overflow-y:auto;">
+      <table class="matrix-table">
+        <thead style="position:sticky;top:0;z-index:5;">
+          <tr>
+            <th>日 ＼ 月</th>
+            ${monthHeaders}
+          </tr>
+        </thead>
+        <tbody>
+          ${dayRows}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  container.querySelectorAll("button[data-shuku-idx]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      openShukuQuickDialog(Number(btn.getAttribute("data-shuku-idx")));
+    });
+  });
+}
+
+/**
+ * 円盤上の27宿をクリックしたときのクイック解説ダイアログ (<dialog>)
+ */
+function openShukuQuickDialog(shukuIdx) {
+  const dialog = document.getElementById("shuku-quick-dialog");
+  const content = document.getElementById("shuku-dialog-body");
+  if (!dialog || !content) return;
+
+  const shuku = SHUKU_27_DATA[shukuIdx];
+  const selfMember = state.members.find((m) => m.id === state.selfId) || state.members[0];
+  let compatHtml = "";
+
+  if (selfMember) {
+    const selfAstro = calculatePersonAstrology(selfMember);
+    const compat = calculateCompatibility(selfAstro.shukuIndex, shukuIdx);
+    compatHtml = `
+      <div style="margin-top:1rem;padding:0.85rem;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:10px;font-family:sans-serif;">
+        <div style="font-size:0.8rem;color:var(--text-muted);">
+          現在の基準：<strong>${escapeHtml(selfMember.name)}（${selfAstro.shuku.name}）</strong>との相性
+        </div>
+        <div style="font-size:1.05rem;font-weight:700;color:var(--gold-bright);margin:0.2rem 0;">
+          「${compat.selfToPartner.char}」― ${compat.groupInfo.title}（${compat.distanceInfo.label} / ${compat.score}点）
+        </div>
+        <p style="margin:0;font-size:0.86rem;">${compat.groupInfo.summary}</p>
+      </div>
+    `;
+  }
+
+  content.innerHTML = `
+    <div style="border-bottom:1px solid var(--border-gold);padding-bottom:0.65rem;margin-bottom:0.85rem;">
+      <span style="font-size:0.78rem;color:var(--gold-bright);">${shuku.direction} ／ 七曜：${shuku.element} ／ ${shuku.nature}</span>
+      <h3 style="margin:0.2rem 0;font-size:1.6rem;color:var(--text-main);">${shuku.name}（${shuku.reading}）</h3>
+      <div style="color:var(--vermilion-soft);font-weight:700;font-size:0.92rem;">「${shuku.catchphrase}」</div>
+    </div>
+    <div style="font-family:sans-serif;font-size:0.9rem;display:grid;gap:0.65rem;">
+      <div><strong>【基本性格（良きところ）】</strong><br>${shuku.personality}</div>
+      <div style="background:rgba(47,158,111,0.14);padding:0.65rem;border-radius:8px;"><strong>🌱 【もしも良きところを伸ばし切ったら（IF・歴史人物例え）】</strong><br>${shuku.ifPotential || ""}<br><span style="font-size:0.84rem;color:var(--gold-bright);">🏯 ${shuku.historicalFigures || ""}</span></div>
+      <div style="background:rgba(209,59,44,0.14);padding:0.65rem;border-radius:8px;border-left:3px solid var(--vermilion);"><strong>⚡ 【星札の戒め（ダメなところ・要注意点）】</strong><br>${shuku.admonition}</div>
+      <div><strong>【結婚観・合う相手】</strong><br>${shuku.idealPartner}</div>
+      <div><strong>【この宿星へのアプローチ攻略法】</strong><br>${shuku.targetApproach}</div>
+    </div>
+    ${compatHtml}
+  `;
+
+  dialog.showModal();
+}
+
+/**
+ * メンバー編集モーダルを開く
+ */
+function openEditMemberDialog(memberId) {
+  const member = state.members.find((m) => m.id === memberId);
+  const dialog = document.getElementById("edit-member-dialog");
+  if (!member || !dialog) return;
+
+  document.getElementById("edit-member-id").value = member.id;
+  document.getElementById("edit-member-name").value = member.name;
+  document.getElementById("edit-member-birth").value = member.birthdate;
+  document.getElementById("edit-member-shuku").value =
+    typeof member.overrideShukuIndex === "number" ? String(member.overrideShukuIndex) : "";
+
+  dialog.showModal();
+}
+
+/**
+ * メンバーの追加・更新・削除・永続化・URL共有
+ */
+function addMember(name, birthdate, overrideShukuIndex = null) {
+  const newMember = {
+    id: "m_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
+    name: name.trim(),
+    birthdate,
+    overrideShukuIndex
+  };
+  state.members.push(newMember);
+
+  if (!state.selfId) {
+    state.selfId = newMember.id;
+  } else if (!state.partnerId || state.partnerId === state.selfId) {
+    state.partnerId = newMember.id;
+  }
+  state.singleTargetId = newMember.id;
+  state.focusMemberId = newMember.id;
+  renderAll();
+  const astro = calculatePersonAstrology(newMember);
+  showToast(`「${newMember.name}」さん（${astro.shuku.name}）を追加しました`);
+}
+
+function updateMember(id, newName, newBirthdate, newOverrideIdx) {
+  const target = state.members.find((m) => m.id === id);
+  if (!target) return;
+  target.name = newName.trim() || target.name;
+  target.birthdate = newBirthdate || target.birthdate;
+  target.overrideShukuIndex = newOverrideIdx;
+  renderAll();
+  const astro = calculatePersonAstrology(target);
+  showToast(`「${target.name}」さん（${astro.shuku.name}）の情報を更新しました`);
+}
+
+function removeMember(id) {
+  if (state.members.length <= 1) {
+    showToast("最低1人はメンバーを残してください");
+    return;
+  }
+  state.members = state.members.filter((m) => m.id !== id);
+  if (state.selfId === id) state.selfId = state.members[0]?.id || null;
+  if (state.partnerId === id) state.partnerId = state.members[1]?.id || state.members[0]?.id || null;
+  if (state.singleTargetId === id) state.singleTargetId = state.members[0]?.id || null;
+  if (state.focusMemberId === id) state.focusMemberId = state.members[0]?.id || null;
+  renderAll();
+}
+
+function saveMembersToStorage() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state.members));
+    localStorage.setItem(MODE_STORAGE_KEY, state.calcMode);
+  } catch (_) {}
+}
+
+function loadInitialMembers() {
+  if (
+    typeof window.__EMBEDDED_CALC_MODE__ === "string" &&
+    (window.__EMBEDDED_CALC_MODE__ === "manshoji_table" || window.__EMBEDDED_CALC_MODE__ === "lunar_jp")
+  ) {
+    state.calcMode = window.__EMBEDDED_CALC_MODE__;
+  } else {
+    try {
+      const savedMode = localStorage.getItem(MODE_STORAGE_KEY);
+      if (savedMode === "manshoji_table" || savedMode === "lunar_jp") {
+        state.calcMode = savedMode;
+      }
+    } catch (_) {}
+  }
+
+  // URLパラメータ ?members= からの読み込み
+  const params = new URLSearchParams(window.location.search);
+  const sharedParam = params.get("members");
+  if (sharedParam) {
+    if (decodeAndApplySharedMembers(sharedParam, false)) {
+      return;
+    }
+  }
+
+  // 埋め込み共有HTMLファイル (window.__EMBEDDED_SHARED_MEMBERS__) からの読み込み
+  if (Array.isArray(window.__EMBEDDED_SHARED_MEMBERS__) && window.__EMBEDDED_SHARED_MEMBERS__.length > 0) {
+    state.members = window.__EMBEDDED_SHARED_MEMBERS__.map((item, idx) => ({
+      id: item.id || "embedded_" + idx + "_" + Date.now(),
+      name: String(item.name || item.n || "メンバー"),
+      birthdate: String(item.birthdate || item.b || "1995-12-06"),
+      overrideShukuIndex:
+        typeof item.overrideShukuIndex === "number"
+          ? item.overrideShukuIndex
+          : typeof item.s === "number"
+          ? item.s
+          : null
+    }));
+    state.selfId = state.members[0]?.id || null;
+    state.partnerId = state.members[1]?.id || state.members[0]?.id || null;
+    state.singleTargetId = state.selfId;
+    state.focusMemberId = state.selfId;
+    return;
+  }
+
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        state.members = parsed;
+        state.selfId = state.members[0]?.id || null;
+        state.partnerId = state.members[1]?.id || state.members[0]?.id || null;
+        state.singleTargetId = state.selfId;
+        state.focusMemberId = state.selfId;
+        return;
+      }
+    }
+  } catch (_) {}
+
+  loadSampleMembers(false);
+}
+
+function loadSampleMembers(notify = true) {
+  state.members = [
+    { id: "sample_1", name: "自分（1995/12/6生）", birthdate: "1995-12-06", overrideShukuIndex: null },
+    { id: "sample_2", name: "友達A（さくら）", birthdate: "1996-08-24", overrideShukuIndex: null },
+    { id: "sample_3", name: "友達B（けんた）", birthdate: "1995-11-03", overrideShukuIndex: null },
+    { id: "sample_4", name: "友達C（あおい）", birthdate: "1997-02-18", overrideShukuIndex: null }
+  ];
+  state.selfId = state.members[0].id;
+  state.partnerId = state.members[1].id;
+  state.singleTargetId = state.members[0].id;
+  state.focusMemberId = state.members[0].id;
+  if (notify) {
+    renderAll();
+    showToast("サンプルメンバーを読み込みました（1995/12/6＝婁宿）");
+  }
+}
+
+/**
+ * 共有コードの生成・デコード・LINE用テキスト生成・単一HTML書き出し
+ */
+function encodeMembersShareCode() {
+  const compact = state.members.map((m) => ({
+    n: m.name,
+    b: m.birthdate,
+    ...(typeof m.overrideShukuIndex === "number" ? { s: m.overrideShukuIndex } : {})
+  }));
+  return btoa(encodeURIComponent(JSON.stringify(compact)));
+}
+
+function decodeAndApplySharedMembers(rawInput, notify = true) {
+  if (!rawInput || typeof rawInput !== "string") return false;
+  let token = rawInput.trim();
+
+  // URL全体が貼り付けられた場合は ?members= 以降を抽出
+  if (token.includes("members=")) {
+    const match = token.match(/[?&]members=([^&#\s]+)/);
+    if (match && match[1]) {
+      token = match[1];
+    }
+  }
+
+  try {
+    const decoded = JSON.parse(decodeURIComponent(atob(token)));
+    if (Array.isArray(decoded) && decoded.length > 0) {
+      state.members = decoded.map((item, idx) => ({
+        id: "shared_" + idx + "_" + Date.now(),
+        name: String(item.n || item.name || "メンバー"),
+        birthdate: String(item.b || item.birthdate || "1995-12-06"),
+        overrideShukuIndex:
+          typeof item.s === "number"
+            ? item.s
+            : typeof item.overrideShukuIndex === "number"
+            ? item.overrideShukuIndex
+            : null
+      }));
+      state.selfId = state.members[0]?.id || null;
+      state.partnerId = state.members[1]?.id || state.members[0]?.id || null;
+      state.singleTargetId = state.selfId;
+      state.focusMemberId = state.selfId;
+      if (notify) {
+        renderAll();
+        showToast(`共有コードから ${state.members.length}名のメンバーを読み込みました！`);
+      }
+      return true;
+    }
+  } catch (_) {}
+  return false;
+}
+
+function generateShareSummaryText(targetMemberId) {
+  const focusMember =
+    state.members.find((m) => m.id === targetMemberId) ||
+    state.members.find((m) => m.id === state.focusMemberId) ||
+    state.members.find((m) => m.id === state.selfId) ||
+    state.members[0];
+
+  if (!focusMember) return "";
+
+  const focusAstro = calculatePersonAstrology(focusMember);
+  const otherMembers = state.members.filter((m) => m.id !== focusMember.id);
+
+  const lines = [];
+  lines.push("☸️ 【満正寺式・九曜星占盤】相性＆結婚診断結果 ☸️");
+  lines.push("━━━━━━━━━━━━━━━━━━");
+  lines.push(`👤 主役：${focusMember.name}（${focusMember.birthdate}生）`);
+  lines.push(`🌟 宿星：【${focusAstro.shuku.name}（${focusAstro.shuku.reading}）】`);
+  lines.push(`   「${focusAstro.shuku.catchphrase}」`);
+  lines.push(`✨ 基本性格（良きところ）：${focusAstro.shuku.personality}`);
+  lines.push(`🌱 もし良きところを伸ばしたら（IF）：${focusAstro.shuku.ifPotential || ""}`);
+  lines.push(`🏯 歴史人物例え：${focusAstro.shuku.historicalFigures || ""}`);
+  lines.push(`⚡ 星札の戒め（ダメなところ）：${focusAstro.shuku.admonition}`);
+  lines.push(`🪐 ${state.targetYear}年の九曜星（当年星）：【${focusAstro.tonenStar.name}】（${focusAstro.tonenStar.fortune}）`);
+  lines.push(`💍 結婚観：${focusAstro.shuku.marriageView}`);
+  lines.push(`💑 合う結婚相手：${focusAstro.shuku.idealPartner}`);
+  lines.push(`💘 ${focusMember.name}さんへのアプローチ攻略法：${focusAstro.shuku.targetApproach}`);
+
+  if (otherMembers.length > 0) {
+    lines.push("");
+    lines.push(`🎯 【${focusMember.name}（${focusAstro.shuku.name}）× メンバー全員の相性ランキング】`);
+    const comparisons = otherMembers
+      .map((other) => {
+        const otherAstro = calculatePersonAstrology(other);
+        const compat = calculateCompatibility(focusAstro.shukuIndex, otherAstro.shukuIndex);
+        return { other, otherAstro, compat };
+      })
+      .sort((a, b) => b.compat.score - a.compat.score);
+
+    comparisons.forEach(({ other, otherAstro, compat }, idx) => {
+      const medal = idx === 0 ? "🥇1位" : idx === 1 ? "🥈2位" : idx === 2 ? "🥉3位" : `・${idx + 1}位`;
+      const otherHistShort = (otherAstro.shuku.historicalFigures || "").split("】")[0] + "】";
+      lines.push(
+        `${medal} 対 ${other.name}（${otherAstro.shuku.name} ${otherHistShort}）：${compat.score}点 【${compat.groupKey}・${compat.distanceKey}】`
+      );
+      lines.push(
+        `   （${focusMember.name}から見て「${compat.selfToPartner.char}」／${other.name}から見て「${compat.partnerToSelf.char}」）`
+      );
+      lines.push(`   🤝 友達：${compat.groupInfo.friendship}`);
+      lines.push(`   🌱 もし良きところを伸ばし合えたら（IF）：${compat.groupInfo.ifBestCase || ""} ${compat.groupInfo.historicalPair || ""}`);
+      lines.push(`   ⚠️ 要注意ポイント：${compat.groupInfo.dangerCompat || ""}`);
+      lines.push(`   💍 結婚相性：${compat.groupInfo.marriage}`);
+      lines.push(`   💌 アプローチ：${compat.groupInfo.approachTip}`);
+    });
+  }
+
+  lines.push("");
+  lines.push("👥 【登録メンバー宿星 ＆ 歴史偉人タイプ一覧】");
+  state.members.forEach((m) => {
+    const a = calculatePersonAstrology(m);
+    const histTag = (a.shuku.historicalFigures || "").split("】")[0] + "】";
+    lines.push(`・${m.name}（${m.birthdate}）：${a.shuku.name} ${histTag} ／ 今年：${a.tonenStar.name}`);
+  });
+
+  return lines.join("\n");
+}
+
+function openShareDialog(focusOnImport = false) {
+  const dialog = document.getElementById("share-dialog");
+  if (!dialog) return;
+
+  // file:// プロトコルで開いている場合は注意書きを表示
+  const fileNotice = document.getElementById("share-file-protocol-notice");
+  if (fileNotice) {
+    fileNotice.style.display = window.location.protocol === "file:" ? "block" : "none";
+  }
+
+  // だれの結果テキストを作るかのセレクト更新
+  const shareMemberSelect = document.getElementById("share-focus-member-select");
+  const currentTargetId = state.focusMemberId || state.selfId || state.members[0]?.id;
+  if (shareMemberSelect) {
+    shareMemberSelect.innerHTML = state.members
+      .map((m) => {
+        const a = calculatePersonAstrology(m);
+        return `<option value="${m.id}">${escapeHtml(m.name)}（${a.shuku.name}）</option>`;
+      })
+      .join("");
+    if (currentTargetId) shareMemberSelect.value = currentTargetId;
+  }
+
+  // まとめテキスト生成
+  const summaryTextarea = document.getElementById("share-summary-textarea");
+  if (summaryTextarea) {
+    summaryTextarea.value = generateShareSummaryText(currentTargetId);
+  }
+
+  // 共有コードとURLのセット
+  const code = encodeMembersShareCode();
+  const codeOutput = document.getElementById("share-code-output");
+  if (codeOutput) codeOutput.value = code;
+
+  const baseUrl = window.location.href.split("?")[0].split("#")[0];
+  const webUrlOutput = document.getElementById("share-url-output");
+  if (webUrlOutput) {
+    webUrlOutput.value =
+      window.location.protocol === "file:"
+        ? `※現在パソコン内のファイル(file://)のためURL共有はできません。上の①テキストコピー、または②単一HTML保存をご利用ください`
+        : `${baseUrl}?members=${code}`;
+  }
+
+  dialog.showModal();
+
+  if (focusOnImport) {
+    const codeInput = document.getElementById("share-code-input");
+    codeInput?.focus();
+  }
+}
+
+function downloadStandaloneHtml() {
+  try {
+    const clone = document.documentElement.cloneNode(true);
+
+    // 開いているダイアログを閉じた状態にする
+    clone.querySelectorAll("dialog[open]").forEach((d) => d.removeAttribute("open"));
+
+    // トースト表示クラスをリセット
+    const toastEl = clone.querySelector("#toast-banner");
+    if (toastEl) toastEl.classList.remove("show");
+
+    // 既存 script / 外部 link タグを除去（1ファイルにすべてクリーンに内包するため）
+    clone.querySelectorAll('script, link[rel="stylesheet"]').forEach((el) => el.remove());
+
+    // 動的描画コンテナを一旦空にして起動時にクリーンに再描画させる
+    [
+      "senban-svg-root",
+      "member-chips-container",
+      "compat-result-container",
+      "kifuda-card-container",
+      "kuyosei-detail-container",
+      "focus-compat-grid",
+      "group-matrix-container",
+      "group-ranking-container",
+      "shukuseicho-table-container"
+    ].forEach((id) => {
+      const el = clone.querySelector("#" + id);
+      if (el) el.innerHTML = "";
+    });
+
+    // 埋め込みデータ＋全スクリプトを1つの <script> として注入
+    const embeddedScript = document.createElement("script");
+    embeddedScript.textContent = [
+      `window.__EMBEDDED_SHARED_MEMBERS__ = ${JSON.stringify(state.members)};`,
+      `window.__EMBEDDED_CALC_MODE__ = ${JSON.stringify(state.calcMode)};`,
+      `const SHUKU_START_BY_LUNAR_MONTH = ${JSON.stringify(SHUKU_START_BY_LUNAR_MONTH)};`,
+      `const SANKU_WHEEL_LABELS = ${JSON.stringify(SANKU_WHEEL_LABELS)};`,
+      `const SHUKU_27_DATA = ${JSON.stringify(SHUKU_27_DATA)};`,
+      `const KUYOSEI_TONEN_DATA = ${JSON.stringify(KUYOSEI_TONEN_DATA)};`,
+      `const HONMEI_NINE_STARS = ${JSON.stringify(HONMEI_NINE_STARS)};`,
+      `const COMPATIBILITY_GROUPS = ${JSON.stringify(COMPATIBILITY_GROUPS)};`,
+      `const DISTANCE_COMMENTARY = ${JSON.stringify(DISTANCE_COMMENTARY)};`,
+      `const __kuyoseiAppBootstrap = ${__kuyoseiAppBootstrap.toString()};`,
+      `__kuyoseiAppBootstrap();`
+    ].join("\n");
+
+    clone.querySelector("body")?.appendChild(embeddedScript);
+
+    const htmlContent = "<!DOCTYPE html>\n" + clone.outerHTML;
+    const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+    const blobUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = "満正寺_九曜星占盤_メンバー共有版.html";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+
+    showToast("メンバー入りの単一HTMLファイルを保存しました！LINE等で友達に送れます");
+  } catch (err) {
+    showToast("HTMLファイルの書き出し中にエラーが発生しました");
+  }
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll(".tab-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.getAttribute("data-target") === tabId);
+  });
+  document.querySelectorAll(".view-section").forEach((sec) => {
+    sec.classList.toggle("active", sec.id === tabId);
+  });
+}
+
+function updateMatrixModeUI() {
+  const isFocus = state.matrixViewMode === "focus";
+  document.getElementById("mode-focus-only-btn")?.classList.toggle("active", isFocus);
+  document.getElementById("mode-all-pairs-btn")?.classList.toggle("active", !isFocus);
+  const focusSec = document.getElementById("focus-compat-section");
+  const allSec = document.getElementById("all-pairs-section");
+  if (focusSec) focusSec.style.display = isFocus ? "block" : "none";
+  if (allSec) allSec.style.display = isFocus ? "none" : "block";
+}
+
+function showToast(msg) {
+  const toast = document.getElementById("toast-banner");
+  if (!toast) return;
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2600);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function copyTextWithFallback(text, successMsg) {
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => showToast(successMsg))
+      .catch(() => {
+        prompt("以下のテキストをコピーしてください：", text);
+      });
+  } else {
+    prompt("以下のテキストをコピーしてください：", text);
+  }
+}
+
+/**
+ * 初期化イベント設定
+ */
+function initApp() {
+  const shukuOptionsHtml =
+    `<option value="">早見表から自動算出</option>` +
+    SHUKU_27_DATA.map((s) => `<option value="${s.index}">${s.name}（${s.reading}）</option>`).join("");
+
+  const overrideSelect = document.getElementById("member-shuku-override");
+  const editOverrideSelect = document.getElementById("edit-member-shuku");
+  if (overrideSelect) overrideSelect.innerHTML = shukuOptionsHtml;
+  if (editOverrideSelect) editOverrideSelect.innerHTML = shukuOptionsHtml;
+
+  buildSenbanSVG();
+  loadInitialMembers();
+
+  const calcModeSelect = document.getElementById("calc-mode-select");
+  if (calcModeSelect) {
+    calcModeSelect.value = state.calcMode;
+    calcModeSelect.addEventListener("change", (e) => {
+      state.calcMode = e.target.value;
+      renderAll();
+      showToast(
+        state.calcMode === "manshoji_table"
+          ? "満正寺・宿星帳（月×日早見表）方式に切り替えました"
+          : "旧暦換算方式に切り替えました"
+      );
+    });
+  }
+
+  updateMatrixModeUI();
+  renderAll();
+
+  document.querySelectorAll(".tab-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      switchTab(btn.getAttribute("data-target"));
+    });
+  });
+
+  // メンバー追加フォーム送信
+  const addForm = document.getElementById("add-member-form");
+  if (addForm) {
+    addForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nameInput = document.getElementById("member-name-input");
+      const birthInput = document.getElementById("member-birth-input");
+      const overrideVal = overrideSelect?.value;
+
+      if (!nameInput.value.trim() || !birthInput.value) return;
+
+      const overrideIdx = overrideVal !== "" && overrideVal !== undefined ? Number(overrideVal) : null;
+      addMember(nameInput.value, birthInput.value, overrideIdx);
+      nameInput.value = "";
+      if (overrideSelect) overrideSelect.value = "";
+    });
+  }
+
+  // メンバー編集フォーム送信
+  const editDialog = document.getElementById("edit-member-dialog");
+  const editForm = document.getElementById("edit-member-form");
+  if (editForm) {
+    editForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const id = document.getElementById("edit-member-id").value;
+      const newName = document.getElementById("edit-member-name").value;
+      const newBirth = document.getElementById("edit-member-birth").value;
+      const shukuVal = document.getElementById("edit-member-shuku").value;
+      const overrideIdx = shukuVal !== "" && shukuVal !== undefined ? Number(shukuVal) : null;
+
+      updateMember(id, newName, newBirth, overrideIdx);
+      editDialog?.close();
+    });
+  }
+
+  document.getElementById("cancel-edit-member-btn")?.addEventListener("click", () => editDialog?.close());
+  editDialog?.addEventListener("click", (e) => {
+    if (e.target === editDialog) editDialog.close();
+  });
+
+  // 個人診断タブからの名前変更ボタン
+  document.getElementById("edit-selected-member-btn")?.addEventListener("click", () => {
+    const targetId = state.singleTargetId || state.selfId || state.members[0]?.id;
+    if (targetId) openEditMemberDialog(targetId);
+  });
+
+  // セレクト変更イベント
+  document.getElementById("self-member-select")?.addEventListener("change", (e) => {
+    state.selfId = e.target.value;
+    state.focusMemberId = e.target.value;
+    renderAll();
+  });
+
+  document.getElementById("partner-member-select")?.addEventListener("change", (e) => {
+    state.partnerId = e.target.value;
+    renderAll();
+  });
+
+  document.getElementById("single-member-select")?.addEventListener("change", (e) => {
+    state.singleTargetId = e.target.value;
+    renderAll();
+  });
+
+  document.getElementById("focus-member-select")?.addEventListener("change", (e) => {
+    state.focusMemberId = e.target.value;
+    state.selfId = e.target.value;
+    renderAll();
+  });
+
+  // 1対全員フォーカス表示 vs 全員総当たり表示の切り替えボタン
+  document.getElementById("mode-focus-only-btn")?.addEventListener("click", () => {
+    state.matrixViewMode = "focus";
+    updateMatrixModeUI();
+  });
+
+  document.getElementById("mode-all-pairs-btn")?.addEventListener("click", () => {
+    state.matrixViewMode = "all";
+    updateMatrixModeUI();
+  });
+
+  // 円盤下の「この人と他メンバー全員の相性を見る」ボタン
+  document.getElementById("jump-focus-from-wheel-btn")?.addEventListener("click", () => {
+    state.focusMemberId = state.selfId || state.members[0]?.id;
+    state.matrixViewMode = "focus";
+    updateMatrixModeUI();
+    switchTab("tab-matrix");
+    renderAll();
+  });
+
+  document.getElementById("swap-pair-btn")?.addEventListener("click", () => {
+    const tmp = state.selfId;
+    state.selfId = state.partnerId;
+    state.partnerId = tmp;
+    renderAll();
+  });
+
+  document.getElementById("realign-wheel-btn")?.addEventListener("click", () => {
+    const selfMember = state.members.find((m) => m.id === state.selfId) || state.members[0];
+    const partnerMember = state.members.find((m) => m.id === state.partnerId) || state.members[0];
+    if (selfMember && partnerMember) {
+      const sAstro = calculatePersonAstrology(selfMember);
+      const pAstro = calculatePersonAstrology(partnerMember);
+      alignWheelToPair(sAstro.shukuIndex, pAstro.shukuIndex);
+      showToast(`${selfMember.name}さんの宿星【${sAstro.shuku.name}】に「命」を合わせました`);
+    }
+  });
+
+  // 共有・結果送信ダイアログ関連イベント
+  const shareDialog = document.getElementById("share-dialog");
+  document.getElementById("share-url-btn")?.addEventListener("click", () => openShareDialog(false));
+  document.getElementById("import-code-open-btn")?.addEventListener("click", () => openShareDialog(true));
+  document.getElementById("close-share-dialog-btn")?.addEventListener("click", () => shareDialog?.close());
+  shareDialog?.addEventListener("click", (e) => {
+    if (e.target === shareDialog) shareDialog.close();
+  });
+
+  document.getElementById("share-focus-member-select")?.addEventListener("change", (e) => {
+    const summaryTextarea = document.getElementById("share-summary-textarea");
+    if (summaryTextarea) {
+      summaryTextarea.value = generateShareSummaryText(e.target.value);
+    }
+  });
+
+  document.getElementById("copy-summary-text-btn")?.addEventListener("click", () => {
+    const summaryTextarea = document.getElementById("share-summary-textarea");
+    if (summaryTextarea && summaryTextarea.value) {
+      copyTextWithFallback(
+        summaryTextarea.value,
+        "診断結果まとめテキストをコピーしました！LINEやDiscordにそのまま貼り付けられます"
+      );
+    }
+  });
+
+  document.getElementById("download-standalone-html-btn")?.addEventListener("click", downloadStandaloneHtml);
+
+  document.getElementById("copy-share-code-btn")?.addEventListener("click", () => {
+    const codeOutput = document.getElementById("share-code-output");
+    if (codeOutput && codeOutput.value) {
+      copyTextWithFallback(codeOutput.value, "メンバー共有コードをコピーしました！");
+    }
+  });
+
+  document.getElementById("apply-share-code-btn")?.addEventListener("click", () => {
+    const codeInput = document.getElementById("share-code-input");
+    if (!codeInput || !codeInput.value.trim()) {
+      showToast("共有コードまたはURLを入力してください");
+      return;
+    }
+    if (decodeAndApplySharedMembers(codeInput.value, true)) {
+      codeInput.value = "";
+      shareDialog?.close();
+    } else {
+      showToast("共有コードの形式が正しくありません");
+    }
+  });
+
+  document.getElementById("copy-web-url-btn")?.addEventListener("click", () => {
+    if (window.location.protocol === "file:") {
+      showToast("パソコン内ファイル(file://)のため、①診断テキストコピー または ②単一HTML保存をご利用ください");
+      return;
+    }
+    const webUrlOutput = document.getElementById("share-url-output");
+    if (webUrlOutput && webUrlOutput.value) {
+      copyTextWithFallback(webUrlOutput.value, "Web共有URLをコピーしました！");
+    }
+  });
+
+  document.getElementById("reset-sample-btn")?.addEventListener("click", () => loadSampleMembers(true));
+
+  const dialog = document.getElementById("shuku-quick-dialog");
+  document.getElementById("close-dialog-btn")?.addEventListener("click", () => dialog?.close());
+  dialog?.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initApp);
+} else {
+  initApp();
+}
+
+}
+__kuyoseiAppBootstrap();
+
+</script>
+</body>
+</html>
