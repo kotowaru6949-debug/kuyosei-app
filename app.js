@@ -1606,11 +1606,36 @@ function loadInitialMembers() {
     } catch (_) {}
   }
 
-  // URLパラメータ ?members= からの読み込み
+  // URLパラメータ ?members= からの読み込み（選択中の2人・タブ・表示モードも復元）
   const params = new URLSearchParams(window.location.search);
+  const modeParam = params.get("mode");
+  if (modeParam === "manshoji_table" || modeParam === "lunar_jp") {
+    state.calcMode = modeParam;
+  }
+  const vmodeParam = params.get("vmode");
+  if (vmodeParam === "focus" || vmodeParam === "all") {
+    state.matrixViewMode = vmodeParam;
+  }
   const sharedParam = params.get("members");
   if (sharedParam) {
     if (decodeAndApplySharedMembers(sharedParam, false)) {
+      const selfIdx = Number(params.get("self"));
+      const partnerIdx = Number(params.get("partner"));
+      const focusIdx = Number(params.get("focus"));
+      if (!Number.isNaN(selfIdx) && state.members[selfIdx]) {
+        state.selfId = state.members[selfIdx].id;
+        state.singleTargetId = state.selfId;
+      }
+      if (!Number.isNaN(partnerIdx) && state.members[partnerIdx]) {
+        state.partnerId = state.members[partnerIdx].id;
+      }
+      if (!Number.isNaN(focusIdx) && state.members[focusIdx]) {
+        state.focusMemberId = state.members[focusIdx].id;
+      }
+      const tabParam = params.get("tab");
+      if (tabParam && document.getElementById(tabParam)) {
+        setTimeout(() => switchTab(tabParam), 0);
+      }
       return;
     }
   }
@@ -1673,6 +1698,21 @@ function loadSampleMembers(notify = true) {
 /**
  * 共有コードの生成・デコード・LINE用テキスト生成・単一HTML書き出し
  */
+const GITHUB_PAGES_BASE_URL = "https://kotowaru6949-debug.github.io/kuyosei-app/";
+
+function getShareableWebUrl(code = encodeMembersShareCode()) {
+  const baseUrl =
+    window.location.protocol === "file:"
+      ? GITHUB_PAGES_BASE_URL
+      : window.location.href.split("?")[0].split("#")[0];
+  const selfIdx = Math.max(0, state.members.findIndex((m) => m.id === state.selfId));
+  const partnerIdx = Math.max(0, state.members.findIndex((m) => m.id === state.partnerId));
+  const focusIdx = Math.max(0, state.members.findIndex((m) => m.id === state.focusMemberId));
+  const activeTabEl = document.querySelector(".view-section.active");
+  const activeTab = activeTabEl ? activeTabEl.id : "tab-wheel";
+  return `${baseUrl}?members=${code}&self=${selfIdx}&partner=${partnerIdx}&focus=${focusIdx}&tab=${activeTab}&vmode=${state.matrixViewMode}&mode=${state.calcMode}`;
+}
+
 function encodeMembersShareCode() {
   const compact = state.members.map((m) => ({
     n: m.name,
@@ -1785,6 +1825,10 @@ function generateShareSummaryText(targetMemberId) {
     lines.push(`・${m.name}（${m.birthdate}）：${a.shuku.name} ${histTag} ／ 今年：${a.tonenStar.name}`);
   });
 
+  lines.push("");
+  lines.push("🔗 【スマホ・PCで円盤を回して全員の結果を見る（共有リンク）】");
+  lines.push(getShareableWebUrl());
+
   return lines.join("\n");
 }
 
@@ -1817,18 +1861,22 @@ function openShareDialog(focusOnImport = false) {
     summaryTextarea.value = generateShareSummaryText(currentTargetId);
   }
 
-  // 共有コードとURLのセット
+  // 共有コードとURLのセット（ローカルfile://で開いていてもGitHub Pagesの共有URLを自動生成）
   const code = encodeMembersShareCode();
   const codeOutput = document.getElementById("share-code-output");
   if (codeOutput) codeOutput.value = code;
 
-  const baseUrl = window.location.href.split("?")[0].split("#")[0];
+  const shareUrl = getShareableWebUrl(code);
   const webUrlOutput = document.getElementById("share-url-output");
   if (webUrlOutput) {
-    webUrlOutput.value =
-      window.location.protocol === "file:"
-        ? `※現在パソコン内のファイル(file://)のためURL共有はできません。上の①テキストコピー、または②単一HTML保存をご利用ください`
-        : `${baseUrl}?members=${code}`;
+    webUrlOutput.value = shareUrl;
+  }
+
+  // LINEで直接送るボタンのリンク設定
+  const lineSendBtn = document.getElementById("send-line-direct-btn");
+  if (lineSendBtn) {
+    const shortMsg = `☸️ 【満正寺・九曜星占盤】メンバー全員の宿星・結婚相性（1〜100パーセンタイル診断）結果はこちら👇\n${shareUrl}`;
+    lineSendBtn.href = `https://line.me/R/share?text=${encodeURIComponent(shortMsg)}`;
   }
 
   dialog.showModal();
@@ -2152,13 +2200,17 @@ function initApp() {
   });
 
   document.getElementById("copy-web-url-btn")?.addEventListener("click", () => {
-    if (window.location.protocol === "file:") {
-      showToast("パソコン内ファイル(file://)のため、①診断テキストコピー または ②単一HTML保存をご利用ください");
-      return;
-    }
     const webUrlOutput = document.getElementById("share-url-output");
     if (webUrlOutput && webUrlOutput.value) {
-      copyTextWithFallback(webUrlOutput.value, "Web共有URLをコピーしました！");
+      copyTextWithFallback(webUrlOutput.value, "メンバー全員の結果入り共有URLをコピーしました！LINEにそのまま貼れます");
+    }
+  });
+
+  document.getElementById("send-line-summary-btn")?.addEventListener("click", () => {
+    const summaryTextarea = document.getElementById("share-summary-textarea");
+    if (summaryTextarea && summaryTextarea.value) {
+      const lineUrl = `https://line.me/R/share?text=${encodeURIComponent(summaryTextarea.value)}`;
+      window.open(lineUrl, "_blank", "noopener");
     }
   });
 

@@ -1338,44 +1338,59 @@ dialog.app-dialog::backdrop {
 
   <!-- 友達への共有・結果テキスト送信・単一HTML書き出しモーダル (<dialog>) -->
   <dialog id="share-dialog" class="app-dialog" closedby="any">
-    <h3 style="margin:0 0 0.6rem;color:var(--gold-bright);">📤 友達への共有・診断結果の送信メニュー</h3>
-    <div id="share-file-protocol-notice" style="display:none;background:rgba(209,59,44,0.18);border:1px solid var(--vermilion-soft);border-radius:10px;padding:0.75rem 0.9rem;margin-bottom:1rem;font-family:sans-serif;font-size:0.84rem;">
-      <strong>⚠️ 現在お使いのパソコン内のファイル（<code>file://</code>）として開いています</strong><br>
-      このままアドレスバーのURLをLINE等で送っても、他の人のスマホやPCからは開けません。<br>
-      以下の<strong>① 診断結果テキストをコピーして送る</strong>、または<strong>② メンバー入り1ファイルHTMLを保存して送る</strong>、または<strong>③ Webに無料公開してURL化する</strong>方法をご利用ください。
-    </div>
+    <h3 style="margin:0 0 0.6rem;color:var(--gold-bright);">📤 友達にLINE等で診断結果・画面を共有する</h3>
 
     <div style="display:grid;gap:1rem;font-family:sans-serif;">
-      <!-- 方法1：LINEやチャットにそのまま貼れる診断結果テキスト -->
+      <!-- 方法1：LINEで開ける「結果反映済みWeb共有URL」 -->
+      <div class="compat-detail-item" style="border-left-color:#06C755;background:rgba(6, 199, 85, 0.1);">
+        <h4 style="color:#4ef08c;">① 🌐 今のメンバー＆結果をそのまま開ける「共有リンク（URL）」をLINEで送る（おすすめ！）</h4>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.55rem;">
+          いま登録しているメンバーの名前・生年月日・選択中の2人の相性結果がすべて詰まった専用URLです。友達がタップするだけで、スマホやPCのブラウザで同じ結果画面が開きます！
+        </p>
+        <div style="display:flex;gap:0.45rem;margin-bottom:0.55rem;">
+          <input type="text" id="share-url-output" class="field-input" style="flex:1;font-size:0.8rem;" readonly>
+          <button type="button" id="copy-web-url-btn" class="btn-primary">🔗 URLをコピー</button>
+        </div>
+        <a id="send-line-direct-btn" href="#" target="_blank" rel="noopener" class="btn-primary" style="display:flex;justify-content:center;align-items:center;gap:0.4rem;width:100%;text-decoration:none;background:#06C755;border-color:#06C755;color:#fff;font-weight:700;">
+          💬 LINEを起動してこの共有URLを友達に送る
+        </a>
+      </div>
+
+      <!-- 方法2：LINEトークにそのまま貼れる診断結果テキスト -->
       <div class="compat-detail-item" style="border-left-color:var(--gold-bright);">
-        <h4>① 📋 LINE・Discord等にそのまま貼れる「診断結果まとめテキスト」をコピー（一番手軽！）</h4>
+        <h4>② 📋 LINEトークにそのまま貼れる「診断結果まとめ長文テキスト」（共有URL付き）</h4>
         <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.5rem;">
-          選んだ人の「宿星・今年の九曜星・結婚観」と「メンバー全員との相性ランキング」をテキストとしてコピーします。URLが開けない相手にもそのままLINEやチャットで送れます！
+          選んだ人の「宿星・今年の九曜星・IFの歴史人物例え・結婚観」と「メンバー全員との相性（1〜100パーセンタイル順位）」＋「共有リンク」をまとめたテキストです。
         </p>
         <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;flex-wrap:wrap;">
-          <label for="share-focus-member-select" style="font-size:0.8rem;color:var(--gold-bright);font-weight:700;">だれの結果テキストを作る：</label>
+          <label for="share-focus-member-select" style="font-size:0.8rem;color:var(--gold-bright);font-weight:700;">だれを主役にした結果テキストを作る：</label>
           <select id="share-focus-member-select" class="field-input" style="padding:0.3rem 0.6rem;font-size:0.85rem;"></select>
         </div>
         <textarea id="share-summary-textarea" class="field-input" rows="7" style="width:100%;font-size:0.8rem;margin-bottom:0.5rem;line-height:1.5;" readonly></textarea>
-        <button type="button" id="copy-summary-text-btn" class="btn-primary" style="width:100%;">
-          📋 診断結果テキストをコピーする（LINE等にそのまま貼り付け可能）
-        </button>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+          <button type="button" id="copy-summary-text-btn" class="btn-primary" style="flex:1;min-width:200px;">
+            📋 診断結果テキストをコピーする
+          </button>
+          <button type="button" id="send-line-summary-btn" class="btn-secondary" style="border-color:#06C755;color:#4ef08c;font-weight:700;">
+            💬 このテキストをLINEで送る
+          </button>
+        </div>
       </div>
 
-      <!-- 方法2：メンバーデータ埋め込み済みの1ファイルHTMLをダウンロード -->
+      <!-- 方法3：メンバーデータ埋め込み済みの1ファイルHTMLをダウンロード -->
       <div class="compat-detail-item" style="border-left-color:var(--jade);">
-        <h4>② 📦 登録メンバー入り「単一HTMLファイル」をダウンロードして友達に送る</h4>
+        <h4>③ 📦 登録メンバー入り「単一HTMLファイル」を保存して送る（オフライン用）</h4>
         <p style="font-size:0.82rem;color:var(--text-muted);margin-bottom:0.5rem;">
-          デザイン・星データ・現在登録したメンバー全員のデータを<strong>たった1個のHTMLファイル</strong>にまとめて保存します。このファイルをLINEやDiscordで送れば、友達が開くだけで同じメンバーで遊べます。
+          現在登録したメンバー全員のデータを<strong>たった1個のHTMLファイル</strong>にまとめて保存します。ファイル自体をLINEやPCで送りたい場合に便利です。
         </p>
         <button type="button" id="download-standalone-html-btn" class="btn-secondary" style="width:100%;font-weight:700;border-color:var(--gold-bright);color:var(--gold-bright);">
           📥 メンバー入り単一HTMLファイル（.html）を保存する
         </button>
       </div>
 
-      <!-- 方法3：共有コードのコピー＆貼り付け読み込み -->
+      <!-- 方法4：共有コードのコピー＆貼り付け読み込み -->
       <div class="compat-detail-item" style="border-left-color:var(--indigo);">
-        <h4>③ 🔑 メンバー共有コード（コピー＆貼り付けでメンバー復元）</h4>
+        <h4>④ 🔑 メンバー共有コード（コピー＆貼り付けでメンバー復元）</h4>
         <div style="display:flex;gap:0.45rem;margin-bottom:0.55rem;">
           <input type="text" id="share-code-output" class="field-input" style="flex:1;font-size:0.8rem;" readonly>
           <button type="button" id="copy-share-code-btn" class="btn-secondary">コードコピー</button>
@@ -1383,18 +1398,6 @@ dialog.app-dialog::backdrop {
         <div style="display:flex;gap:0.45rem;">
           <input type="text" id="share-code-input" class="field-input" style="flex:1;font-size:0.8rem;" placeholder="友達から受け取った共有コード（またはURL）をここに貼り付け">
           <button type="button" id="apply-share-code-btn" class="btn-primary">読み込む</button>
-        </div>
-      </div>
-
-      <!-- 方法4：Web公開URL（Webサーバー上で開いている場合） -->
-      <div class="compat-detail-item">
-        <h4>④ 🌐 Web公開用URL（Netlify DropやGitHub Pages等にアップした場合に有効）</h4>
-        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.4rem;">
-          ※スマホへURLだけで送りたい場合は、<a href="https://app.netlify.com/drop" target="_blank" rel="noopener" style="color:var(--gold-bright);">Netlify Drop</a> 等にこの <code>kuyosei-app</code> フォルダをドラッグ＆ドロップすると無料の <code>https://...</code> URLが作れます。
-        </p>
-        <div style="display:flex;gap:0.45rem;">
-          <input type="text" id="share-url-output" class="field-input" style="flex:1;font-size:0.8rem;" readonly>
-          <button type="button" id="copy-web-url-btn" class="btn-secondary">URLコピー</button>
         </div>
       </div>
     </div>
