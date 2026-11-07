@@ -3876,8 +3876,14 @@ function loadInitialMembers() {
     } catch (_) {}
   }
 
-  // URLパラメータ ?members= からの読み込み（選択中の2人・タブ・表示モードも復元）
-  const params = new URLSearchParams(window.location.search);
+  // URLパラメータ (?m= または ?members= または #m= / #members=) からの読み込み
+  // ※LINE等で = や + が欠落・変形したり # ハッシュになった場合も確実に復元する
+  const combinedQuery =
+    (window.location.search ? window.location.search.slice(1) : "") +
+    "&" +
+    (window.location.hash ? window.location.hash.slice(1).replace(/^\?/, "") : "");
+  const params = new URLSearchParams(combinedQuery);
+
   const modeParam = params.get("mode");
   if (modeParam === "manshoji_table" || modeParam === "lunar_jp") {
     state.calcMode = modeParam;
@@ -3886,8 +3892,9 @@ function loadInitialMembers() {
   if (vmodeParam === "focus" || vmodeParam === "all") {
     state.matrixViewMode = vmodeParam;
   }
-  const sharedParam = params.get("members");
-  if (sharedParam) {
+
+  const sharedParam = params.get("m") || params.get("members") || window.location.href;
+  if (params.get("m") || params.get("members") || /[?&#](m|members)=/.test(window.location.href)) {
     if (decodeAndApplySharedMembers(sharedParam, false)) {
       const selfIdx = Number(params.get("self"));
       const partnerIdx = Number(params.get("partner"));
@@ -3906,6 +3913,10 @@ function loadInitialMembers() {
       if (tabParam && document.getElementById(tabParam)) {
         setTimeout(() => switchTab(tabParam), 0);
       }
+      saveMembersToStorage();
+      setTimeout(() => {
+        showToast(`共有リンクから ${state.members.length}名のメンバーと診断結果を反映しました！`);
+      }, 250);
       return;
     }
   }
@@ -3980,7 +3991,9 @@ function getShareableWebUrl(code = encodeMembersShareCode()) {
   const focusIdx = Math.max(0, state.members.findIndex((m) => m.id === state.focusMemberId));
   const activeTabEl = document.querySelector(".view-section.active");
   const activeTab = activeTabEl ? activeTabEl.id : "tab-wheel";
-  return `${baseUrl}?members=${code}&self=${selfIdx}&partner=${partnerIdx}&focus=${focusIdx}&tab=${activeTab}&vmode=${state.matrixViewMode}&mode=${state.calcMode}`;
+  // キャッシュ回避用の v パラメータと URL-safe な m パラメータを使用
+  const cacheBuster = Date.now().toString(36);
+  return `${baseUrl}?m=${code}&self=${selfIdx}&partner=${partnerIdx}&focus=${focusIdx}&tab=${activeTab}&vmode=${state.matrixViewMode}&mode=${state.calcMode}&v=${cacheBuster}`;
 }
 
 function encodeMembersShareCode() {
@@ -3989,23 +4002,35 @@ function encodeMembersShareCode() {
     b: m.birthdate,
     ...(typeof m.overrideShukuIndex === "number" ? { s: m.overrideShukuIndex } : {})
   }));
-  return btoa(encodeURIComponent(JSON.stringify(compact)));
+  // LINE等で末尾の = や + / が途切れないよう URL-safe Base64 形式にする
+  return btoa(encodeURIComponent(JSON.stringify(compact)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
 }
 
 function decodeAndApplySharedMembers(rawInput, notify = true) {
   if (!rawInput || typeof rawInput !== "string") return false;
   let token = rawInput.trim();
 
-  // URL全体が貼り付けられた場合は ?members= 以降を抽出
-  if (token.includes("members=")) {
-    const match = token.match(/[?&]members=([^&#\s]+)/);
+  // URL全体が貼り付けられた場合は ?m= または ?members= 以降を抽出
+  if (token.includes("members=") || token.includes("m=")) {
+    const match = token.match(/[?&#](?:members|m)=([^&#\s]+)/);
     if (match && match[1]) {
       token = match[1];
     }
   }
 
   try {
-    const decoded = JSON.parse(decodeURIComponent(atob(token)));
+    // URLデコードとスペース（+が変換されたもの）・URL-safe Base64の復元・パディング補完
+    try {
+      token = decodeURIComponent(token);
+    } catch (_) {}
+    let b64 = token.replace(/\s/g, "+").replace(/-/g, "+").replace(/_/g, "/");
+    while (b64.length % 4 !== 0) {
+      b64 += "=";
+    }
+    const decoded = JSON.parse(decodeURIComponent(atob(b64)));
     if (Array.isArray(decoded) && decoded.length > 0) {
       state.members = decoded.map((item, idx) => ({
         id: "shared_" + idx + "_" + Date.now(),
@@ -4022,9 +4047,10 @@ function decodeAndApplySharedMembers(rawInput, notify = true) {
       state.partnerId = state.members[1]?.id || state.members[0]?.id || null;
       state.singleTargetId = state.selfId;
       state.focusMemberId = state.selfId;
+      saveMembersToStorage();
       if (notify) {
         renderAll();
-        showToast(`共有コードから ${state.members.length}名のメンバーを読み込みました！`);
+        showToast(`共有データから ${state.members.length}名のメンバーを反映しました！`);
       }
       return true;
     }
@@ -4098,6 +4124,10 @@ function generateShareSummaryText(targetMemberId) {
   lines.push("");
   lines.push("🔗 【スマホ・PCで円盤を回して全員の結果を見る（共有リンク）】");
   lines.push(getShareableWebUrl());
+  lines.push("");
+  lines.push("🔑 【もしURLで反映されない場合のバックアップ共有コード】");
+  lines.push("（画面上部の「📥 共有コード読込」に下の文字を貼り付けると100%復元できます）");
+  lines.push(encodeMembersShareCode());
 
   return lines.join("\n");
 }
@@ -4142,10 +4172,10 @@ function openShareDialog(focusOnImport = false) {
     webUrlOutput.value = shareUrl;
   }
 
-  // LINEで直接送るボタンのリンク設定
+  // LINEで直接送るボタンのリンク設定（URLと共有コードの両方を記載）
   const lineSendBtn = document.getElementById("send-line-direct-btn");
   if (lineSendBtn) {
-    const shortMsg = `☸️ 【満正寺・九曜星占盤】メンバー全員の宿星・結婚相性（1〜100パーセンタイル診断）結果はこちら👇\n${shareUrl}`;
+    const shortMsg = `☸️ 【満正寺・九曜星占盤】メンバー全員の宿星・結婚相性（1〜100パーセンタイル診断）結果はこちら👇\n${shareUrl}\n\n🔑 万が一リンクで反映されない場合は、画面上の「📥 共有コード読込」に下のコードを貼り付けてください：\n${code}`;
     lineSendBtn.href = `https://line.me/R/share?text=${encodeURIComponent(shortMsg)}`;
   }
 
