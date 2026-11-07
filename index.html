@@ -1046,9 +1046,9 @@ dialog.app-dialog::backdrop {
 }
 
 </style>
-  <link rel="stylesheet" href="styles.css?v=3">
-  <script src="astrology-data.js?v=3" defer></script>
-  <script src="app.js?v=3" defer></script>
+  <link rel="stylesheet" href="styles.css?v=4">
+  <script src="astrology-data.js?v=4" defer></script>
+  <script src="app.js?v=4" defer></script>
 </head>
 <body>
   <!-- ヘッダー -->
@@ -1091,6 +1091,9 @@ dialog.app-dialog::backdrop {
   </nav>
 
   <main class="main-container">
+    <!-- 共有リンク反映バナー -->
+    <div id="shared-loaded-banner" style="display:none;background:linear-gradient(135deg, rgba(47, 158, 111, 0.28), rgba(212, 175, 55, 0.2));border:2px solid #4ef08c;border-radius:12px;padding:0.75rem 1.1rem;margin-bottom:1.1rem;font-family:sans-serif;font-size:0.9rem;color:#fff;box-shadow:var(--shadow-lg);"></div>
+
     <!-- メンバー（自分＋友達）登録・管理パネル -->
     <section class="members-panel" aria-label="占うメンバーの登録と選択">
       <div class="panel-header">

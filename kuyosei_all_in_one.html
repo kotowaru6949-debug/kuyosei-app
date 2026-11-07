@@ -1089,6 +1089,9 @@ dialog.app-dialog::backdrop {
   </nav>
 
   <main class="main-container">
+    <!-- 共有リンク反映バナー -->
+    <div id="shared-loaded-banner" style="display:none;background:linear-gradient(135deg, rgba(47, 158, 111, 0.28), rgba(212, 175, 55, 0.2));border:2px solid #4ef08c;border-radius:12px;padding:0.75rem 1.1rem;margin-bottom:1.1rem;font-family:sans-serif;font-size:0.9rem;color:#fff;box-shadow:var(--shadow-lg);"></div>
+
     <!-- メンバー（自分＋友達）登録・管理パネル -->
     <section class="members-panel" aria-label="占うメンバーの登録と選択">
       <div class="panel-header">
@@ -3990,20 +3993,32 @@ function getShareableWebUrl(code = encodeMembersShareCode()) {
   const partnerIdx = Math.max(0, state.members.findIndex((m) => m.id === state.partnerId));
   const focusIdx = Math.max(0, state.members.findIndex((m) => m.id === state.focusMemberId));
   const activeTabEl = document.querySelector(".view-section.active");
-  const activeTab = activeTabEl ? activeTabEl.id : "tab-wheel";
-  // キャッシュ回避用の v パラメータと URL-safe な m パラメータを使用
-  const cacheBuster = Date.now().toString(36);
-  return `${baseUrl}?m=${code}&self=${selfIdx}&partner=${partnerIdx}&focus=${focusIdx}&tab=${activeTab}&vmode=${state.matrixViewMode}&mode=${state.calcMode}&v=${cacheBuster}`;
+  const tabShort = activeTabEl?.id === "tab-kifuda" ? "k" : activeTabEl?.id === "tab-matrix" ? "m" : activeTabEl?.id === "tab-shukuseicho" ? "s" : "w";
+  const vmShort = state.matrixViewMode === "all" ? "a" : "f";
+  const cmShort = state.calcMode === "lunar_jp" ? "l" : "t";
+  // 短くてLINEでも絶対に途切れない URL-safe 形式（英数字・ハイフン・ドットのみ）
+  return `${baseUrl}?m=${code}.${selfIdx}.${partnerIdx}.${focusIdx}.${tabShort}.${vmShort}.${cmShort}`;
 }
 
-function encodeMembersShareCode() {
+function encodeLegacyCompatibleCode() {
   const compact = state.members.map((m) => ({
     n: m.name,
     b: m.birthdate,
     ...(typeof m.overrideShukuIndex === "number" ? { s: m.overrideShukuIndex } : {})
   }));
-  // LINE等で末尾の = や + / が途切れないよう URL-safe Base64 形式にする
-  return btoa(encodeURIComponent(JSON.stringify(compact)))
+  return btoa(encodeURIComponent(JSON.stringify(compact)));
+}
+
+function encodeMembersShareCode() {
+  // 1人あたり「生年月日8桁+名前」の超短縮フォーマットに圧縮し URL-safe Base64 化
+  const rows = state.members.map((m) => {
+    const d8 = String(m.birthdate || "1995-12-06").replace(/-/g, "");
+    const safeName = String(m.name || "メンバー").replace(/[|~]/g, " ");
+    const ov = typeof m.overrideShukuIndex === "number" ? `~${m.overrideShukuIndex}` : "";
+    return `${d8}${safeName}${ov}`;
+  });
+  const raw = "v2:" + rows.join("|");
+  return btoa(encodeURIComponent(raw))
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
     .replace(/=+$/, "");
@@ -4014,15 +4029,25 @@ function decodeAndApplySharedMembers(rawInput, notify = true) {
   let token = rawInput.trim();
 
   // URL全体が貼り付けられた場合は ?m= または ?members= 以降を抽出
-  if (token.includes("members=") || token.includes("m=")) {
-    const match = token.match(/[?&#](?:members|m)=([^&#\s]+)/);
-    if (match && match[1]) {
-      token = match[1];
+  let metaParts = null;
+  if (token.includes("m=") || token.includes("members=")) {
+    const mMatch = token.match(/[?&#]m=([^&#\s]+)/);
+    const memMatch = token.match(/[?&#]members=([^&#\s]+)/);
+    if (mMatch && mMatch[1]) {
+      token = mMatch[1];
+    } else if (memMatch && memMatch[1]) {
+      token = memMatch[1];
     }
   }
 
+  // ドット区切りのメタ情報 (code.selfIdx.partnerIdx.focusIdx.tab.vmode.cmode) が付いている場合は分離
+  if (token.includes(".")) {
+    const splitDot = token.split(".");
+    token = splitDot[0];
+    metaParts = splitDot.slice(1);
+  }
+
   try {
-    // URLデコードとスペース（+が変換されたもの）・URL-safe Base64の復元・パディング補完
     try {
       token = decodeURIComponent(token);
     } catch (_) {}
@@ -4030,24 +4055,85 @@ function decodeAndApplySharedMembers(rawInput, notify = true) {
     while (b64.length % 4 !== 0) {
       b64 += "=";
     }
-    const decoded = JSON.parse(decodeURIComponent(atob(b64)));
-    if (Array.isArray(decoded) && decoded.length > 0) {
-      state.members = decoded.map((item, idx) => ({
-        id: "shared_" + idx + "_" + Date.now(),
-        name: String(item.n || item.name || "メンバー"),
-        birthdate: String(item.b || item.birthdate || "1995-12-06"),
-        overrideShukuIndex:
-          typeof item.s === "number"
-            ? item.s
-            : typeof item.overrideShukuIndex === "number"
-            ? item.overrideShukuIndex
-            : null
-      }));
+    const decodedStr = decodeURIComponent(atob(b64));
+
+    let membersList = null;
+    if (decodedStr.startsWith("v2:")) {
+      const body = decodedStr.slice(3);
+      const rows = body.split("|").filter(Boolean);
+      membersList = rows.map((row, idx) => {
+        const d8 = row.slice(0, 8);
+        const rest = row.slice(8);
+        const [namePart, ovPart] = rest.split("~");
+        const bDate =
+          /^\d{8}$/.test(d8)
+            ? `${d8.slice(0, 4)}-${d8.slice(4, 6)}-${d8.slice(6, 8)}`
+            : "1995-12-06";
+        return {
+          id: "shared_" + idx + "_" + Date.now(),
+          name: String(namePart || "メンバー"),
+          birthdate: bDate,
+          overrideShukuIndex: ovPart !== undefined && ovPart !== "" ? Number(ovPart) : null
+        };
+      });
+    } else {
+      const decoded = JSON.parse(decodedStr);
+      if (Array.isArray(decoded) && decoded.length > 0) {
+        membersList = decoded.map((item, idx) => ({
+          id: "shared_" + idx + "_" + Date.now(),
+          name: String(item.n || item.name || "メンバー"),
+          birthdate: String(item.b || item.birthdate || "1995-12-06"),
+          overrideShukuIndex:
+            typeof item.s === "number"
+              ? item.s
+              : typeof item.overrideShukuIndex === "number"
+              ? item.overrideShukuIndex
+              : null
+        }));
+      }
+    }
+
+    if (Array.isArray(membersList) && membersList.length > 0) {
+      state.members = membersList;
       state.selfId = state.members[0]?.id || null;
       state.partnerId = state.members[1]?.id || state.members[0]?.id || null;
       state.singleTargetId = state.selfId;
       state.focusMemberId = state.selfId;
+
+      if (metaParts && metaParts.length >= 3) {
+        const [sIdx, pIdx, fIdx, tShort, vmShort, cmShort] = metaParts;
+        if (state.members[Number(sIdx)]) {
+          state.selfId = state.members[Number(sIdx)].id;
+          state.singleTargetId = state.selfId;
+        }
+        if (state.members[Number(pIdx)]) {
+          state.partnerId = state.members[Number(pIdx)].id;
+        }
+        if (state.members[Number(fIdx)]) {
+          state.focusMemberId = state.members[Number(fIdx)].id;
+        }
+        if (vmShort === "a" || vmShort === "f") {
+          state.matrixViewMode = vmShort === "a" ? "all" : "focus";
+        }
+        if (cmShort === "l" || cmShort === "t") {
+          state.calcMode = cmShort === "l" ? "lunar_jp" : "manshoji_table";
+        }
+        const tabMap = { w: "tab-wheel", k: "tab-kifuda", m: "tab-matrix", s: "tab-shukuseicho" };
+        if (tShort && tabMap[tShort]) {
+          setTimeout(() => {
+            updateMatrixModeUI();
+            switchTab(tabMap[tShort]);
+          }, 0);
+        }
+      }
+
       saveMembersToStorage();
+      const bannerEl = document.getElementById("shared-loaded-banner");
+      if (bannerEl) {
+        const namesStr = state.members.map((m) => escapeHtml(m.name)).join("・");
+        bannerEl.innerHTML = `✅ <strong>共有されたメンバー全員（${state.members.length}名：${namesStr}）の診断データを反映しました！</strong>`;
+        bannerEl.style.display = "block";
+      }
       if (notify) {
         renderAll();
         showToast(`共有データから ${state.members.length}名のメンバーを反映しました！`);
@@ -4059,6 +4145,62 @@ function decodeAndApplySharedMembers(rawInput, notify = true) {
 }
 
 function generateShareSummaryText(targetMemberId) {
+  if (targetMemberId === "__ALL__") {
+    const lines = [];
+    lines.push("☸️ 【満正寺式・九曜星占盤】メンバー全員の宿星＆全ペア相性ランキング ☸️");
+    lines.push("━━━━━━━━━━━━━━━━━━");
+    lines.push(`👥 登録メンバー全員（${state.members.length}名）の宿星・性格・結婚観：`);
+    const memberAstros = state.members.map((m) => ({
+      member: m,
+      astro: calculatePersonAstrology(m)
+    }));
+    memberAstros.forEach(({ member: m, astro: a }, i) => {
+      const histTag = (a.shuku.historicalFigures || "").split("】")[0] + "】";
+      lines.push("");
+      lines.push(`【${i + 1}. ${m.name}（${m.birthdate}生）】`);
+      lines.push(`🌟 宿星：${a.shuku.name}（${a.shuku.reading}） ${histTag}`);
+      lines.push(`✨ 良きところ：${a.shuku.personality}`);
+      lines.push(`🌱 IF（伸ばし切ったら）：${a.shuku.ifPotential || ""}`);
+      lines.push(`⚡ 戒め（弱点）：${a.shuku.admonition}`);
+      lines.push(`💍 結婚・合う相手：${a.shuku.idealPartner}`);
+      lines.push(`💘 攻略法：${a.shuku.targetApproach}`);
+    });
+
+    if (memberAstros.length >= 2) {
+      lines.push("");
+      lines.push("━━━━━━━━━━━━━━━━━━");
+      lines.push("🏆 【グループ全ペア相性ランキング（1〜100パーセンタイル評価）】");
+      const pairs = [];
+      for (let i = 0; i < memberAstros.length; i++) {
+        for (let j = i + 1; j < memberAstros.length; j++) {
+          const a = memberAstros[i];
+          const b = memberAstros[j];
+          const compat = calculateCompatibility(a.astro.shukuIndex, b.astro.shukuIndex, a.astro, b.astro);
+          pairs.push({ a, b, compat });
+        }
+      }
+      pairs.sort((p1, p2) => p2.compat.score - p1.compat.score);
+      pairs.forEach(({ a, b, compat }, idx) => {
+        const medal = idx === 0 ? "🥇1位" : idx === 1 ? "🥈2位" : idx === 2 ? "🥉3位" : `・${idx + 1}位`;
+        lines.push(
+          `${medal} ${a.member.name} × ${b.member.name}：パーセンタイル ${compat.score}/100（上位${compat.topPercent}%・729通り中${compat.rankIn729}位）【${compat.groupKey}・${compat.distanceKey}】`
+        );
+        lines.push(`   📊 内訳：${compat.elementReason} ／ ${compat.natureReason}`);
+        lines.push(`   🤝 相性：${compat.groupInfo.friendship}`);
+        lines.push(`   🌱 IF：${compat.groupInfo.ifBestCase || ""} ${compat.groupInfo.historicalPair || ""}`);
+        lines.push(`   ⚠️ 注意：${compat.groupInfo.dangerCompat || ""}`);
+      });
+    }
+
+    lines.push("");
+    lines.push("🔗 【スマホ・PCで全員の結果・円盤を開く（共有短縮リンク）】");
+    lines.push(getShareableWebUrl());
+    lines.push("");
+    lines.push("🔑 【バックアップ共有コード（📥共有コード読込に貼ると100%復元）】");
+    lines.push(encodeMembersShareCode());
+    return lines.join("\n");
+  }
+
   const focusMember =
     state.members.find((m) => m.id === targetMemberId) ||
     state.members.find((m) => m.id === state.focusMemberId) ||
@@ -4142,23 +4284,23 @@ function openShareDialog(focusOnImport = false) {
     fileNotice.style.display = window.location.protocol === "file:" ? "block" : "none";
   }
 
-  // だれの結果テキストを作るかのセレクト更新
+  // だれの結果テキストを作るかのセレクト更新（先頭に「全員総当たり＆全メンバー完全版」を追加）
   const shareMemberSelect = document.getElementById("share-focus-member-select");
-  const currentTargetId = state.focusMemberId || state.selfId || state.members[0]?.id;
   if (shareMemberSelect) {
-    shareMemberSelect.innerHTML = state.members
+    const memberOpts = state.members
       .map((m) => {
         const a = calculatePersonAstrology(m);
-        return `<option value="${m.id}">${escapeHtml(m.name)}（${a.shuku.name}）</option>`;
+        return `<option value="${m.id}">${escapeHtml(m.name)}（${a.shuku.name}）中心の相性・結婚診断</option>`;
       })
       .join("");
-    if (currentTargetId) shareMemberSelect.value = currentTargetId;
+    shareMemberSelect.innerHTML = `<option value="__ALL__">🏆 メンバー全員の宿星・結婚観 ＆ 全ペア相性ランキング（全員分まとめ）</option>` + memberOpts;
+    shareMemberSelect.value = "__ALL__";
   }
 
   // まとめテキスト生成
   const summaryTextarea = document.getElementById("share-summary-textarea");
   if (summaryTextarea) {
-    summaryTextarea.value = generateShareSummaryText(currentTargetId);
+    summaryTextarea.value = generateShareSummaryText("__ALL__");
   }
 
   // 共有コードとURLのセット（ローカルfile://で開いていてもGitHub Pagesの共有URLを自動生成）
