@@ -106,9 +106,186 @@ function calculatePersonAstrology(member, targetYear = state.targetYear, useSets
 }
 
 /**
- * 2人の宿星インデックスから三九の秘法による相性を計算
+ * 27宿×27宿（全729通り）の多角シナジー評価と1〜100パーセンタイル算出テーブル
  */
-function calculateCompatibility(selfShukuIdx, partnerShukuIdx) {
+let _pairPercentileCache = null;
+
+const OFFSET_SYNERGY_BASE = {
+  8: 965,  // 親（中距離）：結婚・長期安定の最高峰
+  19: 952, // 栄（中距離）：相互繁栄の黄金バランス
+  1: 938,  // 栄（近距離）：直感的に惹かれ合う幸運縁
+  26: 924, // 親（近距離）：深く支え合う慈愛縁
+  10: 892, // 栄（遠距離）：穏やかに発展する遠距離吉縁
+  17: 878, // 親（遠距離）：じわじわ信頼が深まる吉縁
+  9: 856,  // 業（前世縁）：精神的に導く宿縁
+  18: 840, // 胎（来世縁）：未来を切り拓く宿縁
+  0: 792,  // 命（同宿）：魂が共鳴する鏡の縁
+  7: 764,  // 友（中距離）：楽しく安定する交友縁
+  20: 742, // 衰（中距離）：優しく寄り添うロマン縁
+  25: 716, // 友（近距離）：一気に盛り上がる親友・恋人縁
+  2: 694,  // 衰（近距離）：献身的に尽くす恋縁
+  16: 662, // 友（遠距離）：趣味や志で繋がる爽やかな縁
+  11: 638, // 衰（遠距離）：静かに見守る共感縁
+  5: 572,  // 成（中距離）：切磋琢磨で成果を出す好敵手縁
+  22: 546, // 危（中距離）：新しい視点を得る刺激縁
+  14: 516, // 成（遠距離）：仕事や役割で噛み合う大人の縁
+  13: 490, // 危（遠距離）：適度な距離で学び合う縁
+  23: 456, // 成（近距離）：強い刺激で成長するライバル縁
+  4: 428,  // 危（近距離）：価値観がぶつかりつつ惹かれる縁
+  12: 362, // 安（遠距離）：距離を保てば学びになる変革縁
+  15: 328, // 壊（遠距離）：古い殻を破る遠距離の宿縁
+  21: 276, // 安（中距離）：情熱と摩擦が交錯する劇薬縁
+  6: 238,  // 壊（中距離）：試練を通じて一皮むける宿縁
+  3: 172,  // 安（近距離）：強烈な引力と依存・摩擦の縁
+  24: 128  // 壊（近距離）：最も激しい破壊と再生の宿縁
+};
+
+function evaluateElementSynergy(elA, elB) {
+  const sousei = {
+    "木曜->火曜": true,
+    "火曜->土曜": true,
+    "土曜->金曜": true,
+    "金曜->水曜": true,
+    "水曜->木曜": true
+  };
+  const soukoku = {
+    "木曜->土曜": true,
+    "土曜->水曜": true,
+    "水曜->火曜": true,
+    "火曜->金曜": true,
+    "金曜->木曜": true
+  };
+
+  if ((elA === "日曜" && elB === "月曜") || (elA === "月曜" && elB === "日曜")) {
+    return { bonus: 48, reason: "太陽(日)と太陰(月)の陰陽和合（大吉）" };
+  }
+  if (sousei[`${elA}->${elB}`]) {
+    return { bonus: 36, reason: `七曜五行の相生（${elA}が${elB}を強める好循環）` };
+  }
+  if (sousei[`${elB}->${elA}`]) {
+    return { bonus: 42, reason: `七曜五行の相生（相手の${elB}があなたの${elA}を助ける）` };
+  }
+  if (soukoku[`${elA}->${elB}`]) {
+    return { bonus: -22, reason: `七曜五行の相剋（${elA}が${elB}を抑えやすい）` };
+  }
+  if (soukoku[`${elB}->${elA}`]) {
+    return { bonus: -30, reason: `七曜五行の相剋（相手の${elB}から刺激・圧力を受けやすい）` };
+  }
+  if (elA === elB) {
+    if (elA === "火曜" || elA === "日曜") {
+      return { bonus: -8, reason: `${elA}同士で情熱と主導権がぶつかりやすい` };
+    }
+    return { bonus: 20, reason: `${elA}同士の比和（感覚・テンポが一致）` };
+  }
+  if (elA === "日曜" || elB === "日曜") {
+    const other = elA === "日曜" ? elB : elA;
+    if (other === "木曜" || other === "火曜") return { bonus: 28, reason: `日曜と${other}の陽気相乗` };
+    if (other === "水曜") return { bonus: -16, reason: `日曜(陽火)と水曜の反発` };
+    return { bonus: 12, reason: `日曜と${other}の穏やかな調和` };
+  }
+  if (elA === "月曜" || elB === "月曜") {
+    const other = elA === "月曜" ? elB : elA;
+    if (other === "金曜" || other === "水曜") return { bonus: 28, reason: `月曜と${other}の陰気相乗` };
+    if (other === "土曜") return { bonus: -16, reason: `月曜と土曜の波長差` };
+    return { bonus: 12, reason: `月曜と${other}の柔和な調和` };
+  }
+  return { bonus: 0, reason: "標準的な七曜バランス" };
+}
+
+function evaluateNatureSynergy(natA, natB, groupKey) {
+  const gentle = new Set(["和善宿", "安住宿", "柔順宿"]);
+  const fierce = new Set(["猛悪宿", "悪害宿"]);
+
+  if (gentle.has(natA) && gentle.has(natB)) {
+    return { bonus: 34, reason: `${natA}×${natB}の穏やかで平和な宿質調和` };
+  }
+  if ((gentle.has(natA) && fierce.has(natB)) || (gentle.has(natB) && fierce.has(natA))) {
+    return { bonus: 18, reason: `${natA}×${natB}で「柔」が「剛」を包み込む補完関係` };
+  }
+  if (fierce.has(natA) && fierce.has(natB)) {
+    if (groupKey === "安壊" || groupKey === "危成" || groupKey === "命") {
+      return { bonus: -38, reason: `${natA}×${natB}の激しい宿質同士で火花が散りやすい` };
+    }
+    return { bonus: -12, reason: `${natA}×${natB}でお互いの主張が強く出やすい` };
+  }
+  if (gentle.has(natA) || gentle.has(natB)) {
+    return { bonus: 22, reason: `${natA}×${natB}の安定感と機動力の好バランス` };
+  }
+  if (fierce.has(natA) || fierce.has(natB)) {
+    if (groupKey === "安壊" || groupKey === "危成") {
+      return { bonus: -18, reason: `${natA}×${natB}で刺激が強く出やすい配置` };
+    }
+    return { bonus: 6, reason: `${natA}×${natB}の突破力が噛み合う配置` };
+  }
+  return { bonus: 12, reason: `${natA}×${natB}の軽快なテンポ一致` };
+}
+
+function evaluateDirectionSynergy(dirA, dirB) {
+  const opposite = {
+    "東方青龍": "西方白虎",
+    "西方白虎": "東方青龍",
+    "北方玄武": "南方朱雀",
+    "南方朱雀": "北方玄武"
+  };
+  if (dirA === dirB) {
+    return { bonus: 10, reason: `同じ守護四神（${dirA}）による親近感` };
+  }
+  if (opposite[dirA] === dirB) {
+    return { bonus: -10, reason: `四神の対冲（${dirA}⇔${dirB}）による視点の違い` };
+  }
+  return { bonus: 15, reason: `四神方位（${dirA}×${dirB}）の順行バランス` };
+}
+
+function ensurePairPercentileTable() {
+  if (_pairPercentileCache) return _pairPercentileCache;
+  const list = [];
+  for (let i = 0; i < 27; i++) {
+    for (let j = 0; j < 27; j++) {
+      const off = (j - i + 27) % 27;
+      const sa = SHUKU_27_DATA[i];
+      const sb = SHUKU_27_DATA[j];
+      const lbl = SANKU_WHEEL_LABELS[off];
+      const elSyn = evaluateElementSynergy(sa.element, sb.element);
+      const natSyn = evaluateNatureSynergy(sa.nature, sb.nature, lbl.group);
+      const dirSyn = evaluateDirectionSynergy(sa.direction, sb.direction);
+      const tieBreaker = ((i * 11 + j * 17) % 27) * 0.01;
+      const rawScore = (OFFSET_SYNERGY_BASE[off] || 500) + elSyn.bonus + natSyn.bonus + dirSyn.bonus + tieBreaker;
+      list.push({
+        selfIdx: i,
+        partnerIdx: j,
+        rawScore,
+        elSyn,
+        natSyn,
+        dirSyn
+      });
+    }
+  }
+  // 昇順ソートしてパーセンタイル(1〜100)と順位(1〜729位)を付与
+  list.sort((a, b) => a.rawScore - b.rawScore);
+  const map = new Map();
+  const total = list.length; // 729
+  list.forEach((item, idx) => {
+    const rankFromTop = total - idx; // 1位(最高)〜729位
+    const percentile = Math.max(1, Math.min(100, Math.round((idx / (total - 1)) * 99) + 1));
+    const topPercent = Math.max(1, Math.min(100, Math.ceil((rankFromTop / total) * 100)));
+    map.set(`${item.selfIdx}_${item.partnerIdx}`, {
+      percentile,
+      rankIn729: rankFromTop,
+      topPercent,
+      rawScore: item.rawScore,
+      elementReason: item.elSyn.reason,
+      natureReason: item.natSyn.reason,
+      directionReason: item.dirSyn.reason
+    });
+  });
+  _pairPercentileCache = map;
+  return map;
+}
+
+/**
+ * 2人の宿星インデックス（および任意の個人天文情報）から三九の秘法＆1〜100パーセンタイル相性を計算
+ */
+function calculateCompatibility(selfShukuIdx, partnerShukuIdx, selfAstro = null, partnerAstro = null) {
   const forwardOffset = (partnerShukuIdx - selfShukuIdx + 27) % 27;
   const reverseOffset = (selfShukuIdx - partnerShukuIdx + 27) % 27;
 
@@ -119,7 +296,26 @@ function calculateCompatibility(selfShukuIdx, partnerShukuIdx) {
   const groupInfo = COMPATIBILITY_GROUPS[selfToPartnerLabel.group];
   const distanceInfo = DISTANCE_COMMENTARY[selfToPartnerLabel.distance];
 
-  const score = Math.min(99, groupInfo.scoreBase + (distanceInfo?.BonusScore || 0));
+  const table = ensurePairPercentileTable();
+  const entry = table.get(`${selfShukuIdx}_${partnerShukuIdx}`) || {
+    percentile: 50,
+    rankIn729: 365,
+    topPercent: 50,
+    elementReason: "",
+    natureReason: "",
+    directionReason: ""
+  };
+
+  // 生まれ年の本命星（九星）同士の微調整（-2〜+2）
+  let honmeiAdjust = 0;
+  if (selfAstro?.kyuseiNum && partnerAstro?.kyuseiNum) {
+    const diff = Math.abs(selfAstro.kyuseiNum - partnerAstro.kyuseiNum);
+    if (diff === 0) honmeiAdjust = 1;
+    else if (diff === 1 || diff === 8) honmeiAdjust = 2;
+    else if (diff === 4 || diff === 5) honmeiAdjust = -1;
+  }
+
+  const score = Math.max(1, Math.min(100, entry.percentile + honmeiAdjust));
 
   return {
     forwardOffset,
@@ -131,7 +327,13 @@ function calculateCompatibility(selfShukuIdx, partnerShukuIdx) {
     distanceKey: selfToPartnerLabel.distance,
     groupInfo,
     distanceInfo,
-    score
+    score,
+    percentile: score,
+    rankIn729: entry.rankIn729,
+    topPercent: entry.topPercent,
+    elementReason: entry.elementReason,
+    natureReason: entry.natureReason,
+    directionReason: entry.directionReason
   };
 }
 
@@ -599,7 +801,7 @@ function renderCompatibilitySection() {
 
   const selfAstro = calculatePersonAstrology(selfMember);
   const partnerAstro = calculatePersonAstrology(partnerMember);
-  const compat = calculateCompatibility(selfAstro.shukuIndex, partnerAstro.shukuIndex);
+  const compat = calculateCompatibility(selfAstro.shukuIndex, partnerAstro.shukuIndex, selfAstro, partnerAstro);
 
   alignWheelToPair(selfAstro.shukuIndex, partnerAstro.shukuIndex);
 
@@ -617,9 +819,10 @@ function renderCompatibilitySection() {
         <span class="compat-badge">${compat.groupInfo.badge} ・ ${compat.distanceInfo.label}</span>
         <h3 class="compat-main-title">${compat.groupInfo.title}</h3>
       </div>
-      <div class="compat-score-circle" title="相性指数">
+      <div class="compat-score-circle" title="全729通り中のパーセンタイル順位（1〜100）" style="min-width:92px;height:92px;">
         <span class="compat-score-num">${compat.score}</span>
-        <span class="compat-score-label">相性点</span>
+        <span class="compat-score-label">パーセンタイル</span>
+        <span style="font-size:0.62rem;color:var(--gold-bright);font-family:sans-serif;">上位${compat.topPercent}%</span>
       </div>
     </div>
 
@@ -653,11 +856,17 @@ function renderCompatibilitySection() {
 
     <div class="compat-details-grid">
       <div class="compat-detail-item">
-        <h4>🔮 二人の宿縁・基本相性</h4>
+        <h4>🔮 二人の宿縁・基本相性（1〜100パーセンタイル評価：${compat.score} ／ 全729通り中 第${compat.rankIn729}位）</h4>
         <p>${compat.groupInfo.summary}</p>
         <p style="margin-top:0.45rem;font-size:0.84rem;color:var(--text-muted);">
           <strong>【距離感：${compat.distanceInfo.label}】</strong> ${compat.distanceInfo.text}
         </p>
+        <div style="margin-top:0.6rem;padding:0.55rem 0.75rem;background:rgba(16,14,20,0.55);border-radius:8px;font-size:0.8rem;color:var(--text-muted);">
+          <strong style="color:var(--gold-bright);">📊 なぜ「${compat.score}（上位${compat.topPercent}%）」なのか？（個別シナジー内訳）：</strong><br>
+          ・<strong>七曜五行：</strong>${selfAstro.shuku.element} × ${partnerAstro.shuku.element}（${compat.elementReason}）<br>
+          ・<strong>宿の性質：</strong>${selfAstro.shuku.nature} × ${partnerAstro.shuku.nature}（${compat.natureReason}）<br>
+          ・<strong>四神方位：</strong>${compat.directionReason}
+        </div>
       </div>
 
       <div class="compat-detail-item">
@@ -948,7 +1157,7 @@ function renderFocusMemberCompatSection() {
   const comparisons = otherMembers
     .map((other) => {
       const otherAstro = calculatePersonAstrology(other);
-      const compat = calculateCompatibility(focusAstro.shukuIndex, otherAstro.shukuIndex);
+      const compat = calculateCompatibility(focusAstro.shukuIndex, otherAstro.shukuIndex, focusAstro, otherAstro);
       return { other, otherAstro, compat };
     })
     .sort((a, b) => b.compat.score - a.compat.score);
@@ -993,14 +1202,17 @@ function renderFocusMemberCompatSection() {
                 ${escapeHtml(focusMember.name)}から見て「<strong>${compat.selfToPartner.char}</strong>」／ 相手から見て「<strong>${compat.partnerToSelf.char}</strong>」
               </div>
             </div>
-            <div class="compat-score-circle" style="min-width:58px;height:58px;">
+            <div class="compat-score-circle" style="min-width:68px;height:68px;" title="1〜100パーセンタイル評価（全729通り中 第${compat.rankIn729}位）">
               <span class="compat-score-num" style="font-size:1.25rem;">${compat.score}</span>
-              <span class="compat-score-label">点</span>
+              <span class="compat-score-label" style="font-size:0.6rem;">/100(上位${compat.topPercent}%)</span>
             </div>
           </div>
 
           <div class="focus-section-mini">
-            <strong>🤝 友達としての相性</strong>
+            <strong>📊 個別シナジー（729通り中 第${compat.rankIn729}位） ＆ 🤝 友達相性</strong>
+            <span style="font-size:0.78rem;color:var(--gold-bright);display:block;margin-bottom:0.2rem;">
+              ${compat.elementReason} ／ ${compat.natureReason}
+            </span>
             ${compat.groupInfo.friendship}
           </div>
 
@@ -1083,7 +1295,7 @@ function renderGroupMatrixSection() {
           if (rowMember.id === colMember.id) {
             return `<td style="color:var(--text-muted);background:rgba(0,0,0,0.2);">―</td>`;
           }
-          const compat = calculateCompatibility(rowAstro.shukuIndex, colAstro.shukuIndex);
+          const compat = calculateCompatibility(rowAstro.shukuIndex, colAstro.shukuIndex, rowAstro, colAstro);
           return `
             <td>
               <button
@@ -1145,7 +1357,7 @@ function renderGroupMatrixSection() {
     for (let j = i + 1; j < memberAstros.length; j++) {
       const a = memberAstros[i];
       const b = memberAstros[j];
-      const compat = calculateCompatibility(a.astro.shukuIndex, b.astro.shukuIndex);
+      const compat = calculateCompatibility(a.astro.shukuIndex, b.astro.shukuIndex, a.astro, b.astro);
       pairs.push({ a, b, compat });
     }
   }
@@ -1161,7 +1373,7 @@ function renderGroupMatrixSection() {
             <span style="font-weight:700;font-size:0.95rem;">
               ${medal} ${escapeHtml(a.member.name)} × ${escapeHtml(b.member.name)}
             </span>
-            <span style="font-weight:700;color:var(--gold-bright);font-size:1rem;">${compat.score}点</span>
+            <span style="font-weight:700;color:var(--gold-bright);font-size:0.95rem;">${compat.score}/100 <small style="font-size:0.75rem;">(上位${compat.topPercent}%・${compat.rankIn729}位)</small></span>
           </div>
           <div style="font-size:0.8rem;color:var(--gold-bright);margin-bottom:0.25rem;">
             【${compat.groupKey}・${compat.distanceKey}】 ${a.astro.shuku.name}(${compat.selfToPartner.char}) ⇔ ${b.astro.shuku.name}(${compat.partnerToSelf.char})
@@ -1274,14 +1486,14 @@ function openShukuQuickDialog(shukuIdx) {
 
   if (selfMember) {
     const selfAstro = calculatePersonAstrology(selfMember);
-    const compat = calculateCompatibility(selfAstro.shukuIndex, shukuIdx);
+    const compat = calculateCompatibility(selfAstro.shukuIndex, shukuIdx, selfAstro, null);
     compatHtml = `
       <div style="margin-top:1rem;padding:0.85rem;background:var(--bg-card);border:1px solid var(--border-gold);border-radius:10px;font-family:sans-serif;">
         <div style="font-size:0.8rem;color:var(--text-muted);">
           現在の基準：<strong>${escapeHtml(selfMember.name)}（${selfAstro.shuku.name}）</strong>との相性
         </div>
         <div style="font-size:1.05rem;font-weight:700;color:var(--gold-bright);margin:0.2rem 0;">
-          「${compat.selfToPartner.char}」― ${compat.groupInfo.title}（${compat.distanceInfo.label} / ${compat.score}点）
+          「${compat.selfToPartner.char}」― ${compat.groupInfo.title}（${compat.distanceInfo.label} / パーセンタイル ${compat.score}/100・上位${compat.topPercent}%・729通り中${compat.rankIn729}位）
         </div>
         <p style="margin:0;font-size:0.86rem;">${compat.groupInfo.summary}</p>
       </div>
@@ -1543,7 +1755,7 @@ function generateShareSummaryText(targetMemberId) {
     const comparisons = otherMembers
       .map((other) => {
         const otherAstro = calculatePersonAstrology(other);
-        const compat = calculateCompatibility(focusAstro.shukuIndex, otherAstro.shukuIndex);
+        const compat = calculateCompatibility(focusAstro.shukuIndex, otherAstro.shukuIndex, focusAstro, otherAstro);
         return { other, otherAstro, compat };
       })
       .sort((a, b) => b.compat.score - a.compat.score);
@@ -1552,7 +1764,7 @@ function generateShareSummaryText(targetMemberId) {
       const medal = idx === 0 ? "🥇1位" : idx === 1 ? "🥈2位" : idx === 2 ? "🥉3位" : `・${idx + 1}位`;
       const otherHistShort = (otherAstro.shuku.historicalFigures || "").split("】")[0] + "】";
       lines.push(
-        `${medal} 対 ${other.name}（${otherAstro.shuku.name} ${otherHistShort}）：${compat.score}点 【${compat.groupKey}・${compat.distanceKey}】`
+        `${medal} 対 ${other.name}（${otherAstro.shuku.name} ${otherHistShort}）：パーセンタイル ${compat.score}/100（上位${compat.topPercent}%・全729通り中${compat.rankIn729}位） 【${compat.groupKey}・${compat.distanceKey}】`
       );
       lines.push(
         `   （${focusMember.name}から見て「${compat.selfToPartner.char}」／${other.name}から見て「${compat.partnerToSelf.char}」）`
